@@ -1,0 +1,15 @@
+node_modules
+dist
+tsconfig.json
+tsconfig.build.json
+eslint.config.js
+.vscode/*
+yarn.lock
+test/**/*.json
+README.md
+.prettierrc
+nest-cli.json
+package.json
+package-lock.json
+.github
+*.postman_collection.json
