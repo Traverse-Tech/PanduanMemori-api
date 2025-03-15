@@ -1,0 +1,52 @@
+model Address {
+    id String @id @default(uuid())
+    address String
+    longitude Decimal @db.Decimal(11, 8)
+    latitude Decimal @db.Decimal(11, 8)
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    patients Patient[]
+    caregivers Caregiver[]
+    patientImportantLocations PatientImportantLocation[]
+
+    @@index([isDeleted])
+}
+
+model PatientImportantLocation {
+    id String @id @default(uuid())
+
+    patientId String @map("patient_id")
+    patient Patient @relation(fields: [patientId], references: [id])
+
+    addressId String @map("address_id")
+    address Address @relation(fields: [addressId], references: [id])
+
+    name String
+
+    locationCategoryId String @map("location_category_id")
+    locationCategory LocationCategory @relation(fields: [locationCategoryId], references: [id])
+
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    @@index([patientId, addressId, locationCategoryId, isDeleted])
+}
+
+model LocationCategory {
+    id String @id @default(uuid())
+    name String
+    icon String
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    patientImportantLocations PatientImportantLocation[]
+
+    @@index([isDeleted])
+}

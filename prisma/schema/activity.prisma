@@ -1,0 +1,81 @@
+model Activity {
+    id String @id @default(uuid())
+
+    activityCategoryId String @map("activity_category_id")
+    activityCategory ActivityCategory @relation(fields: [activityCategoryId], references: [id])
+
+    title String
+
+    patientId String @map("patient_id")
+    patient Patient @relation(fields: [patientId], references: [id])
+
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    recurrences Recurrence[]
+    activityOccurences ActivityOccurence[]
+
+    @@index([patientId, activityCategoryId, isDeleted])
+}
+
+model ActivityCategory {
+    id String @id @default(uuid())
+    name String
+    icon String
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    activities Activity[]
+
+    @@index([isDeleted])
+}
+
+model Recurrence {
+    id String @id @default(uuid())
+
+    activityId String @map("activity_id")
+    activity Activity @relation(fields: [activityId], references: [id])
+
+    startDate DateTime @db.Date @default(now()) @map("start_date")
+    endDate DateTime? @db.Date @map("end_date")
+    interval Int @default(1)
+    type RecurrenceType
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    activityOccurences ActivityOccurence[] @relation("recurrence_activity")
+
+    @@index([activityId, isDeleted])
+}
+
+model ActivityOccurence {
+    id String @id @default(uuid())
+
+    activityId String @map("activity_id")
+    activity Activity @relation(fields: [activityId], references: [id])
+
+    recurrenceId String? @map("recurrence_id")
+    recurrence Recurrence? @relation(name: "recurrence_activity", fields: [recurrenceId], references: [id])
+    
+    datetime DateTime @db.Timestamptz()
+    isCompleted Boolean @default(false) @map("is_completed")
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    @@index([activityId, recurrenceId, datetime, isDeleted])
+}
+
+enum RecurrenceType {
+    DAILY
+    WEEKLY
+    MONTHLY
+    YEARLY
+}

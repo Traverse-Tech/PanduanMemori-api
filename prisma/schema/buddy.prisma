@@ -1,0 +1,18 @@
+model BuddyConversation {
+    id String @id @default(uuid())
+
+    patientId String @map("patient_id")
+    patient Patient @relation(fields: [patientId], references: [id])
+
+    audioFile String? @map("audio_file")
+    audioTranscript String @map("audio_transcript")
+    audioTranscriptJson Json @map("audio_transcript_json")
+    answer String
+    answerAudioFile String? @map("answer_audio_file")
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    @@index([patientId, isDeleted])
+}

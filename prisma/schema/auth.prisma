@@ -1,0 +1,92 @@
+model User {
+    id String @id @default(uuid())
+    name String
+    phoneNumber String @unique @db.VarChar(16) @map("phone_number")
+    email String? @unique
+    password String
+    registrationNumber String? @unique @db.VarChar(16) @map("registration_number")
+    role UserRole
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    patient Patient?
+    caregiver Caregiver?
+    tokens UserToken[]
+
+    @@index([email, registrationNumber, isDeleted])
+}
+
+model Patient {
+    id String @id
+    user User @relation(fields: [id], references: [id])
+
+    birthdate DateTime @db.Date
+    gender Gender
+    dementiaStage DementiaStage? @map("dementia_stage")
+
+    safeLocationId String @map("safe_location_id")
+    safeLocation Address @relation(fields: [safeLocationId], references: [id])
+
+    caregivers Caregiver[]
+    importantLocations PatientImportantLocation[]
+    activities Activity[]
+    emergencyLogs EmergencyLog[]
+    weeklySummaries WeeklySummary[]
+    quizProgresses UserQuizProgress[]
+    buddyConversations BuddyConversation[]
+
+    @@index([safeLocationId])
+}
+
+model Caregiver {
+    id String @id
+    user User @relation(fields: [id], references: [id])
+
+    patientId String @map("patient_id")
+    patient Patient @relation(fields: [patientId], references: [id])
+
+    addressId String @map("address_id")
+    address Address @relation(fields: [addressId], references: [id])
+
+    @@index([patientId, addressId])
+}
+
+model UserToken {
+    id String @id @default(uuid())
+
+    userId String @map("user_id")
+    user User @relation(fields: [userId], references: [id])
+
+    token String
+    status TokenStatus @default(ACTIVE)
+    deactivatedAfter DateTime @db.Timestamptz() @map("deactivated_after")
+    blacklistedAt DateTime? @db.Timestamptz() @map("blacklisted_at")
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+
+    @@index([userId, status])
+}
+
+enum UserRole {
+    PATIENT
+    CAREGIVER
+}
+
+enum Gender {
+    MAN
+    WOMAN
+}
+
+enum DementiaStage {
+    EARLY
+    MIDDLE
+    LATER
+}
+
+enum TokenStatus {
+    ACTIVE
+    NONACTIVE
+    BLACKLISTED
+}
