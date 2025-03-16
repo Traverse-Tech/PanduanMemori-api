@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "baf90049-6bef-48d5-b12a-d99fc41ec38c",
+		"_postman_id": "f1c38b0c-a789-423e-b5b7-9678c59f300d",
 		"name": "PanduanMemori",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "23041895"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43098031"
 	},
 	"item": [
 		{
@@ -14,17 +14,680 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{BASE_URL}}"
+						"url": {
+							"raw": "{{BASE_URL}}",
+							"host": [
+								"{{BASE_URL}}"
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "Register Patient",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Yusuf Qudus\",\r\n    \"identifier\": \"1234567891011123\",\r\n    \"phoneNumber\": \"+62851835924785\",\r\n    \"password\": \"YusufQudus123!@#\",\r\n    \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\r\n    \"latitude\": 84.12312412,\r\n    \"longitude\": 93.12312412,\r\n    \"role\": \"PATIENT\",\r\n    \"birthdate\": \"1983-04-15 07:00:00.000 +0700\",\r\n    \"gender\": \"MAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/auth/register",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								},
+								"description": "# Register\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/register`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to register a new user in the system.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **name:** (String) Full name of the user.\n        \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **phoneNumber:** (String) The phone number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n    - **address:** (String) Full address of the user.\n        \n    - **latitude:** (Number) Latitude of the user's address.\n        \n    - **longitude:** (Number) Longitude of the user's address.\n        \n    - **role:** (String) Role of the user (`PATIENT` or `CAREGIVER`).\n        \n    - **birthdate:** (String) Date of birth of the user.\n        \n    - **gender:** (String) Gender of the user (`MAN` or `WOMAN`).\n        \n- **Example:**\n    \n\n``` json\n{\n    \"name\": \"Yusuf Qudus\",\n    \"identifier\": \"1234567891011123\",\n    \"phoneNumber\": \"+6281227583953\",\n    \"password\": \"YusufQudus123!@#\",\n    \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n    \"latitude\": 84.12312412,\n    \"longitude\": 93.12312412,\n    \"role\": \"PATIENT\",\n    \"birthdate\": \"1983-04-15 07:00:00.000 +0700\",\n    \"gender\": \"MAN\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 201 Created\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Register Patient",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Yusuf Qudus\",\r\n    \"identifier\": \"1234567891011123\",\r\n    \"phoneNumber\": \"+6281227583953\",\r\n    \"password\": \"YusufQudus123!@#\",\r\n    \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\r\n    \"latitude\": 84.12312412,\r\n    \"longitude\": 93.12312412,\r\n    \"role\": \"PATIENT\",\r\n    \"birthdate\": \"1983-04-15 07:00:00.000 +0700\",\r\n    \"gender\": \"MAN\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/auth/register",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "588"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"24c-fIZT9CT2uacz3561BC77srpf/c0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 02:12:57 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YzhkNDc5OS03NWNiLTQzZGUtODkzZC0zZTVmNjg0MjIzZTgiLCJpYXQiOjE3NDIwOTExNzcsImV4cCI6MTc0NDY4MzE3N30.T-EQSTDdkJdEJVPvWXZ5w1rO_-DGlKvBwWdob3NMwt4\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Register Caregiver",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Kevin Grud\",\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"phoneNumber\": \"+6281227589275\",\r\n    \"password\": \"Kevin123!@#\",\r\n    \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\r\n    \"latitude\": 54.12312412,\r\n    \"longitude\": 90.12312412,\r\n    \"role\": \"CAREGIVER\",\r\n    \"birthdate\": \"2000-08-28 07:00:00.000 +0700\",\r\n    \"gender\": \"MAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/auth/register",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								},
+								"description": "# Register\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/register`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to register a new user in the system.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **name:** (String) Full name of the user.\n        \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **phoneNumber:** (String) The phone number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n    - **address:** (String) Full address of the user.\n        \n    - **latitude:** (Number) Latitude of the user's address.\n        \n    - **longitude:** (Number) Longitude of the user's address.\n        \n    - **role:** (String) Role of the user (`PATIENT` or `CAREGIVER`).\n        \n    - **birthdate:** (String) Date of birth of the user.\n        \n    - **gender:** (String) Gender of the user (`MAN` or `WOMAN`).\n        \n- **Example:**\n    \n\n``` json\n{\n    \"name\": \"Kevin Grud\",\n    \"identifier\": \"kevinG@gmail.com\",\n    \"phoneNumber\": \"+6281227589275\",\n    \"password\": \"Kevin123!@#\",\n    \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n    \"latitude\": 54.12312412,\n    \"longitude\": 90.12312412,\n    \"role\": \"CAREGIVER\",\n    \"birthdate\": \"2000-08-28 07:00:00.000 +0700\",\n    \"gender\": \"MAN\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 201 Created\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNzg1YmQyMS01MWM4LTRmMGEtOTIyYi1lMmRhMTllYzA0ZGYiLCJpYXQiOjE3NDIwOTIxMjIsImV4cCI6MTc0NDY4NDEyMn0.sByp-UauISAzxjkT42E93CehaYyPjj5gsSuDv3BWfqI\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    }\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Register Caregiver",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Kevin Grud\",\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"phoneNumber\": \"+6281227589275\",\r\n    \"password\": \"Kevin123!@#\",\r\n    \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\r\n    \"latitude\": 54.12312412,\r\n    \"longitude\": 90.12312412,\r\n    \"role\": \"CAREGIVER\",\r\n    \"birthdate\": \"2000-08-28 07:00:00.000 +0700\",\r\n    \"gender\": \"MAN\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/auth/register",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-ICkv9FU5hSUE5R1hjfoqhPf7Iig\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 02:28:42 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNzg1YmQyMS01MWM4LTRmMGEtOTIyYi1lMmRhMTllYzA0ZGYiLCJpYXQiOjE3NDIwOTIxMjIsImV4cCI6MTc0NDY4NDEyMn0.sByp-UauISAzxjkT42E93CehaYyPjj5gsSuDv3BWfqI\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Login Patient",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/auth/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"1234567891011123\",\n    \"password\": \"YusufQudus123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Login Patient",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/auth/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "577"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"241-JDkZDVQWLwG3UoeBpFfMVKujh3g\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 05:25:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZTRmYmQyOS1lYTZkLTQ1ZWItOGM4OS1jZTA0YjJmOGRiMWEiLCJpYXQiOjE3NDIxMDI3NDYsImV4cCI6MTc0NDY5NDc0Nn0.1h5TLkrmTne9DxSDXHr0Ks-ssa0iW9LFghzUYf3GSVE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+62851835924785\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Login Caregiver",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"password\": \"Kevin123!@#\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/auth/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n    - **isAssignedToPatient:** (boolean) The status of whether the caregiver has a patient assigned to them.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTc0ODQ0NC0yMTM3LTRmMTYtODU2Yi02MDFlNjQ4NjJiNTAiLCJpYXQiOjE3NDIwOTgwMzYsImV4cCI6MTc0NDY5MDAzNn0.VsMexFaWcRSTB-uXZ5nwLlmJL_rs7Ioaxm4nZi6BMGw\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Login Caregiver",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"password\": \"Kevin123!@#\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/auth/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "551"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"227-qUxzcrK1MC4Y6T5OO6k/eSjYQOc\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 04:07:16 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTc0ODQ0NC0yMTM3LTRmMTYtODU2Yi02MDFlNjQ4NjJiNTAiLCJpYXQiOjE3NDIwOTgwMzYsImV4cCI6MTc0NDY5MDAzNn0.VsMexFaWcRSTB-uXZ5nwLlmJL_rs7Ioaxm4nZi6BMGw\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"item": [
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/auth/logout",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								},
+								"description": "# Logout\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/logout`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log out an authenticated user and terminate their session.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Logout Successful\",\n    \"responseStatus\": \"SUCCESS\"\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Logout",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Token {{ACCESS_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/auth/logout",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-xIeVOOeEXcwaM3wYcUQKuk/+2jo\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 06:29:50 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Logout Successful\",\n    \"responseStatus\": \"SUCCESS\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "Get User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/auth/user",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/user`\n    \n- **Method:** `GET`\n    \n- **Description:** This endpoint is used to get current user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n    - **isAssignedToPatient:** (boolean) The status of whether the caregiver has a patient assigned to them. Only for Caregiver.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    },\n    \"isAssignedToPatient\": false\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Get User",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Token {{ACCESS_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/auth/user",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"auth",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "359"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"167-f+t77YLaAwBCCMREiDUfgfDOzjY\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 06:39:56 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"if (pm.response.code === 200 || pm.response.code === 201) {\r",
+					"    const responseJson = pm.response.json()\r",
+					"    const accessToken = responseJson.token\r",
+					"    if (accessToken)\r",
+					"        pm.collectionVariables.set(\"ACCESS_TOKEN\", accessToken)\r",
+					"}\r",
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
 			"key": "BASE_URL",
 			"value": "localhost:3000",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "",
 			"type": "default"
 		}
 	]

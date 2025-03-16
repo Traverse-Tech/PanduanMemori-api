@@ -12,7 +12,8 @@ model Address {
     caregivers Caregiver[]
     patientImportantLocations PatientImportantLocation[]
 
-    @@index([isDeleted])
+    @@unique([longitude, latitude])
+    @@index([longitude, latitude, isDeleted])
 }
 
 model PatientImportantLocation {

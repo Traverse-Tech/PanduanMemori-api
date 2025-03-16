@@ -44,8 +44,8 @@ model Caregiver {
     id String @id
     user User @relation(fields: [id], references: [id])
 
-    patientId String @map("patient_id")
-    patient Patient @relation(fields: [patientId], references: [id])
+    patientId String? @map("patient_id")
+    patient Patient? @relation(fields: [patientId], references: [id])
 
     addressId String @map("address_id")
     address Address @relation(fields: [addressId], references: [id])
