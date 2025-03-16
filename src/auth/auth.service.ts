@@ -148,8 +148,9 @@ export class AuthService {
                 return {
                     ...user,
                     ...caregiver,
-                    addressId: addressObj.id,
                     ...addressObj,
+                    id: user.id,
+                    addressId: addressObj.id,
                 }
             }
         })
