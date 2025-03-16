@@ -19,6 +19,20 @@ export class CaregiverService {
         private readonly authUtil: AuthUtil
     ) {}
 
+    async updateAssignedPatient(
+        { id: caregiverId }: User,
+        { patientId }: UpdateAssignedPatientRequestDTO
+    ) {
+        const patient = await this.repository.user.findById(patientId)
+        if (!patient || patient.role !== 'PATIENT')
+            throw new NotFoundException(
+                PATIENT_NOT_FOUND_ERROR_MESSAGE,
+                PATIENT_NOT_FOUND_ERROR_DESCRIPTION
+            )
+
+        await this.repository.caregiver.updatePatient(caregiverId, patientId)
+    }
+
     async searchPatientByCredential({
         identifier,
         password,
@@ -46,19 +60,5 @@ export class CaregiverService {
             patientId: patient.id,
             name: patient.name,
         } as SearchPatientByCredentialResponseDTO
-    }
-
-    async updateAssignedPatient(
-        { id: caregiverId }: User,
-        { patientId }: UpdateAssignedPatientRequestDTO
-    ) {
-        const patient = await this.repository.user.findById(patientId)
-        if (!patient || patient.role !== 'PATIENT')
-            throw new NotFoundException(
-                PATIENT_NOT_FOUND_ERROR_MESSAGE,
-                PATIENT_NOT_FOUND_ERROR_DESCRIPTION
-            )
-
-        await this.repository.caregiver.updatePatient(caregiverId, patientId)
     }
 }

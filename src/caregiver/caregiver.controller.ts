@@ -22,16 +22,6 @@ export class CaregiverController {
     ) {}
 
     @IsCaregiver()
-    @Post('patients/search-by-credential')
-    @HttpCode(HttpStatus.OK)
-    async searchPatientByCredential(@Body() body: LoginRequestDTO) {
-        const responseData =
-            await this.caregiverService.searchPatientByCredential(body)
-
-        return this.responseUtil.response({}, responseData)
-    }
-
-    @IsCaregiver()
     @Patch('updateAssignedPatient')
     @HttpCode(HttpStatus.NO_CONTENT)
     async updateAssignedPatient(
@@ -39,5 +29,15 @@ export class CaregiverController {
         @Body() body: UpdateAssignedPatientRequestDTO
     ) {
         await this.caregiverService.updateAssignedPatient(user, body)
+    }
+
+    @IsCaregiver()
+    @Post('patients/search-by-credential')
+    @HttpCode(HttpStatus.OK)
+    async searchPatientByCredential(@Body() body: LoginRequestDTO) {
+        const responseData =
+            await this.caregiverService.searchPatientByCredential(body)
+
+        return this.responseUtil.response({}, responseData)
     }
 }
