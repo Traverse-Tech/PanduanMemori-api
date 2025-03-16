@@ -3,6 +3,7 @@ import { AuthService } from './auth.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'
 import { IsPublic } from 'src/commons/decorators/isPublic.decorator'
 import { RegisterRequestDTO } from './dto/registerRequest.dto'
+import { LoginRequestDTO } from './dto/loginRequest.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +22,20 @@ export class AuthController {
             {
                 responseCode: HttpStatus.CREATED,
                 responseMessage: 'User successfully registered',
+            },
+            responseData
+        )
+    }
+
+    @IsPublic()
+    @Post('login')
+    @HttpCode(HttpStatus.OK)
+    async login(@Body() body: LoginRequestDTO) {
+        const responseData = await this.authService.login(body)
+
+        return this.responseUtil.response(
+            {
+                responseMessage: 'Login Successful',
             },
             responseData
         )

@@ -11,7 +11,6 @@ export class UserTokenRepository {
         { userId, token, deactivatedAfter }: CreateUserTokenInterface,
         tx?: Prisma.TransactionClient
     ): Promise<UserToken> {
-        console.log('USER ID: ' + userId)
         const prisma = !!tx ? tx : this.prisma
         const userToken = await prisma.userToken.create({
             data: {
@@ -22,5 +21,17 @@ export class UserTokenRepository {
         })
 
         return userToken
+    }
+
+    async updateUserActiveTokensToInactive(userId: string) {
+        await this.prisma.userToken.updateMany({
+            where: {
+                userId: userId,
+                status: 'ACTIVE',
+            },
+            data: {
+                status: 'NONACTIVE',
+            },
+        })
     }
 }

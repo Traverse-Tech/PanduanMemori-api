@@ -1,5 +1,10 @@
 import { User, Patient, Caregiver, Address } from '@prisma/client'
 
+export enum IdentifierType {
+    REGISTRATION_NUMBER = 'Registration Number',
+    EMAIL = 'Email',
+}
+
 export interface FormattedUserData
     extends Pick<
             User,

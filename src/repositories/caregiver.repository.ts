@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateCaregiverInterface } from './interfaces/caregiverRepository.interface'
-import { Caregiver, Prisma } from '@prisma/client'
+import { Address, Caregiver, Prisma } from '@prisma/client'
 
 @Injectable()
 export class CaregiverRepository {
@@ -20,5 +20,20 @@ export class CaregiverRepository {
         })
 
         return caregiver
+    }
+
+    async getCaregiverWithAddress(
+        caregiverId: string
+    ): Promise<Caregiver & { address: Address }> {
+        const caregiverWithAddress = await this.prisma.caregiver.findUnique({
+            where: {
+                id: caregiverId,
+            },
+            include: {
+                address: true,
+            },
+        })
+
+        return caregiverWithAddress
     }
 }

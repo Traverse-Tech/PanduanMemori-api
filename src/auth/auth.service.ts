@@ -9,19 +9,23 @@ import {
     User,
     UserRole,
 } from '@prisma/client'
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import { RepositoriesService } from 'src/repositories/repositories.service'
 import { RegisterRequestDTO } from './dto/registerRequest.dto'
 import { RegisterResponseDTO } from './dto/registerResponse.dto'
 import { StringUtil } from 'src/commons/utils/string.util'
 import { BadRequestException } from 'src/commons/exceptions/badRequest.exception'
 import { ConflictException } from 'src/commons/exceptions/conflict.exception'
-import { IdentifierType, TIME_UNIT } from './auth.constant'
+import { TIME_UNIT } from './auth.constant'
 import {
+    IdentifierType,
     FormattedCaregiverData,
     FormattedPatientData,
     FormattedUserData,
 } from './auth.interface'
+import { LoginRequestDTO } from './dto/loginRequest.dto'
+import { LoginResponseDTO } from './dto/loginResponse.dto'
+import { UnauthorizedException } from 'src/commons/exceptions/unauthorized.exception'
 
 @Injectable()
 export class AuthService {
@@ -48,7 +52,11 @@ export class AuthService {
         this.validatePassword(password)
         const userRole = this.validateRole(role)
 
-        await this.checkUserExistenceByIdentifier(identifier, identifierType)
+        const isUserExists = await this.getUserByIdentifier(
+            identifier,
+            identifierType
+        )
+        if (isUserExists) this.throwUserAlreadyExistsException(identifierType)
 
         const user = await this.createUser({
             name,
@@ -74,6 +82,54 @@ export class AuthService {
             token: accessToken,
             user: formattedUser,
         } as RegisterResponseDTO
+    }
+
+    async login({
+        identifier,
+        password,
+    }: LoginRequestDTO): Promise<LoginResponseDTO> {
+        const identifierType = this.getIdentifierType(identifier)
+
+        const user = await this.getUserByIdentifier(identifier, identifierType)
+        if (!user) this.throwInvalidUserAuthenticationException(identifierType)
+
+        const isValidPassword = await compare(password, user.password)
+        if (!isValidPassword)
+            this.throwInvalidUserAuthenticationException(identifierType)
+
+        this.repository.userToken.updateUserActiveTokensToInactive(user.id)
+        const accessToken = await this.generateAccessToken(user.id)
+
+        let formattedUser: FormattedPatientData | FormattedCaregiverData = null
+        let isAssignedToPatient = false
+        if (user.role === UserRole.PATIENT) {
+            const { safeLocation, ...patientData } =
+                await this.repository.patient.getPatientWithSafeLocation(
+                    user.id
+                )
+            formattedUser = this.formatUserData({
+                ...user,
+                ...patientData,
+                ...safeLocation,
+            })
+        } else {
+            const { address, ...caregiverData } =
+                await this.repository.caregiver.getCaregiverWithAddress(user.id)
+            formattedUser = this.formatUserData({
+                ...user,
+                ...caregiverData,
+                ...address,
+            })
+            isAssignedToPatient = !!caregiverData.patientId
+        }
+
+        return {
+            token: accessToken,
+            user: formattedUser,
+            ...(user.role === UserRole.CAREGIVER
+                ? { isAssignedToPatient }
+                : {}),
+        } as LoginResponseDTO
     }
 
     private async createUser({
@@ -293,20 +349,19 @@ export class AuthService {
         return role as UserRole
     }
 
-    private async checkUserExistenceByIdentifier(
+    private async getUserByIdentifier(
         identifier: string,
         type: IdentifierType
     ) {
-        if (type === IdentifierType.EMAIL) {
-            const isUserExistsByEmail =
-                await this.repository.user.findByEmail(identifier)
-            if (isUserExistsByEmail) this.throwUserAlreadyExistsException(type)
-        }
+        let user: User = null
 
-        const isUserExistsByRegistrationNumber =
-            await this.repository.user.findByRegistrationNumber(identifier)
-        if (isUserExistsByRegistrationNumber)
-            this.throwUserAlreadyExistsException(type)
+        if (type === IdentifierType.EMAIL)
+            user = await this.repository.user.findByEmail(identifier)
+        else
+            user =
+                await this.repository.user.findByRegistrationNumber(identifier)
+
+        return user
     }
 
     private throwUserAlreadyExistsException(type: IdentifierType) {
@@ -314,6 +369,13 @@ export class AuthService {
         const errorDescription = `Silahkan masuk dengan ${type === IdentifierType.EMAIL ? 'email' : 'NIK'} yang sama`
 
         throw new ConflictException(errorMessage, errorDescription)
+    }
+
+    private throwInvalidUserAuthenticationException(type: IdentifierType) {
+        throw new UnauthorizedException(
+            `${type === IdentifierType.EMAIL ? 'Email' : 'NIK'} atau password salah`,
+            'Silakan masukkan sesuai akun yang telah didaftarkan sebelumnya'
+        )
     }
 
     private validateBirthdate(birthdate: string): Date {

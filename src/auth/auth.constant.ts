@@ -1,8 +1,3 @@
-export enum IdentifierType {
-    REGISTRATION_NUMBER = 'Registration Number',
-    EMAIL = 'Email',
-}
-
 export const TIME_UNIT = {
     s: 1000,
     m: 60 * 1000,
