@@ -4,6 +4,8 @@ import { ResponseUtil } from 'src/commons/utils/response.util'
 import { IsPublic } from 'src/commons/decorators/isPublic.decorator'
 import { RegisterRequestDTO } from './dto/registerRequest.dto'
 import { LoginRequestDTO } from './dto/loginRequest.dto'
+import { GetCurrentUser } from 'src/commons/decorators/getCurrentUser.decorator'
+import { User } from '@prisma/client'
 
 @Controller('auth')
 export class AuthController {
@@ -39,5 +41,15 @@ export class AuthController {
             },
             responseData
         )
+    }
+
+    @Post('logout')
+    @HttpCode(HttpStatus.OK)
+    async logout(@GetCurrentUser() user: User) {
+        await this.authService.logout(user)
+
+        return this.responseUtil.response({
+            responseMessage: 'Logout Successful',
+        })
     }
 }
