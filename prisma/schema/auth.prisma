@@ -82,7 +82,7 @@ enum Gender {
 enum DementiaStage {
     EARLY
     MIDDLE
-    LATER
+    LATE
 }
 
 enum TokenStatus {

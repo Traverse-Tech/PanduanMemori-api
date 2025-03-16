@@ -35,6 +35,7 @@ model QuizQuestion {
     userAnswers UserQuizAnswer[]
 
     @@index([quizId, order, nextQuestionId, isDeleted])
+    @@unique([quizId, order])
 }
 
 model QuizQuestionOption {
