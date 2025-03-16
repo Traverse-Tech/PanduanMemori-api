@@ -1,11 +1,6 @@
 import { User, Patient, Caregiver, Address } from '@prisma/client'
 import { Request } from 'express'
 
-export enum IdentifierType {
-    REGISTRATION_NUMBER = 'Registration Number',
-    EMAIL = 'Email',
-}
-
 export interface AuthenticatedRequestInterface extends Request {
     user: User
 }

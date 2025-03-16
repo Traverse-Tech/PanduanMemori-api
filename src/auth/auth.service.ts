@@ -22,7 +22,6 @@ import {
     USER_BLOCKED_ERROR_MESSAGE,
 } from './auth.constant'
 import {
-    IdentifierType,
     FormattedCaregiverData,
     FormattedPatientData,
     FormattedUserData,
@@ -31,13 +30,16 @@ import { LoginRequestDTO } from './dto/loginRequest.dto'
 import { LoginResponseDTO } from './dto/loginResponse.dto'
 import { UnauthorizedException } from 'src/commons/exceptions/unauthorized.exception'
 import { GetUserResponseDTO } from './dto/getUserResponse.dto'
+import { AuthUtil } from 'src/commons/utils/auth.utils'
+import { IdentifierType } from 'src/commons/interfaces/utils.interface'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
         private readonly repository: RepositoriesService,
-        private readonly stringUtil: StringUtil
+        private readonly stringUtil: StringUtil,
+        private readonly authUtil: AuthUtil
     ) {}
 
     async register({
@@ -53,11 +55,11 @@ export class AuthService {
         gender,
     }: RegisterRequestDTO): Promise<RegisterResponseDTO> {
         const formattedPhoneNumber = await this.validatePhoneNumber(phoneNumber)
-        const identifierType = this.getIdentifierType(identifier)
+        const identifierType = this.authUtil.getIdentifierType(identifier)
         this.validatePassword(password)
         const userRole = this.validateRole(role)
 
-        const isUserExists = await this.getUserByIdentifier(
+        const isUserExists = await this.authUtil.getUserByIdentifier(
             identifier,
             identifierType
         )
@@ -93,9 +95,12 @@ export class AuthService {
         identifier,
         password,
     }: LoginRequestDTO): Promise<LoginResponseDTO> {
-        const identifierType = this.getIdentifierType(identifier)
+        const identifierType = this.authUtil.getIdentifierType(identifier)
 
-        const user = await this.getUserByIdentifier(identifier, identifierType)
+        const user = await this.authUtil.getUserByIdentifier(
+            identifier,
+            identifierType
+        )
         if (!user) this.throwInvalidUserAuthenticationException(identifierType)
 
         const isValidPassword = await compare(password, user.password)
@@ -366,24 +371,6 @@ export class AuthService {
         return formattedPhoneNumber
     }
 
-    private getIdentifierType(identifier: string): IdentifierType {
-        if (
-            this.stringUtil.isNumeric(identifier) &&
-            this.stringUtil.isValidIndonesianRegistrationNumber(identifier)
-        )
-            return IdentifierType.REGISTRATION_NUMBER
-        else if (this.stringUtil.isNumeric(identifier))
-            throw new BadRequestException('NIK seharusnya berjumlah 16 digit')
-
-        if (this.stringUtil.isValidEmail(identifier))
-            return IdentifierType.EMAIL
-        else
-            throw new BadRequestException(
-                'Format email tidak tepat',
-                'Contoh: name@email.com'
-            )
-    }
-
     private validatePassword(password: string) {
         const passwordRegex =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()])[A-Za-z\d@$!%*?&#^()]{8,}$/
@@ -402,21 +389,6 @@ export class AuthService {
             )
 
         return role as UserRole
-    }
-
-    private async getUserByIdentifier(
-        identifier: string,
-        type: IdentifierType
-    ) {
-        let user: User = null
-
-        if (type === IdentifierType.EMAIL)
-            user = await this.repository.user.findByEmail(identifier)
-        else
-            user =
-                await this.repository.user.findByRegistrationNumber(identifier)
-
-        return user
     }
 
     private throwUserAlreadyExistsException(type: IdentifierType) {
