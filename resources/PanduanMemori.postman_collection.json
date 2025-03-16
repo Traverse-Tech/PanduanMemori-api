@@ -649,6 +649,137 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Caregiver",
+			"item": [
+				{
+					"name": "patients",
+					"item": [
+						{
+							"name": "search-by-credential",
+							"item": [
+								{
+									"name": "Search Patient By Credential",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Token {{ACCESS_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/caregiver/patients/search-by-credential",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"caregiver",
+												"patients",
+												"search-by-credential"
+											]
+										},
+										"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+									},
+									"response": [
+										{
+											"name": "Search Patient",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Token {{ACCESS_TOKEN}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\"\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{BASE_URL}}/caregiver/patients/search-by-credential",
+													"host": [
+														"{{BASE_URL}}"
+													],
+													"path": [
+														"caregiver",
+														"patients",
+														"search-by-credential"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Powered-By",
+													"value": "Express"
+												},
+												{
+													"key": "Access-Control-Allow-Origin",
+													"value": "http://localhost:3000"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Access-Control-Allow-Credentials",
+													"value": "true"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json; charset=utf-8"
+												},
+												{
+													"key": "Content-Length",
+													"value": "167"
+												},
+												{
+													"key": "ETag",
+													"value": "W/\"a7-5XgzZZ5fdjyCnvtuMNzX0a7Js0A\""
+												},
+												{
+													"key": "Date",
+													"value": "Sun, 16 Mar 2025 17:38:14 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
