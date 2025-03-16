@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Post,
+} from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'
 import { IsPublic } from 'src/commons/decorators/isPublic.decorator'
@@ -41,6 +48,14 @@ export class AuthController {
             },
             responseData
         )
+    }
+
+    @Get('user')
+    @HttpCode(HttpStatus.OK)
+    async getUser(@GetCurrentUser() user: User) {
+        const responseData = await this.authService.getUser(user)
+
+        return this.responseUtil.response({}, responseData)
     }
 
     @Post('logout')

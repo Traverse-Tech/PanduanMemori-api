@@ -30,6 +30,7 @@ import {
 import { LoginRequestDTO } from './dto/loginRequest.dto'
 import { LoginResponseDTO } from './dto/loginResponse.dto'
 import { UnauthorizedException } from 'src/commons/exceptions/unauthorized.exception'
+import { GetUserResponseDTO } from './dto/getUserResponse.dto'
 
 @Injectable()
 export class AuthService {
@@ -146,6 +147,38 @@ export class AuthService {
                 ? { isAssignedToPatient }
                 : {}),
         } as LoginResponseDTO
+    }
+
+    async getUser(user: User): Promise<GetUserResponseDTO> {
+        let formattedUser: FormattedPatientData | FormattedCaregiverData = null
+        let isAssignedToPatient = false
+        if (user.role === UserRole.PATIENT) {
+            const { safeLocation, ...patientData } =
+                await this.repository.patient.getPatientWithSafeLocation(
+                    user.id
+                )
+            formattedUser = this.formatUserData({
+                ...user,
+                ...patientData,
+                ...safeLocation,
+            })
+        } else {
+            const { address, ...caregiverData } =
+                await this.repository.caregiver.getCaregiverWithAddress(user.id)
+            formattedUser = this.formatUserData({
+                ...user,
+                ...caregiverData,
+                ...address,
+            })
+            isAssignedToPatient = !!caregiverData.patientId
+        }
+
+        return {
+            user: formattedUser,
+            ...(user.role === UserRole.CAREGIVER
+                ? { isAssignedToPatient }
+                : {}),
+        } as GetUserResponseDTO
     }
 
     async logout(user: User) {
