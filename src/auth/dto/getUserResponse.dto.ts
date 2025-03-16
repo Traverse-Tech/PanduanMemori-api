@@ -1,4 +1,4 @@
-import { FormattedCaregiverData, FormattedPatientData } from "../auth.interface"
+import { FormattedCaregiverData, FormattedPatientData } from '../auth.interface'
 
 export class GetUserResponseDTO {
     user: FormattedPatientData | FormattedCaregiverData
