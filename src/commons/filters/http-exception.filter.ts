@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common'
 import { Response } from 'express'
 import { Prisma } from '@prisma/client'
-import { ResponseInterface } from '../interfaces/utils.interface'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -33,11 +32,19 @@ export class HttpExceptionFilter implements ExceptionFilter {
               ? exception.getStatus()
               : HttpStatus.INTERNAL_SERVER_ERROR
 
+        const responseDetails =
+            exception instanceof HttpException ? exception.getResponse() : null;
+
         const responseMessage = handlePrismaQueryError
             ? 'Invalid query'
-            : exception.response?.statusCode === 400
-              ? exception.response?.message
-              : exception.message
+            : typeof responseDetails === 'object' && !!responseDetails && 'message' in responseDetails
+                ? responseDetails.message
+                : exception.message;
+        
+        const errorDescription =
+            typeof responseDetails === "object" && !!responseDetails && "description" in responseDetails
+                ? responseDetails.description
+                : undefined;
 
         const exceptionMessage =
             exception.response?.statusCode === 400
@@ -53,10 +60,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
             `Exception ${request.method} ${request.url}`
         )
 
-        const responseData: ResponseInterface = {
+        const responseData = {
             responseMessage,
             responseCode,
             responseStatus: 'FAILED',
+            errorDescription
         }
 
         return response.status(responseCode).json(responseData)

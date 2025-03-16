@@ -1,4 +1,16 @@
-import { Module } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
+import { ResponseUtil } from './utils/response.util';
+import { StringUtil } from './utils/string.util';
 
-@Module({})
+@Global()
+@Module({
+    providers: [
+        ResponseUtil,
+        StringUtil
+    ],
+    exports: [
+        ResponseUtil,
+        StringUtil
+    ]
+})
 export class CommonsModule {}

@@ -3,6 +3,9 @@ import { ResponseInterface } from '../interfaces/utils.interface'
 
 @Injectable()
 export class ResponseUtil {
+    /**
+     * Format the response message to ensure consistency across all API responses. Please use this function every time an API returns a response.
+     */
     response(
         { responseCode, responseMessage, responseStatus }: ResponseInterface,
         data?: any
