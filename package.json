@@ -22,9 +22,9 @@
         "check-format": "prettier --check .",
         "test-all": "yarn format && yarn check-format && yarn lint && yarn check-types",
         "prepare": "husky install",
-        "migrate:dev": "yarn prisma migrate dev --schema=./prisma/schema.prisma && yarn prisma generate --schema=./prisma/schema.prisma",
-        "migrate": "yarn prisma migrate deploy --schema=./prisma/schema.prisma && yarn prisma generate --schema=./prisma/schema.prisma",
-        "studio": "yarn prisma studio --schema=./prisma/schema.prisma"
+        "migrate:dev": "yarn prisma migrate dev --schema=./prisma/schema && yarn prisma generate --schema=./prisma/schema",
+        "migrate": "yarn prisma migrate deploy --schema=./prisma/schema && yarn prisma generate --schema=./prisma/schema",
+        "studio": "yarn prisma studio --schema=./prisma/schema"
     },
     "dependencies": {
         "@nestjs/common": "^9.0.0",

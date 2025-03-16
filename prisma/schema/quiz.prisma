@@ -1,0 +1,98 @@
+model Quiz {
+    id String @id @default(uuid())
+    title String
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    questions QuizQuestion[]
+    userProgresses UserQuizProgress[]
+
+    @@index([isDeleted])
+}
+
+model QuizQuestion {
+    id String @id @default(uuid())
+
+    quizId String @map("quiz_id")
+    quiz Quiz @relation(fields: [quizId], references: [id])
+
+    order Int @default(0)
+    question String
+
+    nextQuestionId String? @unique @map("next_question_id")
+    nextQuestion QuizQuestion? @relation(name: "next_question", fields: [nextQuestionId], references: [id])
+
+    prevQuestion QuizQuestion? @relation(name: "next_question")
+
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    options QuizQuestionOption[]
+    userAnswers UserQuizAnswer[]
+
+    @@index([quizId, order, nextQuestionId, isDeleted])
+    @@unique([quizId, order])
+}
+
+model QuizQuestionOption {
+    id String @id @default(uuid())
+
+    questionId String @map("question_id")
+    question QuizQuestion @relation(fields: [questionId], references: [id])
+
+    option String
+    isAnswer Boolean @default(false) @map("is_answer")
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    userSelectedOptions UserQuizAnswer[]
+
+    @@index([questionId, isDeleted])
+}
+
+model UserQuizProgress {
+    id String @id @default(uuid())
+
+    patientId String @map("patient_id")
+    patient Patient @relation(fields: [patientId], references: [id])
+
+    quizId String @map("quiz_id")
+    quiz Quiz @relation(fields: [quizId], references: [id])
+
+    isCompleted Boolean @default(false) @map("is_completed")
+    score Int?
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+
+    answers UserQuizAnswer[]
+
+    @@index([patientId, quizId, isCompleted, isDeleted])
+}
+
+model UserQuizAnswer {
+    id String @id @default(uuid())
+    
+    progressId String @map("progress_id")
+    progress UserQuizProgress @relation(fields: [progressId], references: [id])
+
+    questionId String @map("question_id")
+    question QuizQuestion @relation(fields: [questionId], references: [id])
+
+    selectedOptionId String @map("selected_option_id")
+    selectedOption QuizQuestionOption @relation(fields: [selectedOptionId], references: [id])
+
+    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    isDeleted Boolean @default(false) @map("is_deleted")
+    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+    
+    @@index([progressId, questionId, selectedOptionId, isDeleted])
+}
