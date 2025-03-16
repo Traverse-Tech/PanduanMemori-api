@@ -19,10 +19,9 @@ export class CaregiverService {
         private readonly authUtil: AuthUtil
     ) {}
 
-    async getPeerCaregivers(
-        { id: caregiverId }: User
-    ) {
-        const peers = await this.repository.caregiver.getPeerCaregivers(caregiverId)
+    async getPeerCaregivers({ id: caregiverId }: User) {
+        const peers =
+            await this.repository.caregiver.getPeerCaregivers(caregiverId)
         return { peers }
     }
 

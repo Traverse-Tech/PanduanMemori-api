@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { CreateCaregiverInterface, GetPeerCaregiverInterface } from './interfaces/caregiverRepository.interface'
+import {
+    CreateCaregiverInterface,
+    GetPeerCaregiverInterface,
+} from './interfaces/caregiverRepository.interface'
 import { Address, Caregiver, Prisma } from '@prisma/client'
 
 @Injectable()
@@ -42,34 +45,41 @@ export class CaregiverRepository {
         const caregiver = await this.prisma.caregiver.findUnique({
             where: {
                 id: caregiverId,
-            }
+            },
         })
 
         return caregiver
     }
 
-    async getPeerCaregivers(caregiverId: string): Promise<GetPeerCaregiverInterface[]> {
+    async getPeerCaregivers(
+        caregiverId: string
+    ): Promise<GetPeerCaregiverInterface[]> {
         const { patientId } = await this.getCaregiver(caregiverId)
 
-        const peerCaregivers = await this.prisma.caregiver.findMany({
-            where: {
-                patientId: patientId,
-                NOT: { id: caregiverId }
-            },
-            select: {
-                id: true,
-                user: {
-                    select: {
-                        name: true
-                    }
-                }
-            }
-        }).then((caregivers) =>
-            caregivers.map((caregiver) => ({
-                id: caregiver.id,
-                name: caregiver.user.name
-            } as GetPeerCaregiverInterface))
-        );
+        const peerCaregivers = await this.prisma.caregiver
+            .findMany({
+                where: {
+                    patientId: patientId,
+                    NOT: { id: caregiverId },
+                },
+                select: {
+                    id: true,
+                    user: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
+            })
+            .then((caregivers) =>
+                caregivers.map(
+                    (caregiver) =>
+                        ({
+                            id: caregiver.id,
+                            name: caregiver.user.name,
+                        }) as GetPeerCaregiverInterface
+                )
+            )
 
         return peerCaregivers
     }
