@@ -8,18 +8,15 @@ export class CaregiverRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(
-        {
-            userId,
-            addressId
-        }: CreateCaregiverInterface,
+        { userId, addressId }: CreateCaregiverInterface,
         tx?: Prisma.TransactionClient
     ): Promise<Caregiver> {
-        const prisma = !!tx? tx : this.prisma
+        const prisma = !!tx ? tx : this.prisma
         const caregiver = await prisma.caregiver.create({
             data: {
                 id: userId,
-                addressId: addressId
-            }
+                addressId: addressId,
+            },
         })
 
         return caregiver

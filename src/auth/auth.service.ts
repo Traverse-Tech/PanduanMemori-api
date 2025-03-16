@@ -1,15 +1,27 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Address, DementiaStage, Gender, Patient, Prisma, User, UserRole } from '@prisma/client';
+import { Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import {
+    Address,
+    DementiaStage,
+    Gender,
+    Patient,
+    Prisma,
+    User,
+    UserRole,
+} from '@prisma/client'
 import { hash } from 'bcrypt'
-import { RepositoriesService } from 'src/repositories/repositories.service';
-import { RegisterRequestDTO } from './dto/registerRequest.dto';
-import { RegisterResponseDTO } from './dto/registerResponse.dto';
-import { StringUtil } from 'src/commons/utils/string.util';
-import { BadRequestException } from 'src/commons/exceptions/badRequest.exception';
-import { ConflictException } from 'src/commons/exceptions/conflict.exception';
-import { IdentifierType, TIME_UNIT } from './auth.constant';
-import { FormattedCaregiverData, FormattedPatientData, FormattedUserData } from './auth.interface';
+import { RepositoriesService } from 'src/repositories/repositories.service'
+import { RegisterRequestDTO } from './dto/registerRequest.dto'
+import { RegisterResponseDTO } from './dto/registerResponse.dto'
+import { StringUtil } from 'src/commons/utils/string.util'
+import { BadRequestException } from 'src/commons/exceptions/badRequest.exception'
+import { ConflictException } from 'src/commons/exceptions/conflict.exception'
+import { IdentifierType, TIME_UNIT } from './auth.constant'
+import {
+    FormattedCaregiverData,
+    FormattedPatientData,
+    FormattedUserData,
+} from './auth.interface'
 
 @Injectable()
 export class AuthService {
@@ -18,7 +30,7 @@ export class AuthService {
         private readonly repository: RepositoriesService,
         private readonly stringUtil: StringUtil
     ) {}
-    
+
     async register({
         name,
         identifier,
@@ -29,7 +41,7 @@ export class AuthService {
         longitude,
         role,
         birthdate,
-        gender
+        gender,
     }: RegisterRequestDTO): Promise<RegisterResponseDTO> {
         const formattedPhoneNumber = await this.validatePhoneNumber(phoneNumber)
         const identifierType = this.getIdentifierType(identifier)
@@ -48,8 +60,11 @@ export class AuthService {
             birthdate,
             gender,
             phoneNumber: formattedPhoneNumber,
-            email: identifierType === IdentifierType.EMAIL? identifier : null,
-            registrationNumber: identifierType === IdentifierType.REGISTRATION_NUMBER? identifier : null
+            email: identifierType === IdentifierType.EMAIL ? identifier : null,
+            registrationNumber:
+                identifierType === IdentifierType.REGISTRATION_NUMBER
+                    ? identifier
+                    : null,
         })
 
         const accessToken = await this.generateAccessToken(user.id)
@@ -57,7 +72,7 @@ export class AuthService {
 
         return {
             token: accessToken,
-            user: formattedUser
+            user: formattedUser,
         } as RegisterResponseDTO
     }
 
@@ -72,10 +87,10 @@ export class AuthService {
         birthdate,
         gender,
         email,
-        registrationNumber
+        registrationNumber,
     }: Omit<RegisterRequestDTO, 'identifier' | 'role'> & {
-        email: string,
-        registrationNumber: string,
+        email: string
+        registrationNumber: string
         role: UserRole
     }) {
         return this.repository.prisma.$transaction(async (tx) => {
@@ -88,7 +103,7 @@ export class AuthService {
                 {
                     address,
                     latitude,
-                    longitude
+                    longitude,
                 },
                 tx
             )
@@ -111,21 +126,21 @@ export class AuthService {
                     gender,
                     userId: user.id,
                     safeLocationId: addressObj.id,
-                    tx
+                    tx,
                 })
-    
+
                 return {
                     ...user,
                     ...patient,
                     ...addressObj,
                     id: user.id,
-                    addressId: addressObj.id
+                    addressId: addressObj.id,
                 }
             } else {
                 const caregiver = await this.repository.caregiver.create(
                     {
                         userId: user.id,
-                        addressId: addressObj.id
+                        addressId: addressObj.id,
                     },
                     tx
                 )
@@ -134,7 +149,7 @@ export class AuthService {
                     ...user,
                     ...caregiver,
                     addressId: addressObj.id,
-                    ...addressObj
+                    ...addressObj,
                 }
             }
         })
@@ -145,10 +160,10 @@ export class AuthService {
         gender,
         userId,
         safeLocationId,
-        tx
+        tx,
     }: Pick<RegisterRequestDTO, 'birthdate' | 'gender'> & {
-        userId: string,
-        safeLocationId: string,
+        userId: string
+        safeLocationId: string
         tx: Prisma.TransactionClient
     }): Promise<Patient> {
         const patientBirthdate = this.validateBirthdate(birthdate)
@@ -176,13 +191,17 @@ export class AuthService {
         birthdate,
         gender,
         dementiaStage,
-        patientId
-    }: Pick<User, 'name' | 'phoneNumber' | 'email' | 'registrationNumber' | 'role'> & Pick<Address, 'address'> & {
-        birthdate?: Date,
-        gender?: Gender,
-        dementiaStage?: DementiaStage,
-        patientId?: string
-    }): FormattedPatientData | FormattedCaregiverData {
+        patientId,
+    }: Pick<
+        User,
+        'name' | 'phoneNumber' | 'email' | 'registrationNumber' | 'role'
+    > &
+        Pick<Address, 'address'> & {
+            birthdate?: Date
+            gender?: Gender
+            dementiaStage?: DementiaStage
+            patientId?: string
+        }): FormattedPatientData | FormattedCaregiverData {
         const formattedUserData = {
             name,
             phoneNumber,
@@ -197,107 +216,127 @@ export class AuthService {
                 ...formattedUserData,
                 birthdate,
                 gender,
-                dementiaStage
+                dementiaStage,
             } as FormattedPatientData
-         else 
+        else
             return {
                 ...formattedUserData,
-                patientId
+                patientId,
             } as FormattedCaregiverData
     }
 
     private async validatePhoneNumber(phoneNumber: string): Promise<string> {
         if (!this.stringUtil.isValidIndonesianPhone(phoneNumber))
-            throw new BadRequestException("Format nomor telepon tidak valid")
+            throw new BadRequestException('Format nomor telepon tidak valid')
 
-        const formattedPhoneNumber = this.stringUtil.formatIndonesianPhoneNumber(phoneNumber)
+        const formattedPhoneNumber =
+            this.stringUtil.formatIndonesianPhoneNumber(phoneNumber)
         const strippedPhoneNumber = formattedPhoneNumber.slice(3)
 
         if (strippedPhoneNumber.length < 9)
-            throw new BadRequestException("No HP tidak boleh kurang dari 10 Karakter")
+            throw new BadRequestException(
+                'No HP tidak boleh kurang dari 10 Karakter'
+            )
 
         if (strippedPhoneNumber.length > 15)
-            throw new BadRequestException("No HP tidak boleh lebih dari 16 Karakter")
+            throw new BadRequestException(
+                'No HP tidak boleh lebih dari 16 Karakter'
+            )
 
-        const isUserExistsByPhoneNumber = await this.repository.user.findByPhoneNumber(phoneNumber)
+        const isUserExistsByPhoneNumber =
+            await this.repository.user.findByPhoneNumber(phoneNumber)
         if (isUserExistsByPhoneNumber)
             throw new BadRequestException(
-                "No HP sudah terdaftar",
-                "Silakan gunakan nomor HP lain atau hubungi customer service jika mengalami masalah dengan nomor telepon Anda"
+                'No HP sudah terdaftar',
+                'Silakan gunakan nomor HP lain atau hubungi customer service jika mengalami masalah dengan nomor telepon Anda'
             )
 
         return formattedPhoneNumber
     }
 
     private getIdentifierType(identifier: string): IdentifierType {
-        if (this.stringUtil.isNumeric(identifier) && this.stringUtil.isValidIndonesianRegistrationNumber(identifier))
+        if (
+            this.stringUtil.isNumeric(identifier) &&
+            this.stringUtil.isValidIndonesianRegistrationNumber(identifier)
+        )
             return IdentifierType.REGISTRATION_NUMBER
         else if (this.stringUtil.isNumeric(identifier))
-            throw new BadRequestException("NIK seharusnya berjumlah 16 digit")
-        
+            throw new BadRequestException('NIK seharusnya berjumlah 16 digit')
+
         if (this.stringUtil.isValidEmail(identifier))
             return IdentifierType.EMAIL
         else
-            throw new BadRequestException("Format email tidak tepat", "Contoh: name@email.com")
+            throw new BadRequestException(
+                'Format email tidak tepat',
+                'Contoh: name@email.com'
+            )
     }
 
     private validatePassword(password: string) {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()])[A-Za-z\d@$!%*?&#^()]{8,}$/
-        if (!passwordRegex.test(password)) 
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()])[A-Za-z\d@$!%*?&#^()]{8,}$/
+        if (!passwordRegex.test(password))
             throw new BadRequestException(
-                "Password terlalu lemah",
-                "Password harus terdiri dari minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan karakter spesial"
+                'Password terlalu lemah',
+                'Password harus terdiri dari minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan karakter spesial'
             )
     }
 
     private validateRole(role: string): UserRole {
         if (!Object.values(UserRole).includes(role as UserRole))
             throw new BadRequestException(
-                "Role tidak valid",
-                `Harap gunakan ${Object.values(UserRole).join(" atau ")}`
+                'Role tidak valid',
+                `Harap gunakan ${Object.values(UserRole).join(' atau ')}`
             )
-        
+
         return role as UserRole
     }
 
-    private async checkUserExistenceByIdentifier(identifier: string, type: IdentifierType ) {
+    private async checkUserExistenceByIdentifier(
+        identifier: string,
+        type: IdentifierType
+    ) {
         if (type === IdentifierType.EMAIL) {
-            const isUserExistsByEmail = await this.repository.user.findByEmail(identifier)
-            if (isUserExistsByEmail)
-                this.throwUserAlreadyExistsException(type)
+            const isUserExistsByEmail =
+                await this.repository.user.findByEmail(identifier)
+            if (isUserExistsByEmail) this.throwUserAlreadyExistsException(type)
         }
 
-        const isUserExistsByRegistrationNumber = await this.repository.user.findByRegistrationNumber(identifier)
+        const isUserExistsByRegistrationNumber =
+            await this.repository.user.findByRegistrationNumber(identifier)
         if (isUserExistsByRegistrationNumber)
             this.throwUserAlreadyExistsException(type)
     }
 
     private throwUserAlreadyExistsException(type: IdentifierType) {
-        const errorMessage = `${type === IdentifierType.EMAIL? "Email" : "NIK"} sudah terdaftar`
-        const errorDescription = `Silahkan masuk dengan ${type === IdentifierType.EMAIL? "email" : "NIK"} yang sama`
+        const errorMessage = `${type === IdentifierType.EMAIL ? 'Email' : 'NIK'} sudah terdaftar`
+        const errorDescription = `Silahkan masuk dengan ${type === IdentifierType.EMAIL ? 'email' : 'NIK'} yang sama`
 
         throw new ConflictException(errorMessage, errorDescription)
     }
 
     private validateBirthdate(birthdate: string): Date {
         if (!birthdate)
-            throw new BadRequestException("Tanggal lahir tidak boleh kosong")
+            throw new BadRequestException('Tanggal lahir tidak boleh kosong')
 
-        const formattedBirthdate = this.stringUtil.parseDate(birthdate, "yyyy-MM-dd HH:mm:ss.SSS X")
+        const formattedBirthdate = this.stringUtil.parseDate(
+            birthdate,
+            'yyyy-MM-dd HH:mm:ss.SSS X'
+        )
         if (!formattedBirthdate)
-            throw new BadRequestException("Tanggal lahir tidak valid")
+            throw new BadRequestException('Tanggal lahir tidak valid')
 
         return formattedBirthdate
     }
 
     private validateGender(gender: string): Gender {
         if (!gender)
-            throw new BadRequestException("Jenis kelamin tidak boleh kosong")
+            throw new BadRequestException('Jenis kelamin tidak boleh kosong')
 
         if (!Object.values(Gender).includes(gender as Gender))
             throw new BadRequestException(
-                "Jenis kelamin tidak valid",
-                `Harap gunakan ${Object.values(Gender).join(" atau ")}`
+                'Jenis kelamin tidak valid',
+                `Harap gunakan ${Object.values(Gender).join(' atau ')}`
             )
 
         return gender as Gender
@@ -308,14 +347,16 @@ export class AuthService {
             { userId: userId },
             {
                 secret: process.env.APP_ACCESS_SECRET,
-                expiresIn: process.env.APP_ACCESS_EXPIRY
+                expiresIn: process.env.APP_ACCESS_EXPIRY,
             }
         )
 
         await this.repository.userToken.create({
             userId,
             token: accessToken,
-            deactivatedAfter: new Date(Date.now() + this.getExpiry(process.env.APP_ACCESS_EXPIRY))
+            deactivatedAfter: new Date(
+                Date.now() + this.getExpiry(process.env.APP_ACCESS_EXPIRY)
+            ),
         })
 
         return accessToken

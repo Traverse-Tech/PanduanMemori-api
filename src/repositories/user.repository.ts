@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Prisma, PrismaClient, User } from '@prisma/client'
+import { Prisma, User } from '@prisma/client'
 import { CreateUserInterface } from './interfaces/userRepository.interface'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -14,11 +14,11 @@ export class UserRepository {
             email,
             password,
             registrationNumber,
-            role
+            role,
         }: CreateUserInterface,
         tx?: Prisma.TransactionClient
     ): Promise<User> {
-        const prisma = !!tx? tx : this.prisma
+        const prisma = !!tx ? tx : this.prisma
         const user = await prisma.user.create({
             data: {
                 name,
@@ -26,8 +26,8 @@ export class UserRepository {
                 email,
                 password,
                 registrationNumber,
-                role
-            }
+                role,
+            },
         })
 
         return user
@@ -36,8 +36,8 @@ export class UserRepository {
     async findByEmail(email: string): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {
-                email: email
-            }
+                email: email,
+            },
         })
 
         return user
@@ -46,8 +46,8 @@ export class UserRepository {
     async findByRegistrationNumber(registrationNumber: string): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {
-                registrationNumber: registrationNumber
-            }
+                registrationNumber: registrationNumber,
+            },
         })
 
         return user
@@ -56,8 +56,8 @@ export class UserRepository {
     async findByPhoneNumber(phoneNumber: string): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {
-                phoneNumber: phoneNumber
-            }
+                phoneNumber: phoneNumber,
+            },
         })
 
         return user

@@ -8,22 +8,17 @@ export class PatientRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(
-        {
-            userId,
-            birthdate,
-            gender,
-            safeLocationId
-        }: CreatePatientInterface,
+        { userId, birthdate, gender, safeLocationId }: CreatePatientInterface,
         tx?: Prisma.TransactionClient
     ): Promise<Patient> {
-        const prisma = !!tx? tx : this.prisma
+        const prisma = !!tx ? tx : this.prisma
         const address = await prisma.patient.create({
             data: {
                 gender,
                 safeLocationId,
                 id: userId,
-                birthdate
-            }
+                birthdate,
+            },
         })
 
         return address

@@ -1,4 +1,4 @@
-import { Gender } from "@prisma/client"
+import { Gender } from '@prisma/client'
 
 export interface CreatePatientInterface {
     userId: string

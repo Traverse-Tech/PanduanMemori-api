@@ -7,8 +7,8 @@ import { AppService } from './app.service'
 import { PrismaModule } from './prisma/prisma.module'
 import { CommonsModule } from './commons/commons.module'
 import { HttpExceptionFilter } from './commons/filters/http-exception.filter'
-import { AuthModule } from './auth/auth.module';
-import { RepositoriesModule } from './repositories/repositories.module';
+import { AuthModule } from './auth/auth.module'
+import { RepositoriesModule } from './repositories/repositories.module'
 
 @Module({
     imports: [

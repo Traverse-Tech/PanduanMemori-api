@@ -33,18 +33,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
               : HttpStatus.INTERNAL_SERVER_ERROR
 
         const responseDetails =
-            exception instanceof HttpException ? exception.getResponse() : null;
+            exception instanceof HttpException ? exception.getResponse() : null
 
         const responseMessage = handlePrismaQueryError
             ? 'Invalid query'
-            : typeof responseDetails === 'object' && !!responseDetails && 'message' in responseDetails
-                ? responseDetails.message
-                : exception.message;
-        
+            : typeof responseDetails === 'object' &&
+                !!responseDetails &&
+                'message' in responseDetails
+              ? responseDetails.message
+              : exception.message
+
         const errorDescription =
-            typeof responseDetails === "object" && !!responseDetails && "description" in responseDetails
+            typeof responseDetails === 'object' &&
+            !!responseDetails &&
+            'description' in responseDetails
                 ? responseDetails.description
-                : undefined;
+                : undefined
 
         const exceptionMessage =
             exception.response?.statusCode === 400
@@ -64,7 +68,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             responseMessage,
             responseCode,
             responseStatus: 'FAILED',
-            errorDescription
+            errorDescription,
         }
 
         return response.status(responseCode).json(responseData)

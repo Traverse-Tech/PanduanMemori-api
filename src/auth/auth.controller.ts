@@ -1,8 +1,8 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { ResponseUtil } from 'src/commons/utils/response.util';
-import { IsPublic } from 'src/commons/decorators/isPublic.decorator';
-import { RegisterRequestDTO } from './dto/registerRequest.dto';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { AuthService } from './auth.service'
+import { ResponseUtil } from 'src/commons/utils/response.util'
+import { IsPublic } from 'src/commons/decorators/isPublic.decorator'
+import { RegisterRequestDTO } from './dto/registerRequest.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +20,7 @@ export class AuthController {
         return this.responseUtil.response(
             {
                 responseCode: HttpStatus.CREATED,
-                responseMessage: 'User successfully registered'
+                responseMessage: 'User successfully registered',
             },
             responseData
         )

@@ -1,6 +1,6 @@
 export enum IdentifierType {
-    REGISTRATION_NUMBER = "Registration Number",
-    EMAIL = "Email",
+    REGISTRATION_NUMBER = 'Registration Number',
+    EMAIL = 'Email',
 }
 
 export const TIME_UNIT = {

@@ -8,27 +8,23 @@ export class AddressRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(
-        {
-            address,
-            latitude,
-            longitude
-        }: CreateAddressInterface,
+        { address, latitude, longitude }: CreateAddressInterface,
         tx?: Prisma.TransactionClient
     ): Promise<Address> {
-        const prisma = !!tx? tx : this.prisma
+        const prisma = !!tx ? tx : this.prisma
         const addressObj = await prisma.address.upsert({
             where: {
                 longitude_latitude: {
                     latitude: latitude,
                     longitude: longitude,
-                }
+                },
             },
             update: { address: address },
             create: {
                 address,
                 latitude,
-                longitude
-            }
+                longitude,
+            },
         })
 
         return addressObj
