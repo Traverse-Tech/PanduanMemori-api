@@ -23,7 +23,10 @@ export class UserTokenRepository {
         return userToken
     }
 
-    async updateUserActiveTokensToInactive(userId: string, tx?: Prisma.TransactionClient) {
+    async updateUserActiveTokensToInactive(
+        userId: string,
+        tx?: Prisma.TransactionClient
+    ) {
         const prisma = !!tx ? tx : this.prisma
         await prisma.userToken.updateMany({
             where: {
@@ -36,7 +39,10 @@ export class UserTokenRepository {
         })
     }
 
-    async updateUserActiveTokensToBlacklisted(userId: string, tx?: Prisma.TransactionClient) {
+    async updateUserActiveTokensToBlacklisted(
+        userId: string,
+        tx?: Prisma.TransactionClient
+    ) {
         const prisma = !!tx ? tx : this.prisma
         await prisma.userToken.updateMany({
             where: {
@@ -45,7 +51,7 @@ export class UserTokenRepository {
             },
             data: {
                 status: 'BLACKLISTED',
-                blacklistedAt: new Date()
+                blacklistedAt: new Date(),
             },
         })
     }
@@ -53,8 +59,8 @@ export class UserTokenRepository {
     async findToken(token: string): Promise<UserToken> {
         const tokenObj = this.prisma.userToken.findFirst({
             where: {
-                token: token
-            }
+                token: token,
+            },
         })
 
         return tokenObj
@@ -64,8 +70,8 @@ export class UserTokenRepository {
         const blacklistedToken = this.prisma.userToken.findFirst({
             where: {
                 userId: userId,
-                status: 'BLACKLISTED'
-            }
+                status: 'BLACKLISTED',
+            },
         })
 
         return blacklistedToken

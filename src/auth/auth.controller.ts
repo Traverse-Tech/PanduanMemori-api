@@ -43,15 +43,13 @@ export class AuthController {
         )
     }
 
-    @Post("logout")
+    @Post('logout')
     @HttpCode(HttpStatus.OK)
     async logout(@GetCurrentUser() user: User) {
         await this.authService.logout(user)
 
-        return this.responseUtil.response(
-            {
-                responseMessage: 'Logout Successful',
-            }
-        )
+        return this.responseUtil.response({
+            responseMessage: 'Logout Successful',
+        })
     }
 }

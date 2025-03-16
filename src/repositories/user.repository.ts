@@ -36,7 +36,7 @@ export class UserRepository {
     async findById(userId: string): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {
-                id: userId
+                id: userId,
             },
         })
 

@@ -16,7 +16,11 @@ import { RegisterResponseDTO } from './dto/registerResponse.dto'
 import { StringUtil } from 'src/commons/utils/string.util'
 import { BadRequestException } from 'src/commons/exceptions/badRequest.exception'
 import { ConflictException } from 'src/commons/exceptions/conflict.exception'
-import { TIME_UNIT, USER_BLOCKED_ERROR_DESCRIPTION, USER_BLOCKED_ERROR_MESSAGE } from './auth.constant'
+import {
+    TIME_UNIT,
+    USER_BLOCKED_ERROR_DESCRIPTION,
+    USER_BLOCKED_ERROR_MESSAGE,
+} from './auth.constant'
 import {
     IdentifierType,
     FormattedCaregiverData,
@@ -97,9 +101,12 @@ export class AuthService {
         if (!isValidPassword)
             this.throwInvalidUserAuthenticationException(identifierType)
 
-        const blacklistedToken = await this.repository.userToken.findUserBlacklistedToken(user.id)
+        const blacklistedToken =
+            await this.repository.userToken.findUserBlacklistedToken(user.id)
         if (blacklistedToken) {
-            await this.repository.userToken.updateUserActiveTokensToBlacklisted(user.id)
+            await this.repository.userToken.updateUserActiveTokensToBlacklisted(
+                user.id
+            )
             throw new UnauthorizedException(
                 USER_BLOCKED_ERROR_MESSAGE,
                 USER_BLOCKED_ERROR_DESCRIPTION
@@ -142,7 +149,9 @@ export class AuthService {
     }
 
     async logout(user: User) {
-        await this.repository.userToken.updateUserActiveTokensToInactive(user.id)
+        await this.repository.userToken.updateUserActiveTokensToInactive(
+            user.id
+        )
     }
 
     private async createUser({
