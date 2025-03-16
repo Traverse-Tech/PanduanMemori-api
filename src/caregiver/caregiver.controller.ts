@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Get,
     HttpCode,
     HttpStatus,
     Patch,
@@ -20,6 +21,15 @@ export class CaregiverController {
         private readonly caregiverService: CaregiverService,
         private readonly responseUtil: ResponseUtil
     ) {}
+
+    @IsCaregiver()
+    @Get('peers')
+    @HttpCode(HttpStatus.OK)
+    async getPeerCaregivers(@GetCurrentUser() user: User) {
+        const responseData = await this.caregiverService.getPeerCaregivers(user)
+
+        return this.responseUtil.response({}, responseData)
+    }
 
     @IsCaregiver()
     @Patch('updateAssignedPatient')
