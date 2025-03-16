@@ -1,4 +1,4 @@
-export class SearchPatientByCredentialDTO {
+export class SearchPatientByCredentialResponseDTO {
     patientId: string
     name: string
 }

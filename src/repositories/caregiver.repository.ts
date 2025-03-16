@@ -22,6 +22,22 @@ export class CaregiverRepository {
         return caregiver
     }
 
+    async updatePatient(
+        caregiverId: string,
+        patientId: string,
+        tx?: Prisma.TransactionClient
+    ) {
+        const prisma = !!tx ? tx : this.prisma
+        await prisma.caregiver.update({
+            where: {
+                id: caregiverId,
+            },
+            data: {
+                patientId: patientId,
+            },
+        })
+    }
+
     async getCaregiverWithAddress(
         caregiverId: string
     ): Promise<Caregiver & { address: Address }> {

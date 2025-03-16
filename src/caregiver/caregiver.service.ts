@@ -3,8 +3,14 @@ import { compare } from 'bcrypt'
 import { LoginRequestDTO } from 'src/auth/dto/loginRequest.dto'
 import { NotFoundException } from 'src/commons/exceptions/notFound.exception'
 import { RepositoriesService } from 'src/repositories/repositories.service'
-import { SearchPatientByCredentialDTO } from './dto/searchPatientByCredentialResponse.dto'
+import { SearchPatientByCredentialResponseDTO } from './dto/searchPatientByCredentialResponse.dto'
 import { AuthUtil } from 'src/commons/utils/auth.utils'
+import { UpdateAssignedPatientRequestDTO } from './dto/updateAssignedPatientRequest.dto'
+import {
+    PATIENT_NOT_FOUND_ERROR_DESCRIPTION,
+    PATIENT_NOT_FOUND_ERROR_MESSAGE,
+} from 'src/patient/patient.constant'
+import { User } from '@prisma/client'
 
 @Injectable()
 export class CaregiverService {
@@ -16,11 +22,7 @@ export class CaregiverService {
     async searchPatientByCredential({
         identifier,
         password,
-    }: LoginRequestDTO): Promise<SearchPatientByCredentialDTO> {
-        const PATIENT_NOT_FOUND_ERROR_MESSAGE = 'Pasien tidak ditemukan'
-        const PATIENT_NOT_FOUND_ERROR_DESCRIPTION =
-            'Pastikan data sudah benar dan pasien sudah terdaftar sebelumnya'
-
+    }: LoginRequestDTO): Promise<SearchPatientByCredentialResponseDTO> {
         const identifierType = this.authUtil.getIdentifierType(identifier)
         const patient = await this.authUtil.getUserByIdentifier(
             identifier,
@@ -43,6 +45,20 @@ export class CaregiverService {
         return {
             patientId: patient.id,
             name: patient.name,
-        } as SearchPatientByCredentialDTO
+        } as SearchPatientByCredentialResponseDTO
+    }
+
+    async updateAssignedPatient(
+        { id: caregiverId }: User,
+        { patientId }: UpdateAssignedPatientRequestDTO
+    ) {
+        const patient = await this.repository.user.findById(patientId)
+        if (!patient || patient.role !== 'PATIENT')
+            throw new NotFoundException(
+                PATIENT_NOT_FOUND_ERROR_MESSAGE,
+                PATIENT_NOT_FOUND_ERROR_DESCRIPTION
+            )
+
+        await this.repository.caregiver.updatePatient(caregiverId, patientId)
     }
 }

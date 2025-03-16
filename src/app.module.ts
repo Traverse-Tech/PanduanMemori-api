@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module'
 import { RepositoriesModule } from './repositories/repositories.module'
 import { AuthGuard } from './auth/auth.guard'
 import { CaregiverModule } from './caregiver/caregiver.module'
+import { PatientModule } from './patient/patient.module'
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { CaregiverModule } from './caregiver/caregiver.module'
         AuthModule,
         RepositoriesModule,
         CaregiverModule,
+        PatientModule,
     ],
     controllers: [AppController],
     providers: [
