@@ -571,7 +571,7 @@
 										"user"
 									]
 								},
-								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/user`\n    \n- **Method:** `GET`\n    \n- **Description:** This endpoint is used to get current user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n    - **isAssignedToPatient:** (boolean) The status of whether the caregiver has a patient assigned to them. Only for Caregiver.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    },\n    \"isAssignedToPatient\": false\n}\n\n ```"
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/user`\n    \n- **Method:** `GET`\n    \n- **Description:** This endpoint is used to get current user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
 							},
 							"response": [
 								{
@@ -885,6 +885,107 @@
 									],
 									"cookie": [],
 									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "peers",
+					"item": [
+						{
+							"name": "Get Peer Caregivers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/caregiver/peers",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"caregiver",
+										"peers"
+									]
+								},
+								"description": "# Get Peer Caregivers\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/peers`\n    \n- **Method:** `GET`\n    \n- **Description:** This endpoint is used to get other caregivers who have the same assigned patient as the caregiver sending the request to this API. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **peers:** ({ id: string, name: string }\\[\\] ) List of IDs and names of each peer caregiver.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"peers\": [\n        {\n            \"id\": \"019528e1-dcd5-4e0b-97a8-914c125effe1\",\n            \"name\": \"Kevin Grud\"\n        },\n        {\n            \"id\": \"a0876930-d837-43e6-b58e-67db002aae42\",\n            \"name\": \"Rifqi Farel\"\n        },\n        {\n            \"id\": \"d63c9581-ac6d-4975-85ce-bf6087ad8140\",\n            \"name\": \"Lionel Ronaldo\"\n        }\n    ]\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Get Peer Caregivers",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Token {{ACCESS_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/caregiver/peers",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"caregiver",
+												"peers"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://localhost:3000"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "308"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"134-CuLKxaOLVuS7HHF+vLIAYG3paHI\""
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 16 Mar 2025 19:42:51 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"peers\": [\n        {\n            \"id\": \"019528e1-dcd5-4e0b-97a8-914c125effe1\",\n            \"name\": \"Kevin Grud\"\n        },\n        {\n            \"id\": \"a0876930-d837-43e6-b58e-67db002aae42\",\n            \"name\": \"Rifqi Farel\"\n        },\n        {\n            \"id\": \"d63c9581-ac6d-4975-85ce-bf6087ad8140\",\n            \"name\": \"Lionel Ronaldo\"\n        }\n    ]\n}"
 								}
 							]
 						}

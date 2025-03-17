@@ -19,6 +19,12 @@ export class CaregiverService {
         private readonly authUtil: AuthUtil
     ) {}
 
+    async getPeerCaregivers({ id: caregiverId }: User) {
+        const peers =
+            await this.repository.caregiver.getPeerCaregivers(caregiverId)
+        return { peers }
+    }
+
     async updateAssignedPatient(
         { id: caregiverId }: User,
         { patientId }: UpdateAssignedPatientRequestDTO
