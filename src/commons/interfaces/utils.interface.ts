@@ -5,3 +5,8 @@ export interface ResponseInterface {
     responseMessage?: string
     responseStatus?: 'SUCCESS' | 'FAILED'
 }
+
+export enum IdentifierType {
+    REGISTRATION_NUMBER = 'Registration Number',
+    EMAIL = 'Email',
+}
