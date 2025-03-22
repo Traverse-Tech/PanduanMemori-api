@@ -1,0 +1,19 @@
+export class ActivityOccurrenceDTO {
+    id: string
+    activityId: string
+    datetime: Date
+    isCompleted: boolean
+    recurrenceId?: string
+}
+
+export class ActivityWithOccurrencesDTO {
+    id: string
+    title: string
+    activityCategoryId: string
+    patientId: string
+    occurrences: ActivityOccurrenceDTO[]
+}
+
+export class GetActivitiesInRangeResponseDTO {
+    activities: ActivityWithOccurrencesDTO[]
+}

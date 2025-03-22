@@ -4,7 +4,7 @@ import {
     CreateCaregiverInterface,
     GetPeerCaregiverInterface,
 } from './interfaces/caregiverRepository.interface'
-import { Address, Caregiver, Prisma } from '@prisma/client'
+import { Address, Caregiver, Patient, Prisma } from '@prisma/client'
 
 @Injectable()
 export class CaregiverRepository {
@@ -41,10 +41,15 @@ export class CaregiverRepository {
         })
     }
 
-    async getCaregiver(caregiverId: string): Promise<Caregiver> {
+    async getCaregiver(
+        caregiverId: string
+    ): Promise<Caregiver & { patient: Patient }> {
         const caregiver = await this.prisma.caregiver.findUnique({
             where: {
                 id: caregiverId,
+            },
+            include: {
+                patient: true,
             },
         })
 

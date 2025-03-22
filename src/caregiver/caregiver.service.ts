@@ -11,6 +11,10 @@ import {
     PATIENT_NOT_FOUND_ERROR_MESSAGE,
 } from 'src/patient/patient.constant'
 import { User } from '@prisma/client'
+import {
+    CAREGIVER_NOT_FOUND_ERROR_DESCRIPTION,
+    CAREGIVER_NOT_FOUND_ERROR_MESSAGE,
+} from './caregiver.constant'
 
 @Injectable()
 export class CaregiverService {
@@ -66,5 +70,23 @@ export class CaregiverService {
             patientId: patient.id,
             name: patient.name,
         } as SearchPatientByCredentialResponseDTO
+    }
+
+    async getPatientIdByCaregiver({ id: caregiverId }: User): Promise<string> {
+        const caregiverData =
+            await this.repository.caregiver.getCaregiver(caregiverId)
+        if (!caregiverData) {
+            throw new NotFoundException(
+                CAREGIVER_NOT_FOUND_ERROR_MESSAGE,
+                CAREGIVER_NOT_FOUND_ERROR_DESCRIPTION
+            )
+        }
+        if (!caregiverData.patient) {
+            throw new NotFoundException(
+                PATIENT_NOT_FOUND_ERROR_MESSAGE,
+                PATIENT_NOT_FOUND_ERROR_DESCRIPTION
+            )
+        }
+        return caregiverData.patient.id
     }
 }

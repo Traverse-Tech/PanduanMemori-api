@@ -12,6 +12,7 @@ import { RepositoriesModule } from './repositories/repositories.module'
 import { AuthGuard } from './auth/auth.guard'
 import { CaregiverModule } from './caregiver/caregiver.module'
 import { PatientModule } from './patient/patient.module'
+import { ActivityModule } from './activity/activity.module'
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { PatientModule } from './patient/patient.module'
         RepositoriesModule,
         CaregiverModule,
         PatientModule,
+        ActivityModule,
     ],
     controllers: [AppController],
     providers: [
