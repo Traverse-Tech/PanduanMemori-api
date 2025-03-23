@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { ActivityGrpcClient } from './activity.grpc.client'
 import { RepositoriesService } from 'src/repositories/repositories.service'
 import {
     Activity,
@@ -52,7 +51,6 @@ export class ActivityService {
     constructor(
         private readonly repository: RepositoriesService,
         private readonly caregiverService: CaregiverService,
-        private readonly activityGrpcClient: ActivityGrpcClient
     ) {}
 
     private async findAndValidateActivityCategory(
@@ -577,39 +575,5 @@ export class ActivityService {
 
     private combineDateAndTime(date: Date, time: Date): Date {
         return setMinutes(setHours(date, time.getHours()), time.getMinutes())
-    }
-
-    async getWeeklySummary(caregiver: User): Promise<{ summary: string }> {
-        const startOfPrevWeek = startOfWeek(subWeeks(new Date(), 1), {
-            weekStartsOn: 1,
-        })
-        const endOfPrevWeek = endOfWeek(subWeeks(new Date(), 1), {
-            weekStartsOn: 1,
-        })
-
-        const { activities } = await this.getActivitiesInRange(caregiver, {
-            startDate: formatISO(startOfPrevWeek),
-            endDate: formatISO(endOfPrevWeek),
-        })
-
-        const logs = activities.flatMap((activity) =>
-            activity.occurrences.map((occ) => ({
-                datetime: occ.datetime.toISOString(),
-                is_completed: occ.isCompleted,
-                activity: {
-                    title: activity.title,
-                    activity_category: { name: activity.activityCategoryId },
-                },
-            }))
-        )
-
-        if (!logs.length) {
-            return {
-                summary:
-                    'Tidak ada aktivitas pasien minggu lalu yang ditemukan.',
-            }
-        }
-
-        return this.activityGrpcClient.summarizeLogs(logs)
     }
 }

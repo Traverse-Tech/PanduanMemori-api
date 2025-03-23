@@ -125,11 +125,4 @@ export class ActivityController {
 
         return this.responseUtil.response({}, responseData)
     }
-
-    @IsCaregiver()
-    @Get('weekly-summary')
-    @HttpCode(HttpStatus.OK)
-    async getWeeklySummary(@Req() req) {
-        return this.ActivityService.getWeeklySummary(req.user)
-    }
 }
