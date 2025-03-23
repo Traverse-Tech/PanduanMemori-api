@@ -23,14 +23,14 @@ Namun, caregiver menghadapi tantangan dalam mengawasi pasien secara terus-meneru
 Dalam upaya mendukung caregiver dan pasien demensia, **PanduanMemori** hadir sebagai aplikasi mobile yang mengintegrasikan AI dan sistem navigasi. Aplikasi ini dirancang sebagai *companion* dan *assistive app* untuk membantu *caregiver* maupun pasien demensia. Melalui **PanduanMemori**, pengguna dapat memantau kegiatan dan log harian, melacak lokasi dan status pasien secara *real-time*, melakukan uji kognitif, serta melihat rangkuman aktivitas mingguan sebagai catatan riwayat pasien.
 
 ## Technologies Used 📱
-### Frontend
+### Backend
 1. NestJS
 2. Typescript
 3. Postgresql
 4. Prisma
 5. Google Maps API
 
-### Backend
+### Frontend
 1. Android
 2. Kotlin
 3. Google Maps API
@@ -38,8 +38,11 @@ Dalam upaya mendukung caregiver dan pasien demensia, **PanduanMemori** hadir seb
 ### AI
 1. Django
 2. Google text-to-speech API
-3. Google speech-to-text API
+3. Google speech-to-text API (ASR)
 4. Google Vertex AI
+5. Google Cloud Storage (to store audio files)
+6. Vertex AI (LLM Processing, Use PaLM API for answering questions based on the transcribed text)
+7. Text-to-Speech (TTS)
 
 ### Userflow and Mockup
 1. Figma
