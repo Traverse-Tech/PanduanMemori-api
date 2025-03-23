@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator'
 
-export class LoginRequestDTO {
+export class SearchPatientByCredentialRequestDTO {
     @IsString()
     @IsNotEmpty()
     identifier: string
@@ -8,8 +8,4 @@ export class LoginRequestDTO {
     @IsString()
     @IsNotEmpty()
     password: string
-
-    @IsString()
-    @IsNotEmpty()
-    role: string
 }
