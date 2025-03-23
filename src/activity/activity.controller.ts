@@ -18,6 +18,7 @@ import { CreateActivityRequestDTO } from './dto/createActivityRequest.dto'
 import { IsCaregiver } from 'src/commons/decorators/isCaregiver.decorator'
 import { GetActivitiesInRangeRequestDTO } from './dto/getActivitiesInRangeRequest.dto'
 import { UpdateActivityRequestDTO } from './dto/updateActivityRequest.dto'
+import { UpdateActivityOccurenceRequestDTO } from './dto/updateActivityOccurenceRequest.dto'
 
 @Controller('activity')
 export class ActivityController {
@@ -102,6 +103,16 @@ export class ActivityController {
     async completeActivityOccurrence(@Param('id') id: string) {
         const responseData =
             await this.ActivityService.completeActivityOccurence(id)
+
+        return this.responseUtil.response({}, responseData)
+    }
+
+    @IsCaregiver()
+    @Patch('occurrence/:id')
+    @HttpCode(HttpStatus.OK)
+    async updateActivityOccurrence(@Body() body: UpdateActivityOccurenceRequestDTO) {
+        const responseData =
+            await this.ActivityService.updateActivityOccurence(body)
 
         return this.responseUtil.response({}, responseData)
     }

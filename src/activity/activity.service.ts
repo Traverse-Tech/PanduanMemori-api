@@ -150,10 +150,7 @@ export class ActivityService {
         }
     }
 
-    /**
-     * Method to get activities in a specific range.
-     * Activities will be generated lazily based on recurrence rules.
-     */
+    // Activities will be generated lazily based on recurrence rules.
     async getActivitiesInRange(
         caregiver: User,
         query: GetActivitiesInRangeRequestDTO
@@ -204,9 +201,6 @@ export class ActivityService {
         return { activities: result }
     }
 
-    /**
-     * Method to generate ActivityOccurrence in a specific range.
-     */
     private async generateOccurrencesInRange(
         activity: Activity & { recurrences: Recurrence[] },
         rangeStart: Date,
@@ -389,15 +383,45 @@ export class ActivityService {
     }
 
     async updateActivityOccurence(body: UpdateActivityOccurenceRequestDTO) {
-        const { id, datetime } = body
-        await this.findAndValidateActivityOccurence(id)
+        const { id, datetime, title, activityCategoryId } = body
+        const occurrence = await this.findAndValidateActivityOccurence(id)
+        const activity = await this.repository.activity.findById(occurrence.activityId)
 
-        const updatedOccurence = await this.repository.activityOccurence.update(
-            {
-                id,
-                datetime: datetime ? parseISO(datetime) : new Date(),
+        // If there is a change in title or activityCategoryId, create a new activity
+        if (title || activityCategoryId) {
+            if (activityCategoryId) {
+                await this.findAndValidateActivityCategory(activityCategoryId)
             }
-        )
+
+            const newActivity = await this.repository.activity.create({
+                title: title || activity.title,
+                activityCategory: activityCategoryId ? {
+                    connect: { id: activityCategoryId }
+                } : {
+                    connect: { id: activity.activityCategoryId }
+                },
+                patient: {
+                    connect: { id: activity.patientId }
+                },
+                time: datetime ? parseISO(datetime) : occurrence.datetime
+            })
+
+            const updatedOccurence = await this.repository.activityOccurence.update({
+                id,
+                activity: {
+                    connect: { id: newActivity.id }
+                },
+                datetime: datetime ? parseISO(datetime) : occurrence.datetime
+            })
+
+            return updatedOccurence
+        }
+
+        // If only datetime, update occurrence
+        const updatedOccurence = await this.repository.activityOccurence.update({
+            id,
+            datetime: datetime ? parseISO(datetime) : occurrence.datetime
+        })
 
         return updatedOccurence
     }

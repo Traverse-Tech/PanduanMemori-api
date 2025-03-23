@@ -5,6 +5,14 @@ export class UpdateActivityOccurenceRequestDTO {
     id: string
 
     @IsOptional()
+    @IsString()
+    title: string
+
+    @IsOptional()
+    @IsString()
+    activityCategoryId?: string
+
+    @IsOptional()
     @IsDateString()
     datetime?: string
 }
