@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f1c38b0c-a789-423e-b5b7-9678c59f300d",
+		"_postman_id": "42c1f3bc-fdb6-4c60-9e81-dc5f4ca5c1aa",
 		"name": "PanduanMemori",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43098031"
+		"_exporter_id": "23501791"
 	},
 	"item": [
 		{
@@ -264,7 +264,7 @@
 										"login"
 									]
 								},
-								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n    - **role:** (String) Role of the user\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"1234567891011123\",\n    \"password\": \"YusufQudus123!@#\",\n    \"role\": \"PATIENT\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}\n\n ```"
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"1234567891011123\",\n    \"password\": \"YusufQudus123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 201,\n    \"responseMessage\": \"User successfully registered\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4Njk1YjllZi00YzhjLTRlYTAtYjc4OS1hNTc0YWI2ZmZlYTAiLCJpYXQiOjE3NDIwOTIxNjgsImV4cCI6MTc0NDY4NDE2OH0.a5BJi7WnwLoQX8xz5yHx1j6NQcQIzl5ONk8HtFNS-bE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+6281227583953\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}\n\n ```"
 							},
 							"response": [
 								{
@@ -274,7 +274,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\",\r\n    \"role\": \"PATIENT\"\r\n}",
+											"raw": "{\r\n    \"identifier\": \"1234567891011123\",\r\n    \"password\": \"YusufQudus123!@#\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -322,11 +322,11 @@
 										},
 										{
 											"key": "ETag",
-											"value": "W/\"241-XHV/S8u4eNLZZcX1cLpX9aYZYqA\""
+											"value": "W/\"241-JDkZDVQWLwG3UoeBpFfMVKujh3g\""
 										},
 										{
 											"key": "Date",
-											"value": "Sun, 23 Mar 2025 06:55:26 GMT"
+											"value": "Sun, 16 Mar 2025 05:25:47 GMT"
 										},
 										{
 											"key": "Connection",
@@ -338,7 +338,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MjgzMjMwYy1mMmI3LTQ3NmItYWQ3My1mMmRmMWQ1MjM1YjgiLCJpYXQiOjE3NDI3MTI5MjYsImV4cCI6MTc0NTMwNDkyNn0.LuSO7cUgvJeZ_GmosACi7f1l8ruECbw_26khKpeTp_I\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+62851835924785\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}"
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZTRmYmQyOS1lYTZkLTQ1ZWItOGM4OS1jZTA0YjJmOGRiMWEiLCJpYXQiOjE3NDIxMDI3NDYsImV4cCI6MTc0NDY5NDc0Nn0.1h5TLkrmTne9DxSDXHr0Ks-ssa0iW9LFghzUYf3GSVE\",\n    \"user\": {\n        \"name\": \"Yusuf Qudus\",\n        \"phoneNumber\": \"+62851835924785\",\n        \"email\": null,\n        \"registrationNumber\": \"1234567891011123\",\n        \"role\": \"PATIENT\",\n        \"address\": \"Jl. Lingkar, Pondok Cina, Kecamatan Beji, Kota Depok, Jawa Barat 16424\",\n        \"birthdate\": \"1983-04-15T00:00:00.000Z\",\n        \"gender\": \"MAN\",\n        \"dementiaStage\": null\n    }\n}"
 								}
 							]
 						},
@@ -366,7 +366,7 @@
 										"login"
 									]
 								},
-								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n    - **role:** (String) Role of the user\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\",\n    \"role\": \"CAREGIVER\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n    - **isAssignedToPatient:** (boolean) The status of whether the caregiver has a patient assigned to them.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTc0ODQ0NC0yMTM3LTRmMTYtODU2Yi02MDFlNjQ4NjJiNTAiLCJpYXQiOjE3NDIwOTgwMzYsImV4cCI6MTc0NDY5MDAzNn0.VsMexFaWcRSTB-uXZ5nwLlmJL_rs7Ioaxm4nZi6BMGw\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}\n\n ```"
+								"description": "# Login\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/auth/login`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to log in an existing user\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\"\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the user.\n        \n    - **password:** (String) The password for the user account.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **token:** (String) A JWT token for the newly registered user.\n        \n    - **user:** (Object) The registered user details, such as name, phone number, role, address, etc.\n        \n    - **isAssignedToPatient:** (boolean) The status of whether the caregiver has a patient assigned to them.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTc0ODQ0NC0yMTM3LTRmMTYtODU2Yi02MDFlNjQ4NjJiNTAiLCJpYXQiOjE3NDIwOTgwMzYsImV4cCI6MTc0NDY5MDAzNn0.VsMexFaWcRSTB-uXZ5nwLlmJL_rs7Ioaxm4nZi6BMGw\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}\n\n ```"
 							},
 							"response": [
 								{
@@ -376,7 +376,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"password\": \"Kevin123!@#\",\r\n    \"role\": \"CAREGIVER\"\r\n}",
+											"raw": "{\r\n    \"identifier\": \"kevinG@gmail.com\",\r\n    \"password\": \"Kevin123!@#\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -420,15 +420,15 @@
 										},
 										{
 											"key": "Content-Length",
-											"value": "584"
+											"value": "551"
 										},
 										{
 											"key": "ETag",
-											"value": "W/\"248-vj2vXDjqNnKXCXtcR14tJqlvcDk\""
+											"value": "W/\"227-qUxzcrK1MC4Y6T5OO6k/eSjYQOc\""
 										},
 										{
 											"key": "Date",
-											"value": "Sun, 23 Mar 2025 06:55:36 GMT"
+											"value": "Sun, 16 Mar 2025 04:07:16 GMT"
 										},
 										{
 											"key": "Connection",
@@ -440,7 +440,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTk1MjhlMS1kY2Q1LTRlMGItOTdhOC05MTRjMTI1ZWZmZTEiLCJpYXQiOjE3NDI3MTI5MzYsImV4cCI6MTc0NTMwNDkzNn0.se97PPMKeZEKSUii1d16mXbYhP8k9Gtl9TFccHgk6pI\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\"\n    },\n    \"isAssignedToPatient\": true\n}"
+									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Login Successful\",\n    \"responseStatus\": \"SUCCESS\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTc0ODQ0NC0yMTM3LTRmMTYtODU2Yi02MDFlNjQ4NjJiNTAiLCJpYXQiOjE3NDIwOTgwMzYsImV4cCI6MTc0NDY5MDAzNn0.VsMexFaWcRSTB-uXZ5nwLlmJL_rs7Ioaxm4nZi6BMGw\",\n    \"user\": {\n        \"name\": \"Kevin Grud\",\n        \"phoneNumber\": \"+6281227589275\",\n        \"email\": \"kevinG@gmail.com\",\n        \"registrationNumber\": null,\n        \"role\": \"CAREGIVER\",\n        \"address\": \"Bulaksumur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281\",\n        \"patientId\": null\n    },\n    \"isAssignedToPatient\": false\n}"
 								}
 							]
 						}
@@ -690,11 +690,11 @@
 												"search-by-credential"
 											]
 										},
-										"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n    - **age:** (number) The age of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\",\n    \"age\": 20\n}\n\n ```"
+										"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
 									},
 									"response": [
 										{
-											"name": "Search Patient By Credential",
+											"name": "Search Patient",
 											"originalRequest": {
 												"method": "POST",
 												"header": [
@@ -751,15 +751,15 @@
 												},
 												{
 													"key": "Content-Length",
-													"value": "176"
+													"value": "167"
 												},
 												{
 													"key": "ETag",
-													"value": "W/\"b0-QZmyRIKr5WM3Jimu/qfRsm47OgQ\""
+													"value": "W/\"a7-5XgzZZ5fdjyCnvtuMNzX0a7Js0A\""
 												},
 												{
 													"key": "Date",
-													"value": "Sun, 23 Mar 2025 06:19:57 GMT"
+													"value": "Sun, 16 Mar 2025 17:38:14 GMT"
 												},
 												{
 													"key": "Connection",
@@ -771,7 +771,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\",\n    \"age\": 41\n}"
+											"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}"
 										}
 									]
 								}
@@ -884,7 +884,7 @@
 										}
 									],
 									"cookie": [],
-									"body": null
+									"body": ""
 								}
 							]
 						}
@@ -988,6 +988,854 @@
 									"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"peers\": [\n        {\n            \"id\": \"019528e1-dcd5-4e0b-97a8-914c125effe1\",\n            \"name\": \"Kevin Grud\"\n        },\n        {\n            \"id\": \"a0876930-d837-43e6-b58e-67db002aae42\",\n            \"name\": \"Rifqi Farel\"\n        },\n        {\n            \"id\": \"d63c9581-ac6d-4975-85ce-bf6087ad8140\",\n            \"name\": \"Lionel Ronaldo\"\n        }\n    ]\n}"
 								}
 							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "Create Activity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T08:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T08:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity"
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Create Activity",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T08:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T08:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/activity",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "334"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"14e-ydBEIBlgi/p1CAjyA81Um1ZRYJ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Mar 2025 15:53:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"e5e87ca9-1c11-4aeb-b20c-175789569c73\",\n    \"title\": \"Minum Obat\",\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\n    \"patientId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04134\",\n    \"datetime\": \"2025-03-22T08:00:00.000Z\",\n    \"activityOccurrences\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Activity Occurence",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Minum Obat baruu\",\r\n    \"datetime\": \"2025-03-24T10:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity/occurence/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity",
+								"occurence",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "af045efe-401f-4e8f-9880-d9965978bb6a"
+								}
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update Activity Occurence",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Minum Obat baruu\",\r\n    \"datetime\": \"2025-03-24T10:00:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/activity/occurence/:id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										"occurence",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "af045efe-401f-4e8f-9880-d9965978bb6a"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "249"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f9-jEObaeaKy/s7S3Mk/veg9+ac6WY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 23 Mar 2025 07:34:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"af045efe-401f-4e8f-9880-d9965978bb6a\",\n    \"activityId\": \"a3c0af21-9f81-4140-a610-ef332f5320d5\",\n    \"datetime\": \"2025-03-24T10:00:00.000Z\",\n    \"isCompleted\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Activities in Range",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity?startDate=2025-03-24&endDate=2025-03-28",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2025-03-24"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-03-28"
+								}
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Get Activities in Range",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/activity?startDate=2025-03-24&endDate=2025-03-28",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-03-24"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-03-28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "934"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3a6-r1gD2lSYL3D6ckLZ64oxQGSfF4k\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Mar 2025 16:14:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"activities\": [\n        {\n            \"id\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\n            \"title\": \"Minum Obat\",\n            \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\n            \"patientId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04134\",\n            \"occurrences\": [\n                {\n                    \"id\": \"f10891b5-203b-4520-b4a2-856baa004d66\",\n                    \"activityId\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\n                    \"datetime\": \"2025-03-24T08:00:00.000Z\",\n                    \"isCompleted\": false,\n                    \"recurrenceId\": \"0b0017e8-18bc-435a-8e1b-4e321c5e3e7e\"\n                },\n                {\n                    \"id\": \"fc5899e3-9b02-48b2-aeee-f1310e5401f1\",\n                    \"activityId\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\n                    \"datetime\": \"2025-03-26T08:00:00.000Z\",\n                    \"isCompleted\": false,\n                    \"recurrenceId\": \"0b0017e8-18bc-435a-8e1b-4e321c5e3e7e\"\n                },\n                {\n                    \"id\": \"85b3f94e-11b0-439d-8770-45871d4fd6ec\",\n                    \"activityId\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\n                    \"datetime\": \"2025-03-27T08:00:00.000Z\",\n                    \"isCompleted\": false,\n                    \"recurrenceId\": \"0b0017e8-18bc-435a-8e1b-4e321c5e3e7e\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Activity",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T10:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T10:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity"
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update Activity",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d12122\",\r\n    \"datetime\": \"2025-03-22T08:30:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/activity/:id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "901061f1-da28-463c-b51f-551e5ee6994e"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "309"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"135-rDf/ggyNDE2cjre3woa7bKGbDUc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 23 Mar 2025 07:18:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"901061f1-da28-463c-b51f-551e5ee6994e\",\n    \"title\": \"Minum Obat\",\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d12122\",\n    \"patientId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04134\",\n    \"datetime\": \"2025-03-22T08:30:00.000Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete All Activity",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T10:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T10:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity"
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Delete All Activity",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/activity/all/:id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										"all",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"61-8hwkxxDYeS2bdxy7OiK1EqCqNsU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Mar 2025 17:19:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Activity deleted successfully\",\n    \"responseStatus\": \"SUCCESS\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete All Future Activity",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/activity/future/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity",
+								"future",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87"
+								}
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Delete All Future Activity",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/activity/future/:id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										"future",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"61-8hwkxxDYeS2bdxy7OiK1EqCqNsU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Mar 2025 17:19:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Activity deleted successfully\",\n    \"responseStatus\": \"SUCCESS\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Complete Activity Occurence",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T08:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T08:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/activity/complete/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity",
+								"complete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9355397a-3408-4307-8879-1c84bf8f5d83"
+								}
+							]
+						},
+						"description": "# Search Patient By Credential\n\n## Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/caregiver/patients/search-by-credential`\n    \n- **Method:** `POST`\n    \n- **Description:** This endpoint is used to search patient by credential. Accessible only by caregivers.\n    \n\n## Request\n\n### Headers\n\n``` json\n{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"{Token/Bearer/Defined_Acess_Token_Prefix {Access_Token}}\n}\n\n ```\n\n### Body\n\n- **Content Type:** application/json\n    \n- **Parameters:**\n    \n    - **identifier:** (String) Email or registration number of the patient being searched for.\n        \n    - **password:** (String) The password of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"identifier\": \"kevinG@gmail.com\",\n    \"password\": \"Kevin123!@#\"\n}\n\n ```\n\n### Response\n\n#### **Success Response**\n\n- **Status code:** 200 OK\n    \n- **Parameters:**\n    \n    - **responseCode:** (Number) The HTTP status code for the response.\n        \n    - **responseMessage:** (String) A message indicating the result of the registration (e.g., \"User successfully registered\").\n        \n    - **responseStatus:** (String) The status of the response (`SUCCESS` or `FAILED`)\n        \n    - **patientId:** (String) The ID of the patient being searched for.\n        \n    - **name:** (String) The full name of the patient being searched for.\n        \n- **Example:**\n    \n\n``` json\n{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"patientId\": \"4283230c-f2b7-476b-ad73-f2df1d5235b8\",\n    \"name\": \"Yusuf Qudus\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Complete Activity Occurence",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T08:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T08:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/activity/complete/:id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										"complete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "9355397a-3408-4307-8879-1c84bf8f5d83"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "248"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f8-3E8i2ZkKSRN8IM6SQ1X3Yrv/fD8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 23 Mar 2025 07:58:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"9355397a-3408-4307-8879-1c84bf8f5d83\",\n    \"activityId\": \"901061f1-da28-463c-b51f-551e5ee6994e\",\n    \"datetime\": \"2025-03-26T08:30:00.000Z\",\n    \"isCompleted\": true\n}"
 						}
 					]
 				}

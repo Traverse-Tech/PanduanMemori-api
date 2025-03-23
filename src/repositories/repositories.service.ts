@@ -5,6 +5,10 @@ import { AddressRepository } from './address.repository'
 import { PatientRepository } from './patient.repository'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { UserTokenRepository } from './userToken.repository'
+import { ActivityRepository } from './activity.repository'
+import { RecurrenceRepository } from './recurrence.repository'
+import { ActivityOccurenceRepository } from './activityOccurence.repository'
+import { ActivityCategoryRepository } from './activityCategory.repository'
 
 @Injectable()
 export class RepositoriesService {
@@ -14,6 +18,10 @@ export class RepositoriesService {
         readonly patient: PatientRepository,
         readonly caregiver: CaregiverRepository,
         readonly address: AddressRepository,
-        readonly userToken: UserTokenRepository
+        readonly userToken: UserTokenRepository,
+        readonly activity: ActivityRepository,
+        readonly recurrence: RecurrenceRepository,
+        readonly activityOccurence: ActivityOccurenceRepository,
+        readonly activityCategory: ActivityCategoryRepository
     ) {}
 }

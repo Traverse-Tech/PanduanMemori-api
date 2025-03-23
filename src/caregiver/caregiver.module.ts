@@ -5,5 +5,6 @@ import { CaregiverService } from './caregiver.service'
 @Module({
     controllers: [CaregiverController],
     providers: [CaregiverService],
+    exports: [CaregiverService],
 })
 export class CaregiverModule {}

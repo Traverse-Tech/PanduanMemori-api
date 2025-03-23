@@ -5,6 +5,7 @@ model Activity {
     activityCategory ActivityCategory @relation(fields: [activityCategoryId], references: [id])
 
     title String
+    time DateTime @db.Timestamptz() @default(now()) @map("time") 
 
     patientId String @map("patient_id")
     patient Patient @relation(fields: [patientId], references: [id])
@@ -44,6 +45,7 @@ model Recurrence {
     endDate DateTime? @db.Date @map("end_date")
     interval Int @default(1)
     type RecurrenceType
+    weekDays Int[] @default([]) @map("week_days")
     createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
     updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
     isDeleted Boolean @default(false) @map("is_deleted")
@@ -70,6 +72,7 @@ model ActivityOccurence {
     isDeleted Boolean @default(false) @map("is_deleted")
     deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
 
+    @@unique([activityId, datetime])
     @@index([activityId, recurrenceId, datetime, isDeleted])
 }
 

@@ -12,6 +12,10 @@ import {
 import { User } from '@prisma/client'
 import { DateUtil } from 'src/commons/utils/date.util'
 import { SearchPatientByCredentialRequestDTO } from './dto/searchPatientByCredentialRequest.dto'
+import {
+    CAREGIVER_NOT_FOUND_ERROR_DESCRIPTION,
+    CAREGIVER_NOT_FOUND_ERROR_MESSAGE,
+} from './caregiver.constant'
 
 @Injectable()
 export class CaregiverService {
@@ -71,5 +75,23 @@ export class CaregiverService {
             name: user.name,
             age: this.dateUtil.calculateAge(new Date(patient.birthdate)),
         } as SearchPatientByCredentialResponseDTO
+    }
+
+    async getPatientIdByCaregiver({ id: caregiverId }: User): Promise<string> {
+        const caregiverData =
+            await this.repository.caregiver.getCaregiver(caregiverId)
+        if (!caregiverData) {
+            throw new NotFoundException(
+                CAREGIVER_NOT_FOUND_ERROR_MESSAGE,
+                CAREGIVER_NOT_FOUND_ERROR_DESCRIPTION
+            )
+        }
+        if (!caregiverData.patient) {
+            throw new NotFoundException(
+                PATIENT_NOT_FOUND_ERROR_MESSAGE,
+                PATIENT_NOT_FOUND_ERROR_DESCRIPTION
+            )
+        }
+        return caregiverData.patient.id
     }
 }
