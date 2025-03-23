@@ -13,7 +13,9 @@ import { AuthGuard } from './auth/auth.guard'
 import { CaregiverModule } from './caregiver/caregiver.module'
 import { PatientModule } from './patient/patient.module'
 import { ActivityModule } from './activity/activity.module'
+import * as dotenv from 'dotenv'
 
+dotenv.config()
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
