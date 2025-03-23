@@ -65,9 +65,9 @@ jobs:
           key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
-            docker stop ai-service || true
-            docker rm ai-service || true
-            docker run -d --name ai-service -p 3000:3000 \
+            docker stop be-service || true
+            docker rm be-service || true
+            docker run -d --name be-service -p 3000:3000 \
               -e APP_ACCESS_EXPIRY=${{ vars.APP_ACCESS_EXPIRY }} \
               -e APP_ACCESS_TOKEN_PREFIX=${{ vars.APP_ACCESS_TOKEN_PREFIX }} \
               -e APP_ALLOWED_ORIGIN=${{ vars.APP_ALLOWED_ORIGIN }} \
