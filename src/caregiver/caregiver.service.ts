@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { compare } from 'bcrypt'
-import { LoginRequestDTO } from 'src/auth/dto/loginRequest.dto'
 import { NotFoundException } from 'src/commons/exceptions/notFound.exception'
 import { RepositoriesService } from 'src/repositories/repositories.service'
 import { SearchPatientByCredentialResponseDTO } from './dto/searchPatientByCredentialResponse.dto'
