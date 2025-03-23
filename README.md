@@ -1,5 +1,5 @@
 # PanduanMemori by Traverse
-![Raniaarn](https://storage.googleapis.com/panduanmemori-cdn/assets/logo_panduanmemori.png)
+![PanduanMemori](https://storage.googleapis.com/panduanmemori-cdn/assets/logo_panduanmemori.png)
 
 ## Table of Contents 📔
 - [Team Members](#Team-)
