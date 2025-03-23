@@ -15,3 +15,6 @@ export const INVALID_RECURRENCE_TYPE_ERROR_MESSAGE =
     'Jenis pengulangan tidak valid'
 export const INVALID_RECURRENCE_TYPE_ERROR_DESCRIPTION =
     'Jenis pengulangan harus berupa harian, mingguan, bulanan, atau tahunan'
+
+export const INVALID_DAILY_INTERVAL_ERROR_MESSAGE =
+    'Interval untuk tipe harian tidak boleh lebih dari 1'

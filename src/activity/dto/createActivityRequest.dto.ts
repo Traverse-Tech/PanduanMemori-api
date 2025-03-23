@@ -12,6 +12,9 @@ import {
     ArrayMaxSize,
     Max,
 } from 'class-validator'
+import {
+    INVALID_DAILY_INTERVAL_ERROR_MESSAGE,
+} from '../activity.constant'
 
 export class RecurrenceDTO {
     @IsEnum(RecurrenceType)
@@ -20,7 +23,7 @@ export class RecurrenceDTO {
     @IsOptional()
     @IsNumber()
     @ValidateIf((o) => o.type === RecurrenceType.DAILY)
-    @Max(1, { message: 'Interval untuk tipe harian tidak boleh lebih dari 1' })
+    @Max(1, { message: INVALID_DAILY_INTERVAL_ERROR_MESSAGE })
     interval?: number
 
     @IsOptional()
