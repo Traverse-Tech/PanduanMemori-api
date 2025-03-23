@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common'
 import { CaregiverService } from './caregiver.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'
-import { LoginRequestDTO } from 'src/auth/dto/loginRequest.dto'
 import { IsCaregiver } from 'src/commons/decorators/isCaregiver.decorator'
 import { UpdateAssignedPatientRequestDTO } from './dto/updateAssignedPatientRequest.dto'
 import { GetCurrentUser } from 'src/commons/decorators/getCurrentUser.decorator'
 import { User } from '@prisma/client'
+import { SearchPatientByCredentialRequestDTO } from './dto/searchPatientByCredentialRequest.dto'
 
 @Controller('caregiver')
 export class CaregiverController {
@@ -44,7 +44,9 @@ export class CaregiverController {
     @IsCaregiver()
     @Post('patients/search-by-credential')
     @HttpCode(HttpStatus.OK)
-    async searchPatientByCredential(@Body() body: LoginRequestDTO) {
+    async searchPatientByCredential(
+        @Body() body: SearchPatientByCredentialRequestDTO
+    ) {
         const responseData =
             await this.caregiverService.searchPatientByCredential(body)
 

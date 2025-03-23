@@ -24,6 +24,16 @@ export class PatientRepository {
         return address
     }
 
+    async getPatient(patientId: string): Promise<Patient> {
+        const patient = await this.prisma.patient.findUnique({
+            where: {
+                id: patientId,
+            },
+        })
+
+        return patient
+    }
+
     async getPatientWithSafeLocation(
         patientId: string
     ): Promise<Patient & { safeLocation: Address }> {

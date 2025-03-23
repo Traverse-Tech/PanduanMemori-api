@@ -16,6 +16,16 @@ export class StringUtil {
         return /^[0-9]+$/.test(str)
     }
 
+    /**
+     * Capitalize the first letter
+     * @param {string} str
+     * @return {string}
+     */
+    capitalizeFirstLetter(str: string): string {
+        if (!str) return str
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+    }
+
     // =========================================================
     // #region Phone Number
     // =========================================================
