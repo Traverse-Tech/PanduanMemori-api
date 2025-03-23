@@ -24,7 +24,7 @@ export class ActivityGrpcClient implements OnModuleInit {
     @Client({
         transport: 2,
         options: {
-            package: 'logsummary',
+            package: 'activity',
             protoPath: join(__dirname, 'proto/log_summary.proto'),
             url: process.env.GRPC_AISERVICE_URL,
         },
