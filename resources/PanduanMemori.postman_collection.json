@@ -1838,7 +1838,66 @@
 							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"9355397a-3408-4307-8879-1c84bf8f5d83\",\n    \"activityId\": \"901061f1-da28-463c-b51f-551e5ee6994e\",\n    \"datetime\": \"2025-03-26T08:30:00.000Z\",\n    \"isCompleted\": true\n}"
 						}
 					]
-				}
+				},
+				{
+					"name": "Get Weekly Activity Summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/activity/weekly-summary",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"activity",
+								"weekly-summary"
+							]
+						},
+						"description": "## Weekly Activity Summary API\n\n### Endpoint Information:\n\n- **Endpoint:** `{{BASE_URL}}/activity/weekly-summary`\n- **Method:** `GET`\n- **Description:** This endpoint retrieves a weekly activity summary (Monday-Sunday of the previous week). It automatically computes the date range.\n\n### Request\n\n#### Headers:\n```json\n{\n  \"Authorization\": \"Token {{ACCESS_TOKEN}}\",\n  \"Content-Type\": \"application/json\"\n}\n```\n\n### Response Example:\n\n#### **Success Response**\n\n- **Status Code:** `200 OK`\n- **Example:**\n```json\n{\n  \"responseCode\": 200,\n  \"responseMessage\": \"Weekly summary generated successfully\",\n  \"responseStatus\": \"SUCCESS\",\n  \"summary\": \"This week, the patient completed 5 out of 7 activities, including daily workouts and medication intake.\"\n}\n```"
+					},
+					"response": [
+						{
+							"name": "Get Weekly Activity Summary",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{ACCESS_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/activity/weekly-summary",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"activity",
+										"weekly-summary"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								}
+							],
+							"body": "{\n  \"responseCode\": 200,\n  \"responseMessage\": \"Weekly summary generated successfully\",\n  \"responseStatus\": \"SUCCESS\",\n  \"summary\": \"This week, the patient completed 5 out of 7 activities, including daily workouts and medication intake.\"\n}"
+						}
+					]
+				}				
 			]
 		}
 	],
