@@ -13,3 +13,6 @@ package.json
 package-lock.json
 .github
 *.postman_collection.json
+*.yml
+Dockerfile
+.dockerignore

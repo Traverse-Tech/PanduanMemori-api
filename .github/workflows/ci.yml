@@ -1,0 +1,79 @@
+name: Deploy to Google Cloud VM with Docker
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Docker Hub Authentication
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest .
+
+      - name: Tag Docker Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+
+      - name: Push Docker Image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Access gcloud CLI
+        run: gcloud info
+
+      - name: Connect to Google Cloud VM and Deploy Container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_VM_IP }}
+          username: ${{ secrets.GCP_VM_USERNAME }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+            docker stop be-service || true
+            docker rm be-service || true
+            docker run -d --name be-service -p 3000:3000 \
+              -e APP_ACCESS_EXPIRY=${{ vars.APP_ACCESS_EXPIRY }} \
+              -e APP_ACCESS_TOKEN_PREFIX=${{ vars.APP_ACCESS_TOKEN_PREFIX }} \
+              -e APP_ALLOWED_ORIGIN=${{ vars.APP_ALLOWED_ORIGIN }} \
+              -e APP_PORT=${{ vars.APP_PORT }} \
+              -e APP_SALT_ROUNDS=${{ vars.APP_SALT_ROUNDS }} \
+              -e NODE_ENV=${{ vars.NODE_ENV }} \
+              -e APP_ACCESS_SECRET=${{ secrets.APP_ACCESS_SECRET }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
