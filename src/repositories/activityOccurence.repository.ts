@@ -32,9 +32,9 @@ export class ActivityOccurenceRepository {
     async updateOccurenceConnection(
         where: Prisma.ActivityOccurenceWhereUniqueInput,
         data: {
-            activityId: string,
-            recurrenceId: string | null,
-            datetime: Date,
+            activityId: string
+            recurrenceId: string | null
+            datetime: Date
             isCompleted: boolean
         },
         tx?: Prisma.TransactionClient

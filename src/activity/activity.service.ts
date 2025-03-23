@@ -412,7 +412,8 @@ export class ActivityService {
         )
 
         if (title !== undefined || activityCategoryId !== undefined) {
-            const hasTitleChange = title !== undefined && title !== activity.title
+            const hasTitleChange =
+                title !== undefined && title !== activity.title
             const hasCategoryChange =
                 activityCategoryId !== undefined &&
                 activityCategoryId !== activity.activityCategoryId
