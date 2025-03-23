@@ -94,6 +94,7 @@ export class AuthService {
     async login({
         identifier,
         password,
+        role,
     }: LoginRequestDTO): Promise<LoginResponseDTO> {
         const identifierType = this.authUtil.getIdentifierType(identifier)
 
@@ -106,6 +107,17 @@ export class AuthService {
         const isValidPassword = await compare(password, user.password)
         if (!isValidPassword)
             this.throwInvalidUserAuthenticationException(identifierType)
+
+        if (role !== user.role.toString()) {
+            throw new BadRequestException(
+                'Pengguna tidak terdaftar sebagai ' +
+                    (role === UserRole.CAREGIVER.toString()
+                        ? 'Caregiver'
+                        : role === UserRole.PATIENT.toString()
+                          ? 'Pasien Demensia'
+                          : this.stringUtil.capitalizeFirstLetter(role))
+            )
+        }
 
         const blacklistedToken =
             await this.repository.userToken.findUserBlacklistedToken(user.id)
