@@ -7,3 +7,6 @@ tsconfig.build.json
 yarn.lock
 .github
 *.postman_collection.json
+*.yml
+Dockerfile
+.dockerignore
