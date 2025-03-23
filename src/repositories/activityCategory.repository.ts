@@ -8,7 +8,7 @@ export class ActivityCategoryRepository {
 
     async findById(id: string): Promise<ActivityCategory> {
         return this.prisma.activityCategory.findUnique({
-            where: { id },
+            where: { id, isDeleted: false },
         })
     }
 }

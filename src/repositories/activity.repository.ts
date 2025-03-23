@@ -38,15 +38,19 @@ export class ActivityRepository {
 
     async findById(id: string): Promise<Activity> {
         return this.prisma.activity.findUnique({
-            where: { id },
+            where: { id, isDeleted: false },
         })
     }
 
-    async update(data: Prisma.ActivityUpdateInput): Promise<Activity> {
-        const { id, ...updateData } = data
-        return this.prisma.activity.update({
-            where: { id: id as string },
-            data: updateData,
+    async update(
+        where: Prisma.ActivityWhereUniqueInput,
+        data: Prisma.ActivityUpdateInput,
+        tx?: Prisma.TransactionClient
+    ): Promise<Activity> {
+        const prisma = tx || this.prisma
+        return prisma.activity.update({
+            where,
+            data,
         })
     }
 }

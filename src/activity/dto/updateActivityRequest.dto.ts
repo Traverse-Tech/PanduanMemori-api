@@ -4,9 +4,6 @@ import { RecurrenceDTO } from './createActivityRequest.dto'
 
 export class UpdateActivityRequestDTO {
     @IsString()
-    id: string
-
-    @IsString()
     @IsOptional()
     title?: string
 

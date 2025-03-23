@@ -12,9 +12,7 @@ import {
     ArrayMaxSize,
     Max,
 } from 'class-validator'
-import {
-    INVALID_DAILY_INTERVAL_ERROR_MESSAGE,
-} from '../activity.constant'
+import { INVALID_DAILY_INTERVAL_ERROR_MESSAGE } from '../activity.constant'
 
 export class RecurrenceDTO {
     @IsEnum(RecurrenceType)

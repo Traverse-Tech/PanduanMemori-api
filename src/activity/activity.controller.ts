@@ -29,7 +29,7 @@ export class ActivityController {
 
     @IsCaregiver()
     @Post()
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.CREATED)
     async create(
         @GetCurrentUser() user: User,
         @Body() body: CreateActivityRequestDTO
@@ -55,14 +55,16 @@ export class ActivityController {
     }
 
     @IsCaregiver()
-    @Patch()
+    @Patch(':id')
     @HttpCode(HttpStatus.OK)
     async updateActivity(
         @GetCurrentUser() user: User,
+        @Param('id') id: string,
         @Body() body: UpdateActivityRequestDTO
     ) {
         const responseData = await this.ActivityService.updateActivity(
             user,
+            id,
             body
         )
 
@@ -71,7 +73,7 @@ export class ActivityController {
 
     @IsCaregiver()
     @Delete('future/:id')
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.NO_CONTENT)
     async deleteFutureActivity(
         @GetCurrentUser() user: User,
         @Param('id') id: string
@@ -85,7 +87,7 @@ export class ActivityController {
 
     @IsCaregiver()
     @Delete('all/:id')
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.NO_CONTENT)
     async deleteAllActivity(
         @GetCurrentUser() user: User,
         @Param('id') id: string
@@ -108,13 +110,16 @@ export class ActivityController {
     }
 
     @IsCaregiver()
-    @Patch('occurrence/:id')
+    @Patch('occurence/:id')
     @HttpCode(HttpStatus.OK)
     async updateActivityOccurrence(
+        @Param('id') id: string,
         @Body() body: UpdateActivityOccurenceRequestDTO
     ) {
-        const responseData =
-            await this.ActivityService.updateActivityOccurence(body)
+        const responseData = await this.ActivityService.updateActivityOccurence(
+            id,
+            body
+        )
 
         return this.responseUtil.response({}, responseData)
     }

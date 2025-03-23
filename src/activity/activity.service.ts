@@ -278,9 +278,10 @@ export class ActivityService {
 
     async updateActivity(
         caregiver: User,
+        id: string,
         body: UpdateActivityRequestDTO
     ): Promise<ActivityResponseDTO> {
-        const { id, title, activityCategoryId, datetime, recurrences } = body
+        const { title, activityCategoryId, datetime, recurrences } = body
         const patientId =
             await this.caregiverService.getPatientIdByCaregiver(caregiver)
 
@@ -292,16 +293,18 @@ export class ActivityService {
             await this.findAndValidateActivityCategory(activityCategoryId)
         }
 
-        const activity = await this.repository.activity.update({
-            id,
-            title,
-            activityCategory: activityCategoryId
-                ? {
-                      connect: { id: activityCategoryId },
-                  }
-                : undefined,
-            time: datetime ? parseISO(datetime) : new Date(),
-        })
+        const activity = await this.repository.activity.update(
+            { id },
+            {
+                title,
+                activityCategory: activityCategoryId
+                    ? {
+                          connect: { id: activityCategoryId },
+                      }
+                    : undefined,
+                time: datetime ? parseISO(datetime) : new Date(),
+            }
+        )
 
         if (recurrences) {
             await this.updateRecurrences(
@@ -337,10 +340,12 @@ export class ActivityService {
                     id
                 )
             if (occurrences.length > 0) {
-                await this.repository.activityOccurence.update({
-                    id: occurrences[0].id,
-                    datetime: parseISO(datetime),
-                })
+                await this.repository.activityOccurence.update(
+                    { id: occurrences[0].id },
+                    {
+                        datetime: parseISO(datetime),
+                    }
+                )
             }
         }
 
@@ -380,8 +385,8 @@ export class ActivityService {
     ): Promise<ActivityOccurenceResponseDTO> {
         await this.findAndValidateActivityOccurence(id)
         const updatedOccurence = await this.repository.activityOccurence.update(
+            { id },
             {
-                id,
                 isCompleted: true,
             }
         )
@@ -397,60 +402,72 @@ export class ActivityService {
     }
 
     async updateActivityOccurence(
+        id: string,
         body: UpdateActivityOccurenceRequestDTO
     ): Promise<ActivityOccurenceResponseDTO> {
-        const { id, datetime, title, activityCategoryId } = body
+        const { datetime, title, activityCategoryId } = body
         const occurrence = await this.findAndValidateActivityOccurence(id)
         const activity = await this.repository.activity.findById(
             occurrence.activityId
         )
 
-        // If there is a change in title or activityCategoryId, create a new activity
-        if (title || activityCategoryId) {
-            if (activityCategoryId) {
-                await this.findAndValidateActivityCategory(activityCategoryId)
-            }
+        if (title !== undefined || activityCategoryId !== undefined) {
+            const hasTitleChange = title !== undefined && title !== activity.title
+            const hasCategoryChange =
+                activityCategoryId !== undefined &&
+                activityCategoryId !== activity.activityCategoryId
 
-            const newActivity = await this.repository.activity.create({
-                title: title || activity.title,
-                activityCategory: activityCategoryId
-                    ? {
-                          connect: { id: activityCategoryId },
-                      }
-                    : {
-                          connect: { id: activity.activityCategoryId },
-                      },
-                patient: {
-                    connect: { id: activity.patientId },
-                },
-                time: datetime ? parseISO(datetime) : occurrence.datetime,
-            })
+            // If there is a change in title or activityCategoryId, create a new activity
+            if (hasTitleChange || hasCategoryChange) {
+                if (activityCategoryId) {
+                    await this.findAndValidateActivityCategory(
+                        activityCategoryId
+                    )
+                }
 
-            const updatedOccurence =
-                await this.repository.activityOccurence.update({
-                    id,
-                    activity: {
-                        connect: { id: newActivity.id },
+                const newActivity = await this.repository.activity.create({
+                    title: title || activity.title,
+                    activityCategory: activityCategoryId
+                        ? {
+                              connect: { id: activityCategoryId },
+                          }
+                        : {
+                              connect: { id: activity.activityCategoryId },
+                          },
+                    patient: {
+                        connect: { id: activity.patientId },
                     },
-                    datetime: datetime
-                        ? parseISO(datetime)
-                        : occurrence.datetime,
+                    time: datetime ? parseISO(datetime) : occurrence.datetime,
                 })
 
-            const response: ActivityOccurenceResponseDTO = {
-                id: updatedOccurence.id,
-                activityId: updatedOccurence.activityId,
-                datetime: updatedOccurence.datetime,
-                isCompleted: updatedOccurence.isCompleted,
-            }
+                const updatedOccurence =
+                    await this.repository.activityOccurence.updateOccurenceConnection(
+                        { id },
+                        {
+                            activityId: activity ? newActivity.id : undefined,
+                            datetime: datetime
+                                ? parseISO(datetime)
+                                : occurrence.datetime,
+                            recurrenceId: null,
+                            isCompleted: occurrence.isCompleted,
+                        }
+                    )
 
-            return response
+                const response: ActivityOccurenceResponseDTO = {
+                    id: updatedOccurence.id,
+                    activityId: updatedOccurence.activityId,
+                    datetime: updatedOccurence.datetime,
+                    isCompleted: updatedOccurence.isCompleted,
+                }
+
+                return response
+            }
         }
 
         // If only datetime, update occurrence
         const updatedOccurence = await this.repository.activityOccurence.update(
+            { id },
             {
-                id,
                 datetime: datetime ? parseISO(datetime) : occurrence.datetime,
             }
         )
@@ -541,11 +558,13 @@ export class ActivityService {
     }
 
     private async softDeleteActivity(activityId: string): Promise<void> {
-        await this.repository.activity.update({
-            id: activityId,
-            isDeleted: true,
-            deletedAt: new Date(),
-        })
+        await this.repository.activity.update(
+            { id: activityId },
+            {
+                isDeleted: true,
+                deletedAt: new Date(),
+            }
+        )
         await this.repository.recurrence.deleteMany({ activityId })
     }
 

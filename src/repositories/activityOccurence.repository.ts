@@ -29,13 +29,31 @@ export class ActivityOccurenceRepository {
         })
     }
 
+    async updateOccurenceConnection(
+        where: Prisma.ActivityOccurenceWhereUniqueInput,
+        data: {
+            activityId: string,
+            recurrenceId: string | null,
+            datetime: Date,
+            isCompleted: boolean
+        },
+        tx?: Prisma.TransactionClient
+    ): Promise<ActivityOccurence> {
+        const prisma = tx || this.prisma
+        return prisma.activityOccurence.update({
+            where,
+            data,
+        })
+    }
+
     async update(
+        where: Prisma.ActivityOccurenceWhereUniqueInput,
         data: Prisma.ActivityOccurenceUpdateInput,
         tx?: Prisma.TransactionClient
     ): Promise<ActivityOccurence> {
         const prisma = tx || this.prisma
         return prisma.activityOccurence.update({
-            where: { id: data.id as string },
+            where,
             data,
         })
     }
@@ -118,7 +136,7 @@ export class ActivityOccurenceRepository {
 
     async findById(id: string): Promise<ActivityOccurence> {
         return this.prisma.activityOccurence.findUnique({
-            where: { id },
+            where: { id, isDeleted: false },
         })
     }
 
