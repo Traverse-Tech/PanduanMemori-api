@@ -1,9 +1,9 @@
 export class ActivityOccurrenceDTO {
     id: string
+    recurrenceId?: string
     activityId: string
     datetime: Date
     isCompleted: boolean
-    recurrenceId?: string
 }
 
 export class ActivityWithOccurrencesDTO {

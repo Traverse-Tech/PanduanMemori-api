@@ -110,7 +110,9 @@ export class ActivityController {
     @IsCaregiver()
     @Patch('occurrence/:id')
     @HttpCode(HttpStatus.OK)
-    async updateActivityOccurrence(@Body() body: UpdateActivityOccurenceRequestDTO) {
+    async updateActivityOccurrence(
+        @Body() body: UpdateActivityOccurenceRequestDTO
+    ) {
         const responseData =
             await this.ActivityService.updateActivityOccurence(body)
 
