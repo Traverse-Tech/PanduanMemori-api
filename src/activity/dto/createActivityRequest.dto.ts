@@ -1,42 +1,56 @@
 import { RecurrenceType } from '@prisma/client'
-import { Type } from 'class-transformer'
 import {
     IsOptional,
     IsDateString,
     IsString,
     IsArray,
-    ValidateNested,
-    IsInt,
+    IsNotEmpty,
+    ValidateIf,
+    IsEnum,
+    IsNumber,
+    ArrayMinSize,
+    ArrayMaxSize,
+    Max,
 } from 'class-validator'
 
 export class RecurrenceDTO {
-    @IsString()
+    @IsEnum(RecurrenceType)
+    type: RecurrenceType
+
+    @IsOptional()
+    @IsNumber()
+    @ValidateIf((o) => o.type === RecurrenceType.DAILY)
+    @Max(1, { message: 'Interval untuk tipe harian tidak boleh lebih dari 1' })
+    interval?: number
+
+    @IsOptional()
+    @ValidateIf((o) => o.endDate !== null)
+    @IsDateString()
     endDate?: string
 
-    @IsInt()
-    interval: number
-
-    @IsArray()
     @IsOptional()
+    @IsArray()
+    @IsNumber({}, { each: true })
+    @ArrayMinSize(1)
+    @ArrayMaxSize(7)
     weekDays?: number[]
-
-    @IsString()
-    type: RecurrenceType
 }
 
 export class CreateActivityRequestDTO {
     @IsString()
+    @IsNotEmpty()
     title: string
 
     @IsString()
+    @IsNotEmpty()
     activityCategoryId: string
 
     @IsDateString()
+    @IsNotEmpty()
     datetime: string // Format: ISO 8601 (contoh: "2023-10-30T08:00:00Z")
 
     @IsOptional()
     @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => RecurrenceDTO)
+    @ValidateIf((o) => o.recurrences !== undefined)
     recurrences?: RecurrenceDTO[]
 }

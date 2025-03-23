@@ -160,11 +160,8 @@ export class ActivityService {
     ): Promise<GetActivitiesInRangeResponseDTO> {
         const { startDate, endDate } = query
 
-        // Convert string dates to Date objects
         let rangeStart = parseISO(startDate)
         let rangeEnd = parseISO(endDate)
-
-        // Validate date range
         if (isAfter(rangeStart, rangeEnd)) {
             throw new BadRequestException(
                 INVALID_DATE_RANGE_ERROR_MESSAGE,
@@ -176,6 +173,7 @@ export class ActivityService {
             await this.caregiverService.getPatientIdByCaregiver(caregiver)
         const activities =
             await this.repository.activity.getActivitiesByPatientId(patientId)
+
         const result: ActivityWithOccurrencesDTO[] = []
 
         // Generate ActivityOccurrence for each activity in the range
@@ -299,8 +297,6 @@ export class ActivityService {
             id,
             patientId
         )
-
-        // Check if activity category exists if provided
         if (activityCategoryId) {
             await this.findAndValidateActivityCategory(activityCategoryId)
         }
@@ -316,36 +312,6 @@ export class ActivityService {
             time: datetime ? parseISO(datetime) : new Date(),
         })
 
-        // Handle datetime update
-        if (datetime) {
-            const existingRecurrences =
-                await this.repository.recurrence.findByActivityId(id)
-            if (existingRecurrences.length > 0) {
-                // If has recurrence, delete all occurrences and recreate
-                await this.repository.activityOccurence.deleteManyFutureOccurrences(
-                    { activityId: id }
-                )
-                await this.updateRecurrences(
-                    id,
-                    recurrences || [],
-                    datetime,
-                    activity.time
-                )
-            } else {
-                // If no recurrence, update single occurrence
-                const occurrences =
-                    await this.repository.activityOccurence.getOccurrencesByActivityId(
-                        id
-                    )
-                if (occurrences.length > 0) {
-                    await this.repository.activityOccurence.update({
-                        id: occurrences[0].id,
-                        datetime: parseISO(datetime),
-                    })
-                }
-            }
-        }
-
         if (recurrences) {
             await this.updateRecurrences(
                 id,
@@ -353,6 +319,38 @@ export class ActivityService {
                 datetime,
                 existingActivity.time
             )
+        }
+
+        if (datetime) {
+            const currentTime = new Date()
+            const newTime = parseISO(datetime)
+
+            // Get the time difference to apply to future occurrences
+            const hoursDiff =
+                newTime.getHours() - existingActivity.time.getHours()
+            const minutesDiff =
+                newTime.getMinutes() - existingActivity.time.getMinutes()
+
+            await this.repository.activityOccurence.updateManyFutureOccurrencesDateTime(
+                {
+                    activityId: id,
+                    hoursDiff,
+                    minutesDiff,
+                    fromDate: currentTime,
+                }
+            )
+        } else {
+            // If no recurrence, update single occurrence
+            const occurrences =
+                await this.repository.activityOccurence.getOccurrencesByActivityId(
+                    id
+                )
+            if (occurrences.length > 0) {
+                await this.repository.activityOccurence.update({
+                    id: occurrences[0].id,
+                    datetime: parseISO(datetime),
+                })
+            }
         }
 
         return activity

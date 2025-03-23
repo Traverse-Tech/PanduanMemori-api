@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma, ActivityOccurence } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { UpdateManyFutureOccurrencesDatetime } from './interfaces/activityOccurenceRepository.interface'
 
 @Injectable()
 export class ActivityOccurenceRepository {
@@ -119,5 +120,34 @@ export class ActivityOccurenceRepository {
         return this.prisma.activityOccurence.findUnique({
             where: { id },
         })
+    }
+
+    async updateManyFutureOccurrencesDateTime(
+        data: UpdateManyFutureOccurrencesDatetime,
+        tx?: Prisma.TransactionClient
+    ) {
+        const prisma = tx || this.prisma
+        const { activityId, hoursDiff, minutesDiff, fromDate } = data
+        const occurrences = await prisma.activityOccurence.findMany({
+            where: {
+                activityId,
+                datetime: {
+                    gte: fromDate,
+                },
+            },
+        })
+
+        const updates = occurrences.map((occurrence) => {
+            const newDate = new Date(occurrence.datetime)
+            newDate.setHours(newDate.getHours() + hoursDiff)
+            newDate.setMinutes(newDate.getMinutes() + minutesDiff)
+
+            return prisma.activityOccurence.update({
+                where: { id: occurrence.id },
+                data: { datetime: newDate },
+            })
+        })
+
+        return Promise.all(updates)
     }
 }
