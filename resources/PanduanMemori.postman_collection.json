@@ -1416,7 +1416,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\r\n    \"datetime\": \"2025-03-22T10:00:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"endDate\": \"2025-03-30T10:00:00Z\",\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"title\": \"Minum Obat\",\r\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d12122\",\r\n    \"datetime\": \"2025-03-22T08:30:00Z\",\r\n    \"recurrences\": [\r\n        {\r\n            \"interval\": 1,\r\n            \"weekDays\": [1, 3, 4], // 1 = Senin, 2 = Selasa, dst\r\n            \"type\": \"DAILY\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1424,12 +1424,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/activity",
+									"raw": "{{BASE_URL}}/activity/:id",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
-										"activity"
+										"activity",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "901061f1-da28-463c-b51f-551e5ee6994e"
+										}
 									]
 								}
 							},
@@ -1459,15 +1466,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "418"
+									"value": "309"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1a2-ZpjN+KCt3Lxvjzdxfn740sT8dTY\""
+									"value": "W/\"135-rDf/ggyNDE2cjre3woa7bKGbDUc\""
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 22 Mar 2025 17:06:53 GMT"
+									"value": "Sun, 23 Mar 2025 07:18:11 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1479,7 +1486,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"a4f06340-6d7d-4b7c-bbe5-edb73c5dfc87\",\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04122\",\n    \"title\": \"Minum Obat\",\n    \"time\": \"2025-03-22T10:00:00.000Z\",\n    \"patientId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04134\",\n    \"createdAt\": \"2025-03-22T16:13:08.922Z\",\n    \"updatedAt\": \"2025-03-22T17:06:52.991Z\",\n    \"isDeleted\": false,\n    \"deletedAt\": null\n}"
+							"body": "{\n    \"responseCode\": 200,\n    \"responseMessage\": \"Data retrieved successfully\",\n    \"responseStatus\": \"SUCCESS\",\n    \"id\": \"901061f1-da28-463c-b51f-551e5ee6994e\",\n    \"title\": \"Minum Obat\",\n    \"activityCategoryId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d12122\",\n    \"patientId\": \"78b4bfc9-6e27-4ffd-b6aa-8d4a91d04134\",\n    \"datetime\": \"2025-03-22T08:30:00.000Z\"\n}"
 						}
 					]
 				},
