@@ -9,6 +9,7 @@ import { ActivityRepository } from './activity.repository'
 import { RecurrenceRepository } from './recurrence.repository'
 import { ActivityOccurenceRepository } from './activityOccurence.repository'
 import { ActivityCategoryRepository } from './activityCategory.repository'
+import { PatientCaregiverRepository } from './patientCaregiver.repository'
 
 @Injectable()
 export class RepositoriesService {
@@ -22,6 +23,7 @@ export class RepositoriesService {
         readonly activity: ActivityRepository,
         readonly recurrence: RecurrenceRepository,
         readonly activityOccurence: ActivityOccurenceRepository,
-        readonly activityCategory: ActivityCategoryRepository
+        readonly activityCategory: ActivityCategoryRepository,
+        readonly patientCaregiver: PatientCaregiverRepository
     ) {}
 }

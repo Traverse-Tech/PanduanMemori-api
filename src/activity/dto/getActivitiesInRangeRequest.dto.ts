@@ -1,7 +1,11 @@
-import { IsDateString, IsNotEmpty, ValidateIf } from 'class-validator'
+import { IsDateString, IsNotEmpty, IsString, ValidateIf } from 'class-validator'
 import { INVALID_DATE_RANGE_ERROR_DESCRIPTION } from '../activity.constant'
 
 export class GetActivitiesInRangeRequestDTO {
+    @IsNotEmpty()
+    @IsString()
+    patientId: string
+
     @IsNotEmpty()
     @IsDateString()
     startDate: string

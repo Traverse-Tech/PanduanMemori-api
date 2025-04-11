@@ -9,8 +9,6 @@ import {
     Patch,
     Post,
     Query,
-    Req,
-    UseGuards,
 } from '@nestjs/common'
 import { ActivityService } from './activity.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'
@@ -21,6 +19,7 @@ import { IsCaregiver } from 'src/commons/decorators/isCaregiver.decorator'
 import { GetActivitiesInRangeRequestDTO } from './dto/getActivitiesInRangeRequest.dto'
 import { UpdateActivityRequestDTO } from './dto/updateActivityRequest.dto'
 import { UpdateActivityOccurenceRequestDTO } from './dto/updateActivityOccurenceRequest.dto'
+import { DeleteActivityRequestDTO } from './dto/deleteActivityRequest.dto'
 
 @Controller('activity')
 export class ActivityController {
@@ -45,12 +44,10 @@ export class ActivityController {
     @Get()
     @HttpCode(HttpStatus.OK)
     async getActivitiesInRange(
-        @GetCurrentUser() user: User,
         @Query() query: GetActivitiesInRangeRequestDTO
     ) {
         const responseData = await this.ActivityService.getActivitiesInRange(
-            user,
-            query
+            query   
         )
 
         return this.responseUtil.response({}, responseData)
@@ -77,10 +74,9 @@ export class ActivityController {
     @Delete('future/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
     async deleteFutureActivity(
-        @GetCurrentUser() user: User,
-        @Param('id') id: string
+        @Body() body: DeleteActivityRequestDTO
     ) {
-        await this.ActivityService.deleteFutureActivity(user, id)
+        await this.ActivityService.deleteFutureActivity(body)
 
         return this.responseUtil.response({
             responseMessage: 'Activity deleted successfully',
@@ -88,13 +84,12 @@ export class ActivityController {
     }
 
     @IsCaregiver()
-    @Delete('all/:id')
+    @Delete('all')
     @HttpCode(HttpStatus.NO_CONTENT)
     async deleteAllActivity(
-        @GetCurrentUser() user: User,
-        @Param('id') id: string
+        @Body() body: DeleteActivityRequestDTO
     ) {
-        await this.ActivityService.deleteAllActivity(user, id)
+        await this.ActivityService.deleteAllActivity(body)
 
         return this.responseUtil.response({
             responseMessage: 'Activity deleted successfully',
@@ -129,7 +124,7 @@ export class ActivityController {
     @IsCaregiver()
     @Get('weekly-summary')
     @HttpCode(HttpStatus.OK)
-    async getWeeklySummary(@Req() req) {
-        return this.ActivityService.getWeeklySummary(req.user)
+    async getWeeklySummary(@Param('patientId') patientId: string) {
+        return this.ActivityService.getWeeklySummary(patientId)
     }
 }

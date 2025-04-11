@@ -21,12 +21,11 @@ import {
     addWeeks,
     setHours,
     setMinutes,
-    startOfWeek,
     subWeeks,
-    endOfWeek,
     formatISO,
+    startOfWeek,
+    endOfWeek,
 } from 'date-fns'
-import { GetActivitiesInRangeRequestDTO } from './dto/getActivitiesInRangeRequest.dto'
 import {
     GetActivitiesInRangeResponseDTO,
     ActivityWithOccurrencesDTO,
@@ -45,7 +44,8 @@ import { UpdateActivityRequestDTO } from './dto/updateActivityRequest.dto'
 import { ActivityResponseDTO } from './dto/activityResponse.dto'
 import { UpdateActivityOccurenceRequestDTO } from './dto/updateActivityOccurenceRequest.dto'
 import { ActivityOccurenceResponseDTO } from './dto/activityOccurenceResponse.dto'
-
+import { GetActivitiesInRangeRequestDTO } from './dto/getActivitiesInRangeRequest.dto'
+import { DeleteActivityRequestDTO } from './dto/deleteActivityRequest.dto'
 @Injectable()
 export class ActivityService {
     constructor(
@@ -70,10 +70,8 @@ export class ActivityService {
         caregiver: User,
         body: CreateActivityRequestDTO
     ): Promise<ActivityResponseDTO> {
-        const { title, activityCategoryId, datetime, recurrences } = body
+        const { patientId, title, activityCategoryId, datetime, recurrences } = body
 
-        const patientId =
-            await this.caregiverService.getPatientIdByCaregiver(caregiver)
         const time = parseISO(datetime)
 
         await this.findAndValidateActivityCategory(activityCategoryId)
@@ -147,10 +145,9 @@ export class ActivityService {
 
     // Activities will be generated lazily based on recurrence rules.
     async getActivitiesInRange(
-        caregiver: User,
         query: GetActivitiesInRangeRequestDTO
     ): Promise<GetActivitiesInRangeResponseDTO> {
-        const { startDate, endDate } = query
+        const { patientId, startDate, endDate } = query
 
         let rangeStart = parseISO(startDate)
         let rangeEnd = parseISO(endDate)
@@ -161,8 +158,6 @@ export class ActivityService {
             )
         }
 
-        const patientId =
-            await this.caregiverService.getPatientIdByCaregiver(caregiver)
         const activities =
             await this.repository.activity.getActivitiesByPatientId(patientId)
 
@@ -285,9 +280,7 @@ export class ActivityService {
         id: string,
         body: UpdateActivityRequestDTO
     ): Promise<ActivityResponseDTO> {
-        const { title, activityCategoryId, datetime, recurrences } = body
-        const patientId =
-            await this.caregiverService.getPatientIdByCaregiver(caregiver)
+        const { patientId, title, activityCategoryId, datetime, recurrences } = body
 
         const existingActivity = await this.findAndValidateActivity(
             id,
@@ -364,24 +357,22 @@ export class ActivityService {
         return response
     }
 
-    async deleteFutureActivity(caregiver: User, id: string) {
-        const patientId =
-            await this.caregiverService.getPatientIdByCaregiver(caregiver)
-        await this.findAndValidateActivity(id, patientId)
+    async deleteFutureActivity(body: DeleteActivityRequestDTO) {
+        const { activityId, patientId } = body
+        await this.findAndValidateActivity(activityId, patientId)
 
-        await this.softDeleteActivity(id)
+        await this.softDeleteActivity(activityId)
         await this.repository.activityOccurence.deleteManyFutureOccurrences({
-            activityId: id,
+            activityId: activityId,
         })
     }
 
-    async deleteAllActivity(caregiver: User, id: string) {
-        const patientId =
-            await this.caregiverService.getPatientIdByCaregiver(caregiver)
-        await this.findAndValidateActivity(id, patientId)
+    async deleteAllActivity(body: DeleteActivityRequestDTO) {
+        const { activityId, patientId } = body
+        await this.findAndValidateActivity(activityId, patientId)
 
-        await this.softDeleteActivity(id)
-        await this.repository.activityOccurence.deleteMany({ activityId: id })
+        await this.softDeleteActivity(activityId)
+        await this.repository.activityOccurence.deleteMany({ activityId: activityId })
     }
 
     async completeActivityOccurence(
@@ -577,7 +568,7 @@ export class ActivityService {
         return setMinutes(setHours(date, time.getHours()), time.getMinutes())
     }
 
-    async getWeeklySummary(caregiver: User): Promise<{ summary: string }> {
+    async getWeeklySummary(patientId: string): Promise<{ summary: string }> {
         const startOfPrevWeek = startOfWeek(subWeeks(new Date(), 1), {
             weekStartsOn: 1,
         })
@@ -585,7 +576,8 @@ export class ActivityService {
             weekStartsOn: 1,
         })
 
-        const { activities } = await this.getActivitiesInRange(caregiver, {
+        const { activities } = await this.getActivitiesInRange({
+            patientId: patientId,
             startDate: formatISO(startOfPrevWeek),
             endDate: formatISO(endOfPrevWeek),
         })
