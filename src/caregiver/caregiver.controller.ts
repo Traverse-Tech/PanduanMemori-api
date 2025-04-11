@@ -65,6 +65,7 @@ export class CaregiverController {
         return this.caregiverService.addPatientToCaregiver(user, body)
     }
 
+    @IsCaregiver()
     @Delete('remove-patient/:patientId')
     async removePatientFromCaregiver(
         @GetCurrentUser() user: User,
@@ -73,8 +74,11 @@ export class CaregiverController {
         return this.caregiverService.removePatientFromCaregiver(user, patientId)
     }
 
+    @IsCaregiver()
     @Get('patients')
-    async getCaregiverPatients(@GetCurrentUser() user: User): Promise<User[]> {
-        return this.caregiverService.getCaregiverPatients(user.id)
+    async getCaregiverPatients(@GetCurrentUser() user: User) {
+        const responseData = await this.caregiverService.getCaregiverPatients(user.id)
+
+        return this.responseUtil.response({}, responseData)
     }
 }

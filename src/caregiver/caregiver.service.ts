@@ -17,6 +17,7 @@ import {
     CAREGIVER_NOT_FOUND_ERROR_MESSAGE,
 } from './caregiver.constant'
 import { AddPatientToCaregiverRequestDTO } from './dto/addPatientToCaregiver.dto'
+import { CaregiverPatientResponseDto } from './dto/caregiverPatientResponse.dto'
 
 @Injectable()
 export class CaregiverService {
@@ -161,10 +162,40 @@ export class CaregiverService {
         await this.repository.patientCaregiver.softDelete(relation.id)
     }
 
-    async getCaregiverPatients(caregiverId: string): Promise<User[]> {
+    async getCaregiverPatients(caregiverId: string): Promise<{
+        data: CaregiverPatientResponseDto[]
+    }> {
         const relations =
             await this.repository.patientCaregiver.findByCaregiver(caregiverId)
-        const patientIds = relations.map((rel) => rel.patientId)
-        return this.repository.user.findByIds(patientIds)
+        const patients = await this.repository.user.findByIds(
+            relations.map((rel) => rel.patientId)
+        )
+        const patientIds = patients.map((patient) => patient.id)
+
+        const patientData = await this.repository.patient.findByIds(patientIds)
+
+        const data = patients.map((user) => {
+            const patient = patientData.find((p) => p.id === user.id)
+            if (!patient) {
+                throw new Error(
+                    `Patient data not found for user id: ${user.id}`
+                )
+            }
+
+            return {
+                name: user.name,
+                phoneNumber: user.phoneNumber,
+                email: user.email ?? undefined,
+                registrationNumber: user.registrationNumber,
+                birthdate: patient.birthdate.toISOString(),
+                age: this.dateUtil.calculateAge(new Date(patient.birthdate)),
+                gender: patient.gender,
+                dementiaStage: patient.dementiaStage,
+            }
+        })
+
+        return {
+            data: data,
+        }
     }
 }

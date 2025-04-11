@@ -48,4 +48,14 @@ export class PatientRepository {
 
         return patientWithSafeLocation
     }
+
+    async findByIds(ids: string[]): Promise<Patient[]> {
+        return this.prisma.patient.findMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        })
+    }
 }
