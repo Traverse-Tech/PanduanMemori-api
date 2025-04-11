@@ -77,7 +77,9 @@ export class CaregiverController {
     @IsCaregiver()
     @Get('patients')
     async getCaregiverPatients(@GetCurrentUser() user: User) {
-        const responseData = await this.caregiverService.getCaregiverPatients(user.id)
+        const responseData = await this.caregiverService.getCaregiverPatients(
+            user.id
+        )
 
         return this.responseUtil.response({}, responseData)
     }

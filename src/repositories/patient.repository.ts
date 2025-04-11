@@ -53,9 +53,9 @@ export class PatientRepository {
         return this.prisma.patient.findMany({
             where: {
                 id: {
-                    in: ids
-                }
-            }
+                    in: ids,
+                },
+            },
         })
     }
 }
