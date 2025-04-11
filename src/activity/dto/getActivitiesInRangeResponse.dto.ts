@@ -4,6 +4,7 @@ export class ActivityOccurrenceDTO {
     activityId: string
     datetime: Date
     isCompleted: boolean
+    isOnTime: boolean
 }
 
 export class ActivityWithOccurrencesDTO {

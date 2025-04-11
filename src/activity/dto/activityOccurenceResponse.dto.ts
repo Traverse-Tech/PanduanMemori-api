@@ -3,4 +3,5 @@ export type ActivityOccurenceResponseDTO = {
     activityId: string
     datetime: Date
     isCompleted: boolean
+    isOnTime: boolean
 }

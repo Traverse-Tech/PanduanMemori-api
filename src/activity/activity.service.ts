@@ -46,6 +46,8 @@ import { UpdateActivityOccurenceRequestDTO } from './dto/updateActivityOccurence
 import { ActivityOccurenceResponseDTO } from './dto/activityOccurenceResponse.dto'
 import { GetActivitiesInRangeRequestDTO } from './dto/getActivitiesInRangeRequest.dto'
 import { DeleteActivityRequestDTO } from './dto/deleteActivityRequest.dto'
+import { CompleteActivityOccurrenceRequestDTO } from './dto/completeActivityOccurrenceRequest.dto'
+
 @Injectable()
 export class ActivityService {
     constructor(
@@ -184,6 +186,7 @@ export class ActivityService {
                     activityId: occ.activityId,
                     datetime: occ.datetime,
                     isCompleted: occ.isCompleted,
+                    isOnTime: occ.isOnTime,
                     recurrenceId: occ.recurrenceId,
                 })),
             })
@@ -380,13 +383,19 @@ export class ActivityService {
     }
 
     async completeActivityOccurence(
-        id: string
+        body: CompleteActivityOccurrenceRequestDTO
     ): Promise<ActivityOccurenceResponseDTO> {
-        await this.findAndValidateActivityOccurence(id)
+        const { activityOccurenceId, actualStartTime, endTime } = body
+        const occurrence = await this.findAndValidateActivityOccurence(activityOccurenceId)
+
+        const isOnTime = !isAfter(actualStartTime, occurrence.datetime)
         const updatedOccurence = await this.repository.activityOccurence.update(
-            { id },
+            { id: activityOccurenceId },
             {
+                actualStartTime,
+                endTime,
                 isCompleted: true,
+                isOnTime,
             }
         )
 
@@ -395,6 +404,7 @@ export class ActivityService {
             activityId: updatedOccurence.activityId,
             datetime: updatedOccurence.datetime,
             isCompleted: updatedOccurence.isCompleted,
+            isOnTime: updatedOccurence.isOnTime,
         }
 
         return response
@@ -450,6 +460,7 @@ export class ActivityService {
                                 : occurrence.datetime,
                             recurrenceId: null,
                             isCompleted: occurrence.isCompleted,
+                            isOnTime: occurrence.isOnTime,
                         }
                     )
 
@@ -458,6 +469,7 @@ export class ActivityService {
                     activityId: updatedOccurence.activityId,
                     datetime: updatedOccurence.datetime,
                     isCompleted: updatedOccurence.isCompleted,
+                    isOnTime: updatedOccurence.isOnTime,
                 }
 
                 return response
@@ -477,6 +489,7 @@ export class ActivityService {
             activityId: updatedOccurence.activityId,
             datetime: updatedOccurence.datetime,
             isCompleted: updatedOccurence.isCompleted,
+            isOnTime: updatedOccurence.isOnTime,
         }
 
         return response
