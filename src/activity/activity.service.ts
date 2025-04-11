@@ -236,11 +236,19 @@ export class ActivityService {
                     }
                 }
 
+                // const now = new Date()
+
+                // let isOnTime: boolean | null = null
+                // if (isAfter(now, startDate)) {
+                //     isOnTime = false // passed the time but haven't completed
+                // }
+
                 occurrences.push({
                     activityId,
                     datetime: currentDate,
                     isCompleted: false,
                     recurrenceId: recurrence.id,
+                    // isOnTime,
                 })
 
                 switch (type) {
@@ -271,6 +279,32 @@ export class ActivityService {
                 true
             )
         }
+
+        const occurrencesInRange =
+            await this.repository.activityOccurence.getOccurrencesByActivityIdAndDateRange(
+                activityId,
+                rangeStart,
+                rangeEnd
+            )
+
+        const now = new Date()
+
+        // Update occurrences that have passed the time but haven't been completed
+        const updates = occurrencesInRange
+            .filter(
+                (occ) =>
+                    !occ.isCompleted &&
+                    isBefore(occ.datetime, now) &&
+                    occ.isOnTime === null // To avoid updating multiple times
+            )
+            .map((occ) =>
+                this.repository.activityOccurence.update(
+                    { id: occ.id },
+                    { isOnTime: false }
+                )
+            )
+
+        await Promise.all(updates)
 
         return this.repository.activityOccurence.getOccurrencesByActivityIdAndDateRange(
             activityId,
