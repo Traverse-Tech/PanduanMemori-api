@@ -128,4 +128,19 @@ export class CaregiverRepository {
             patients: caregiverWithAddress.patients.map((pc) => pc.patient),
         }
     }
+
+    async findByIds(
+        ids: string[]
+    ): Promise<(Caregiver & { address: Address })[]> {
+        return this.prisma.caregiver.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+            include: {
+                address: true,
+            },
+        })
+    }
 }

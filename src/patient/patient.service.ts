@@ -4,6 +4,7 @@ import { Multer } from 'multer'
 import { RepositoriesService } from 'src/repositories/repositories.service'
 import { AuthUtil } from 'src/commons/utils/auth.utils'
 import { AddCaregiverRequestDTO } from './dto/addCaregiverRequest.dto'
+import { PatientCaregiverResponseDto } from './dto/patientCaregiverResponse.dto'
 import * as FormData from 'form-data'
 import axios from 'axios'
 
@@ -44,11 +45,37 @@ export class PatientService {
         }
     }
 
-    async getCaregivers({ id: patientId }: User) {
-        const caregivers =
-            await this.repository.patientCaregiver.findByPatient(patientId)
-        const caregiverIds = caregivers.map((rel) => rel.caregiverId)
-        return this.repository.user.findByIds(caregiverIds)
+    async getPatientCaregivers(user: User): Promise<{
+        data: PatientCaregiverResponseDto[]
+    }> {
+        const relations = await this.repository.patientCaregiver.findByPatient(
+            user.id
+        )
+        const caregiverIds = relations.map((rel) => rel.caregiverId)
+        const caregivers = await this.repository.user.findByIds(caregiverIds)
+        const caregiversData =
+            await this.repository.caregiver.findByIds(caregiverIds)
+
+        const data = caregivers.map((user) => {
+            const caregiver = caregiversData.find((c) => c.id === user.id)
+            if (!caregiver) {
+                throw new Error(
+                    `Caregiver data not found for user id: ${user.id}`
+                )
+            }
+
+            return {
+                name: user.name,
+                phoneNumber: user.phoneNumber,
+                email: user.email ?? undefined,
+                registrationNumber: user.registrationNumber,
+                address: caregiver.address.address,
+            }
+        })
+
+        return {
+            data: data,
+        }
     }
 
     async addCaregiver(user: User, body: AddCaregiverRequestDTO) {
