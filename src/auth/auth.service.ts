@@ -132,7 +132,7 @@ export class AuthService {
 
         if (user.role === UserRole.PATIENT)
             this.repository.userToken.updateUserActiveTokensToInactive(user.id)
-        
+
         const accessToken = await this.generateAccessToken(user.id)
 
         let formattedUser: FormattedPatientData | FormattedCaregiverData = null
@@ -144,8 +144,12 @@ export class AuthService {
                 ...patient,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const caregiver =
+                await this.repository.caregiver.getCaregiverWithSafeLocation(
+                    user.id
+                )
+            const patientCaregivers =
+                await this.repository.patientCaregiver.findByCaregiver(user.id)
             formattedUser = this.formatUserData({
                 ...user,
                 ...caregiver,
@@ -173,8 +177,12 @@ export class AuthService {
                 ...patient,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const caregiver =
+                await this.repository.caregiver.getCaregiverWithSafeLocation(
+                    user.id
+                )
+            const patientCaregivers =
+                await this.repository.patientCaregiver.findByCaregiver(user.id)
             formattedUser = this.formatUserData({
                 ...user,
                 ...caregiver,

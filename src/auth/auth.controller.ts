@@ -61,7 +61,10 @@ export class AuthController {
 
     @Post('logout')
     @HttpCode(HttpStatus.OK)
-    async logout(@GetCurrentUser() user: User, @GetCurrentUserToken() token: string) {
+    async logout(
+        @GetCurrentUser() user: User,
+        @GetCurrentUserToken() token: string
+    ) {
         await this.authService.logout(user, token)
 
         return this.responseUtil.response({

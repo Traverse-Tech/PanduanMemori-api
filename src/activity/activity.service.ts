@@ -70,7 +70,8 @@ export class ActivityService {
         caregiver: User,
         body: CreateActivityRequestDTO
     ): Promise<ActivityResponseDTO> {
-        const { patientId, title, activityCategoryId, datetime, recurrences } = body
+        const { patientId, title, activityCategoryId, datetime, recurrences } =
+            body
 
         const time = parseISO(datetime)
 
@@ -280,7 +281,8 @@ export class ActivityService {
         id: string,
         body: UpdateActivityRequestDTO
     ): Promise<ActivityResponseDTO> {
-        const { patientId, title, activityCategoryId, datetime, recurrences } = body
+        const { patientId, title, activityCategoryId, datetime, recurrences } =
+            body
 
         const existingActivity = await this.findAndValidateActivity(
             id,
@@ -372,7 +374,9 @@ export class ActivityService {
         await this.findAndValidateActivity(activityId, patientId)
 
         await this.softDeleteActivity(activityId)
-        await this.repository.activityOccurence.deleteMany({ activityId: activityId })
+        await this.repository.activityOccurence.deleteMany({
+            activityId: activityId,
+        })
     }
 
     async completeActivityOccurence(

@@ -43,12 +43,9 @@ export class ActivityController {
     @IsCaregiver()
     @Get()
     @HttpCode(HttpStatus.OK)
-    async getActivitiesInRange(
-        @Query() query: GetActivitiesInRangeRequestDTO
-    ) {
-        const responseData = await this.ActivityService.getActivitiesInRange(
-            query   
-        )
+    async getActivitiesInRange(@Query() query: GetActivitiesInRangeRequestDTO) {
+        const responseData =
+            await this.ActivityService.getActivitiesInRange(query)
 
         return this.responseUtil.response({}, responseData)
     }
@@ -73,9 +70,7 @@ export class ActivityController {
     @IsCaregiver()
     @Delete('future/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async deleteFutureActivity(
-        @Body() body: DeleteActivityRequestDTO
-    ) {
+    async deleteFutureActivity(@Body() body: DeleteActivityRequestDTO) {
         await this.ActivityService.deleteFutureActivity(body)
 
         return this.responseUtil.response({
@@ -86,9 +81,7 @@ export class ActivityController {
     @IsCaregiver()
     @Delete('all')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async deleteAllActivity(
-        @Body() body: DeleteActivityRequestDTO
-    ) {
+    async deleteAllActivity(@Body() body: DeleteActivityRequestDTO) {
         await this.ActivityService.deleteAllActivity(body)
 
         return this.responseUtil.response({

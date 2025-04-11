@@ -55,15 +55,15 @@ export class CaregiverRepository {
             include: {
                 patients: {
                     include: {
-                        patient: true
-                    }
-                }
+                        patient: true,
+                    },
+                },
             },
         })
 
         return {
             ...caregiver,
-            patients: caregiver.patients.map(pc => pc.patient)
+            patients: caregiver.patients.map((pc) => pc.patient),
         }
     }
 
@@ -78,9 +78,9 @@ export class CaregiverRepository {
                     patients: {
                         some: {
                             patientId: {
-                                in: patients.map(p => p.id)
-                            }
-                        }
+                                in: patients.map((p) => p.id),
+                            },
+                        },
                     },
                     NOT: { id: caregiverId },
                 },
@@ -109,14 +109,15 @@ export class CaregiverRepository {
     async getCaregiverWithSafeLocation(
         caregiverId: string
     ): Promise<Caregiver & { safeLocation: Address }> {
-        const caregiverWithSafeLocation = await this.prisma.caregiver.findUnique({
-            where: {
-                id: caregiverId,
-            },
-            include: {
-                safeLocation: true,
-            },
-        })
+        const caregiverWithSafeLocation =
+            await this.prisma.caregiver.findUnique({
+                where: {
+                    id: caregiverId,
+                },
+                include: {
+                    safeLocation: true,
+                },
+            })
 
         return caregiverWithSafeLocation
     }
