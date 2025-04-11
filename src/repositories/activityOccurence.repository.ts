@@ -36,6 +36,7 @@ export class ActivityOccurenceRepository {
             recurrenceId: string | null
             datetime: Date
             isCompleted: boolean
+            isOnTime: boolean
         },
         tx?: Prisma.TransactionClient
     ): Promise<ActivityOccurence> {
