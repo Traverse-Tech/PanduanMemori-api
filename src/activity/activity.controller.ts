@@ -10,7 +10,6 @@ import {
     Post,
     Query,
     Req,
-    UseGuards,
 } from '@nestjs/common'
 import { ActivityService } from './activity.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'

@@ -133,7 +133,7 @@ export class AuthService {
 
         if (user.role === UserRole.PATIENT)
             this.repository.userToken.updateUserActiveTokensToInactive(user.id)
-        
+
         const accessToken = await this.generateAccessToken(user.id)
 
         let formattedUser: FormattedPatientData | FormattedCaregiverData = null
