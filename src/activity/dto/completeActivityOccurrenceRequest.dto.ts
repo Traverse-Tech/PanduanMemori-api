@@ -1,15 +1,15 @@
-import { IsString, IsNotEmpty, IsDate } from 'class-validator';
+import { IsString, IsNotEmpty, IsDate } from 'class-validator'
 
 export class CompleteActivityOccurrenceRequestDTO {
     @IsString()
     @IsNotEmpty()
-    activityOccurenceId: string;
+    activityOccurenceId: string
 
     @IsDate()
     @IsNotEmpty()
-    actualStartTime: Date;
+    actualStartTime: Date
 
     @IsDate()
     @IsNotEmpty()
-    endTime: Date;
-} 
+    endTime: Date
+}

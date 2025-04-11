@@ -92,7 +92,9 @@ export class ActivityController {
     @IsCaregiver()
     @Patch('complete')
     @HttpCode(HttpStatus.OK)
-    async completeActivityOccurrence(@Body() body: CompleteActivityOccurrenceRequestDTO) {
+    async completeActivityOccurrence(
+        @Body() body: CompleteActivityOccurrenceRequestDTO
+    ) {
         const responseData =
             await this.ActivityService.completeActivityOccurence(body)
 
