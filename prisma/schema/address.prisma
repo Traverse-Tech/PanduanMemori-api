@@ -8,6 +8,7 @@ model Address {
     isDeleted Boolean   @default(false) @map("is_deleted")
     deletedAt DateTime? @map("deleted_at") @db.Timestamptz()
 
+    patients   Patient[]
     caregivers Caregiver[]
 
     @@unique([longitude, latitude])

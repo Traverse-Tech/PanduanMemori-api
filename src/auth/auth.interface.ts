@@ -1,11 +1,4 @@
-import {
-    User,
-    DementiaStage,
-    Gender,
-    UserRole,
-    PatientCaregiver,
-    Address,
-} from '@prisma/client'
+import { User, Patient, Caregiver, Address } from '@prisma/client'
 import { Request } from 'express'
 
 export interface AuthenticatedRequestInterface extends Request {
@@ -13,22 +6,17 @@ export interface AuthenticatedRequestInterface extends Request {
     token: string
 }
 
-export interface FormattedUserData {
-    name: string
-    phoneNumber: string
-    email: string
-    registrationNumber: string
-    role: UserRole
-}
+export interface FormattedUserData
+    extends Pick<
+            User,
+            'name' | 'phoneNumber' | 'email' | 'registrationNumber' | 'role'
+        >,
+        Pick<Address, 'address'> {}
 
-export interface FormattedPatientData extends FormattedUserData {
-    birthdate: Date
-    gender: Gender
-    dementiaStage: DementiaStage
-    caregivers: PatientCaregiver[]
-}
+export interface FormattedPatientData
+    extends FormattedUserData,
+        Pick<Patient, 'birthdate' | 'gender' | 'dementiaStage'> {}
 
-export interface FormattedCaregiverData extends FormattedUserData {
-    safeLocation: Address
-    patients: PatientCaregiver[]
-}
+export interface FormattedCaregiverData
+    extends FormattedUserData,
+        Pick<Caregiver, 'addressId'> {}

@@ -1,6 +1,6 @@
 export interface CreateCaregiverInterface {
     userId: string
-    safeLocationId: string
+    addressId: string
 }
 
 export interface GetPeerCaregiverInterface {

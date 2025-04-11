@@ -8,13 +8,14 @@ export class PatientRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(
-        { userId, birthdate, gender }: CreatePatientInterface,
+        { userId, birthdate, gender, safeLocationId }: CreatePatientInterface,
         tx?: Prisma.TransactionClient
     ): Promise<Patient> {
         const prisma = !!tx ? tx : this.prisma
         const address = await prisma.patient.create({
             data: {
                 gender,
+                safeLocationId,
                 id: userId,
                 birthdate,
             },
@@ -22,6 +23,7 @@ export class PatientRepository {
 
         return address
     }
+
 
     async getPatient(patientId: string): Promise<Patient> {
         const patient = await this.prisma.patient.findUnique({
@@ -31,5 +33,20 @@ export class PatientRepository {
         })
 
         return patient
+    }
+
+    async getPatientWithSafeLocation(
+        patientId: string
+    ): Promise<Patient & { safeLocation: Address }> {
+        const patientWithSafeLocation = await this.prisma.patient.findUnique({
+            where: {
+                id: patientId,
+            },
+            include: {
+                safeLocation: true,
+            },
+        })
+
+        return patientWithSafeLocation
     }
 }
