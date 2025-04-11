@@ -5,7 +5,6 @@ import {
     IsString,
     Max,
     Min,
-    ValidateIf,
 } from 'class-validator'
 
 export class RegisterRequestDTO {
@@ -27,6 +26,20 @@ export class RegisterRequestDTO {
 
     @IsString()
     @IsNotEmpty()
+    address: string
+
+    @IsNumber()
+    @Min(-90)
+    @Max(90)
+    latitude: number
+
+    @IsNumber()
+    @Min(-180)
+    @Max(180)
+    longitude: number
+
+    @IsString()
+    @IsNotEmpty()
     role: string
 
     @IsString()
@@ -36,21 +49,4 @@ export class RegisterRequestDTO {
     @IsString()
     @IsOptional()
     gender: string
-
-    @ValidateIf(o => o.role === 'CAREGIVER')
-    @IsString()
-    @IsNotEmpty()
-    address: string
-
-    @ValidateIf(o => o.role === 'CAREGIVER')
-    @IsNumber()
-    @Min(-90)
-    @Max(90)
-    latitude: number
-
-    @ValidateIf(o => o.role === 'CAREGIVER')
-    @IsNumber()
-    @Min(-180)
-    @Max(180)
-    longitude: number
 }

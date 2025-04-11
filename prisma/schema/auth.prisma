@@ -26,24 +26,29 @@ model Patient {
     gender        Gender
     dementiaStage DementiaStage? @map("dementia_stage")
 
-    caregivers         PatientCaregiver[]
-    activities         Activity[]
-    emergencyLogs      EmergencyLog[]
-    weeklySummaries    WeeklySummary[]
-    quizProgresses     UserQuizProgress[]
-    buddyConversations BuddyConversation[]
+    safeLocationId String  @map("safe_location_id")
+    safeLocation   Address @relation(fields: [safeLocationId], references: [id])
+
+    caregivers               PatientCaregiver[]
+    activities               Activity[]
+    emergencyLogs            EmergencyLog[]
+    weeklySummaries          WeeklySummary[]
+    quizProgresses           UserQuizProgress[]
+    buddyConversations       BuddyConversation[]
+
+    @@index([safeLocationId])
 }
 
 model Caregiver {
     id   String @id
     user User   @relation(fields: [id], references: [id])
 
-    safeLocationId String  @map("safe_location_id")
-    safeLocation   Address @relation(fields: [safeLocationId], references: [id])
+    addressId String  @map("address_id")
+    address   Address @relation(fields: [addressId], references: [id])
 
     patients PatientCaregiver[]
 
-    @@index([safeLocationId])
+    @@index([addressId])
 }
 
 model PatientCaregiver {
@@ -64,20 +69,18 @@ model PatientCaregiver {
     @@index([patientId, caregiverId, isDeleted])
 }
 
-
-
 model UserToken {
     id String @id @default(uuid())
 
     userId String @map("user_id")
-    user User @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id])
 
-    token String @unique
-    status TokenStatus @default(ACTIVE)
-    deactivatedAfter DateTime @db.Timestamptz() @map("deactivated_after")
-    blacklistedAt DateTime? @db.Timestamptz() @map("blacklisted_at")
-    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
-    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
+    token            String      @unique
+    status           TokenStatus @default(ACTIVE)
+    deactivatedAfter DateTime    @map("deactivated_after") @db.Timestamptz()
+    blacklistedAt    DateTime?   @map("blacklisted_at") @db.Timestamptz()
+    createdAt        DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt        DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
 
     @@index([userId, status])
 }

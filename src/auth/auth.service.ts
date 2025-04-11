@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import {
+    Address,
     DementiaStage,
     Gender,
     Patient,
@@ -138,20 +139,24 @@ export class AuthService {
         let formattedUser: FormattedPatientData | FormattedCaregiverData = null
         let isAssignedToPatient = false
         if (user.role === UserRole.PATIENT) {
-            const patient = await this.repository.patient.getPatient(user.id)
+            const { safeLocation, ...patientData } =
+                await this.repository.patient.getPatientWithSafeLocation(
+                    user.id
+                )
             formattedUser = this.formatUserData({
                 ...user,
-                ...patient,
+                ...patientData,
+                ...safeLocation,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const { address, ...caregiverData } =
+                await this.repository.caregiver.getCaregiverWithAddress(user.id)
             formattedUser = this.formatUserData({
                 ...user,
-                ...caregiver,
-                safeLocation: caregiver.safeLocation.address,
+                ...caregiverData,
+                ...address,
             })
-            isAssignedToPatient = patientCaregivers.length > 0
+            isAssignedToPatient = !!caregiverData.patients.length
         }
 
         return {
@@ -167,20 +172,24 @@ export class AuthService {
         let formattedUser: FormattedPatientData | FormattedCaregiverData = null
         let isAssignedToPatient = false
         if (user.role === UserRole.PATIENT) {
-            const patient = await this.repository.patient.getPatient(user.id)
+            const { safeLocation, ...patientData } =
+                await this.repository.patient.getPatientWithSafeLocation(
+                    user.id
+                )
             formattedUser = this.formatUserData({
                 ...user,
-                ...patient,
+                ...patientData,
+                ...safeLocation,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const { address, patients, ...caregiverData } =
+                await this.repository.caregiver.getCaregiverWithAddress(user.id)
             formattedUser = this.formatUserData({
                 ...user,
-                ...caregiver,
-                safeLocation: caregiver.safeLocation.address,
+                ...caregiverData,
+                ...address,
             })
-            isAssignedToPatient = patientCaregivers.length > 0
+            isAssignedToPatient = !!patients.length
         }
 
         return {
@@ -226,6 +235,15 @@ export class AuthService {
                 parseInt(process.env.APP_SALT_ROUNDS)
             )
 
+            const addressObj = await this.repository.address.create(
+                {
+                    address,
+                    latitude,
+                    longitude,
+                },
+                tx
+            )
+
             const user = await this.repository.user.create(
                 {
                     name,
@@ -243,28 +261,22 @@ export class AuthService {
                     birthdate,
                     gender,
                     userId: user.id,
+                    safeLocationId: addressObj.id,
                     tx,
                 })
 
                 return {
                     ...user,
                     ...patient,
+                    ...addressObj,
                     id: user.id,
+                    addressId: addressObj.id,
                 }
             } else {
-                const addressObj = await this.repository.address.create(
-                    {
-                        address,
-                        latitude,
-                        longitude,
-                    },
-                    tx
-                )
-
                 const caregiver = await this.repository.caregiver.create(
                     {
                         userId: user.id,
-                        safeLocationId: addressObj.id,
+                        addressId: addressObj.id,
                     },
                     tx
                 )
@@ -272,8 +284,9 @@ export class AuthService {
                 return {
                     ...user,
                     ...caregiver,
+                    ...addressObj,
                     id: user.id,
-                    safeLocation: addressObj.address,
+                    addressId: addressObj.id,
                 }
             }
         })
@@ -283,9 +296,11 @@ export class AuthService {
         birthdate,
         gender,
         userId,
+        safeLocationId,
         tx,
     }: Pick<RegisterRequestDTO, 'birthdate' | 'gender'> & {
         userId: string
+        safeLocationId: string
         tx: Prisma.TransactionClient
     }): Promise<Patient> {
         const patientBirthdate = this.validateBirthdate(birthdate)
@@ -293,6 +308,7 @@ export class AuthService {
         const patient = await this.repository.patient.create(
             {
                 userId,
+                safeLocationId,
                 birthdate: patientBirthdate,
                 gender: patientGender,
             },
@@ -308,26 +324,27 @@ export class AuthService {
         email,
         registrationNumber,
         role,
-        safeLocation,
+        address,
         birthdate,
         gender,
         dementiaStage,
     }: Pick<
         User,
         'name' | 'phoneNumber' | 'email' | 'registrationNumber' | 'role'
-    > & {
-        safeLocation?: string
-        birthdate?: Date
-        gender?: Gender
-        dementiaStage?: DementiaStage
-    }): FormattedPatientData | FormattedCaregiverData {
+    > &
+        Pick<Address, 'address'> & {
+            birthdate?: Date
+            gender?: Gender
+            dementiaStage?: DementiaStage
+            patientId?: string
+        }): FormattedPatientData | FormattedCaregiverData {
         const formattedUserData = {
             name,
             phoneNumber,
             email,
             registrationNumber,
             role,
-            address: safeLocation || '',
+            address,
         } as FormattedUserData
 
         if (role === UserRole.PATIENT)

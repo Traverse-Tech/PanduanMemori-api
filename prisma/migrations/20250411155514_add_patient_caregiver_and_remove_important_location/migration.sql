@@ -2,16 +2,33 @@
   Warnings:
 
   - You are about to drop the column `patient_id` on the `Caregiver` table. All the data in the column will be lost.
+  - You are about to drop the `LocationCategory` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `PatientImportantLocation` table. If the table is not empty, all the data it contains will be lost.
 
 */
 -- DropForeignKey
 ALTER TABLE "Caregiver" DROP CONSTRAINT "Caregiver_patient_id_fkey";
+
+-- DropForeignKey
+ALTER TABLE "PatientImportantLocation" DROP CONSTRAINT "PatientImportantLocation_address_id_fkey";
+
+-- DropForeignKey
+ALTER TABLE "PatientImportantLocation" DROP CONSTRAINT "PatientImportantLocation_location_category_id_fkey";
+
+-- DropForeignKey
+ALTER TABLE "PatientImportantLocation" DROP CONSTRAINT "PatientImportantLocation_patient_id_fkey";
 
 -- DropIndex
 DROP INDEX "Caregiver_patient_id_address_id_idx";
 
 -- AlterTable
 ALTER TABLE "Caregiver" DROP COLUMN "patient_id";
+
+-- DropTable
+DROP TABLE "LocationCategory";
+
+-- DropTable
+DROP TABLE "PatientImportantLocation";
 
 -- CreateTable
 CREATE TABLE "PatientCaregiver" (
