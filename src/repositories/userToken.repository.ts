@@ -39,6 +39,21 @@ export class UserTokenRepository {
         })
     }
 
+    async updateUserActiveTokenToInactive(
+        token: string,
+        tx?: Prisma.TransactionClient
+    ) {
+        const prisma = !!tx ? tx : this.prisma
+        await prisma.userToken.update({
+            where: {
+                token: token
+            },
+            data: {
+                status: "NONACTIVE"
+            }
+        })
+    }
+
     async updateUserActiveTokensToBlacklisted(
         userId: string,
         tx?: Prisma.TransactionClient

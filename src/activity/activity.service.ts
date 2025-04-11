@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { ActivityGrpcClient } from './activity.grpc.client'
 import { RepositoriesService } from 'src/repositories/repositories.service'
 import {
     Activity,
@@ -51,8 +50,7 @@ import { ActivityOccurenceResponseDTO } from './dto/activityOccurenceResponse.dt
 export class ActivityService {
     constructor(
         private readonly repository: RepositoriesService,
-        private readonly caregiverService: CaregiverService,
-        private readonly activityGrpcClient: ActivityGrpcClient
+        private readonly caregiverService: CaregiverService
     ) {}
 
     private async findAndValidateActivityCategory(
@@ -609,7 +607,5 @@ export class ActivityService {
                     'Tidak ada aktivitas pasien minggu lalu yang ditemukan.',
             }
         }
-
-        return this.activityGrpcClient.summarizeLogs(logs)
     }
 }

@@ -58,6 +58,7 @@ export class AuthGuard implements CanActivate {
                         )
 
                     request.user = user
+                    request.token = rawToken
 
                     return this.getPermissionStatus(context, user)
                 }

@@ -59,7 +59,7 @@ model UserToken {
     userId String @map("user_id")
     user User @relation(fields: [userId], references: [id])
 
-    token String
+    token String @unique
     status TokenStatus @default(ACTIVE)
     deactivatedAfter DateTime @db.Timestamptz() @map("deactivated_after")
     blacklistedAt DateTime? @db.Timestamptz() @map("blacklisted_at")

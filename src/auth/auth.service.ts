@@ -131,7 +131,9 @@ export class AuthService {
             )
         }
 
-        this.repository.userToken.updateUserActiveTokensToInactive(user.id)
+        if (user.role === UserRole.PATIENT)
+            this.repository.userToken.updateUserActiveTokensToInactive(user.id)
+        
         const accessToken = await this.generateAccessToken(user.id)
 
         let formattedUser: FormattedPatientData | FormattedCaregiverData = null
@@ -198,10 +200,16 @@ export class AuthService {
         } as GetUserResponseDTO
     }
 
-    async logout(user: User) {
-        await this.repository.userToken.updateUserActiveTokensToInactive(
-            user.id
-        )
+    async logout(user: User, token: string) {
+        if (user.role === UserRole.CAREGIVER) {
+            await this.repository.userToken.updateUserActiveTokenToInactive(
+                token
+            )
+        } else {
+            await this.repository.userToken.updateUserActiveTokensToInactive(
+                user.id
+            )
+        }
     }
 
     private async createUser({
