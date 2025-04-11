@@ -4,4 +4,4 @@ export class AddPatientToCaregiverRequestDTO {
     @IsString()
     @IsNotEmpty()
     identifier: string
-} 
+}

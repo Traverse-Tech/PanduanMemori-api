@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { NotFoundException } from 'src/commons/exceptions/notFound.exception'
 import { User } from '@prisma/client'
 import { Multer } from 'multer'
 import { RepositoriesService } from 'src/repositories/repositories.service'
@@ -70,10 +69,11 @@ export class PatientService {
         }
 
         // Check if relation already exists
-        const existingRelation = await this.repository.patientCaregiver.findByPatientAndCaregiver(
-            patient.id,
-            caregiver.id
-        )
+        const existingRelation =
+            await this.repository.patientCaregiver.findByPatientAndCaregiver(
+                patient.id,
+                caregiver.id
+            )
         if (existingRelation && !existingRelation.isDeleted) {
             throw new BadRequestException(
                 'Relation already exists',
@@ -90,6 +90,5 @@ export class PatientService {
                 caregiver: { connect: { id: caregiver.id } },
             })
         }
-        
     }
 }

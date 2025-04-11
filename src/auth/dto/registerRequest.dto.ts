@@ -37,18 +37,18 @@ export class RegisterRequestDTO {
     @IsOptional()
     gender: string
 
-    @ValidateIf(o => o.role === 'CAREGIVER')
+    @ValidateIf((o) => o.role === 'CAREGIVER')
     @IsString()
     @IsNotEmpty()
     address: string
 
-    @ValidateIf(o => o.role === 'CAREGIVER')
+    @ValidateIf((o) => o.role === 'CAREGIVER')
     @IsNumber()
     @Min(-90)
     @Max(90)
     latitude: number
 
-    @ValidateIf(o => o.role === 'CAREGIVER')
+    @ValidateIf((o) => o.role === 'CAREGIVER')
     @IsNumber()
     @Min(-180)
     @Max(180)

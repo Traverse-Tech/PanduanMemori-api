@@ -6,7 +6,7 @@ import {
     UploadedFile,
     UseInterceptors,
     Get,
-    Body
+    Body,
 } from '@nestjs/common'
 import { memoryStorage, Multer } from 'multer'
 import { PatientService } from './patient.service'
@@ -48,7 +48,10 @@ export class PatientController {
 
     @IsPatient()
     @Post('add-caregiver')
-    async addCaregiver(@GetCurrentUser() user: User, @Body() body: AddCaregiverRequestDTO) {
+    async addCaregiver(
+        @GetCurrentUser() user: User,
+        @Body() body: AddCaregiverRequestDTO
+    ) {
         return this.patientService.addCaregiver(user, body)
     }
 }

@@ -144,8 +144,12 @@ export class AuthService {
                 ...patient,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const caregiver =
+                await this.repository.caregiver.getCaregiverWithSafeLocation(
+                    user.id
+                )
+            const patientCaregivers =
+                await this.repository.patientCaregiver.findByCaregiver(user.id)
             formattedUser = this.formatUserData({
                 ...user,
                 ...caregiver,
@@ -173,8 +177,12 @@ export class AuthService {
                 ...patient,
             })
         } else {
-            const caregiver = await this.repository.caregiver.getCaregiverWithSafeLocation(user.id)
-            const patientCaregivers = await this.repository.patientCaregiver.findByCaregiver(user.id)
+            const caregiver =
+                await this.repository.caregiver.getCaregiverWithSafeLocation(
+                    user.id
+                )
+            const patientCaregivers =
+                await this.repository.patientCaregiver.findByCaregiver(user.id)
             formattedUser = this.formatUserData({
                 ...user,
                 ...caregiver,

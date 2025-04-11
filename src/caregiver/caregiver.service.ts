@@ -78,7 +78,9 @@ export class CaregiverService {
         } as SearchPatientByCredentialResponseDTO
     }
 
-    async getPatientIdsByCaregiver({ id: caregiverId }: User): Promise<string[]> {
+    async getPatientIdsByCaregiver({
+        id: caregiverId,
+    }: User): Promise<string[]> {
         const caregiverData =
             await this.repository.caregiver.getCaregiver(caregiverId)
         if (!caregiverData) {
@@ -93,7 +95,7 @@ export class CaregiverService {
                 PATIENT_NOT_FOUND_ERROR_DESCRIPTION
             )
         }
-        return caregiverData.patients.map(pc => pc.id)
+        return caregiverData.patients.map((pc) => pc.id)
     }
 
     async addPatientToCaregiver(
@@ -117,10 +119,11 @@ export class CaregiverService {
         }
 
         // Check if relation already exists
-        const existingRelation = await this.repository.patientCaregiver.findByPatientAndCaregiver(
-            patient.id,
-            caregiverId
-        )
+        const existingRelation =
+            await this.repository.patientCaregiver.findByPatientAndCaregiver(
+                patient.id,
+                caregiverId
+            )
         if (existingRelation && !existingRelation.isDeleted) {
             throw new BadRequestException(
                 'Relation already exists',
@@ -143,10 +146,11 @@ export class CaregiverService {
         { id: caregiverId }: User,
         patientId: string
     ): Promise<void> {
-        const relation = await this.repository.patientCaregiver.findByPatientAndCaregiver(
-            patientId,
-            caregiverId
-        )
+        const relation =
+            await this.repository.patientCaregiver.findByPatientAndCaregiver(
+                patientId,
+                caregiverId
+            )
         if (!relation || relation.isDeleted) {
             throw new BadRequestException(
                 'Relation not found',
@@ -158,8 +162,9 @@ export class CaregiverService {
     }
 
     async getCaregiverPatients(caregiverId: string): Promise<User[]> {
-        const relations = await this.repository.patientCaregiver.findByCaregiver(caregiverId)
-        const patientIds = relations.map(rel => rel.patientId)
+        const relations =
+            await this.repository.patientCaregiver.findByCaregiver(caregiverId)
+        const patientIds = relations.map((rel) => rel.patientId)
         return this.repository.user.findByIds(patientIds)
     }
 }
