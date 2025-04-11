@@ -236,19 +236,11 @@ export class ActivityService {
                     }
                 }
 
-                // const now = new Date()
-
-                // let isOnTime: boolean | null = null
-                // if (isAfter(now, startDate)) {
-                //     isOnTime = false // passed the time but haven't completed
-                // }
-
                 occurrences.push({
                     activityId,
                     datetime: currentDate,
                     isCompleted: false,
                     recurrenceId: recurrence.id,
-                    // isOnTime,
                 })
 
                 switch (type) {
