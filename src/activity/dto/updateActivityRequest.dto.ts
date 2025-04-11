@@ -1,8 +1,12 @@
-import { IsString, IsOptional, IsArray, ValidateNested } from 'class-validator'
+import { IsString, IsOptional, IsArray, ValidateNested, IsNotEmpty } from 'class-validator'
 import { Type } from 'class-transformer'
 import { RecurrenceDTO } from './createActivityRequest.dto'
 
 export class UpdateActivityRequestDTO {
+    @IsString()
+    @IsNotEmpty()
+    patientId: string
+
     @IsString()
     @IsOptional()
     title?: string

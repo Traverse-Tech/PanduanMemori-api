@@ -11,14 +11,14 @@ export class CaregiverRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(
-        { userId, addressId }: CreateCaregiverInterface,
+        { userId, safeLocationId }: CreateCaregiverInterface,
         tx?: Prisma.TransactionClient
     ): Promise<Caregiver> {
         const prisma = !!tx ? tx : this.prisma
         const caregiver = await prisma.caregiver.create({
             data: {
                 id: userId,
-                addressId: addressId,
+                safeLocationId: safeLocationId,
             },
         })
 
@@ -36,35 +36,52 @@ export class CaregiverRepository {
                 id: caregiverId,
             },
             data: {
-                patientId: patientId,
+                patients: {
+                    connect: {
+                        id: patientId,
+                    },
+                },
             },
         })
     }
 
     async getCaregiver(
         caregiverId: string
-    ): Promise<Caregiver & { patient: Patient }> {
+    ): Promise<Caregiver & { patients: Patient[] }> {
         const caregiver = await this.prisma.caregiver.findUnique({
             where: {
                 id: caregiverId,
             },
             include: {
-                patient: true,
+                patients: {
+                    include: {
+                        patient: true
+                    }
+                }
             },
         })
 
-        return caregiver
+        return {
+            ...caregiver,
+            patients: caregiver.patients.map(pc => pc.patient)
+        }
     }
 
     async getPeerCaregivers(
         caregiverId: string
     ): Promise<GetPeerCaregiverInterface[]> {
-        const { patientId } = await this.getCaregiver(caregiverId)
+        const { patients } = await this.getCaregiver(caregiverId)
 
         const peerCaregivers = await this.prisma.caregiver
             .findMany({
                 where: {
-                    patientId: patientId,
+                    patients: {
+                        some: {
+                            patientId: {
+                                in: patients.map(p => p.id)
+                            }
+                        }
+                    },
                     NOT: { id: caregiverId },
                 },
                 select: {
@@ -89,18 +106,18 @@ export class CaregiverRepository {
         return peerCaregivers
     }
 
-    async getCaregiverWithAddress(
+    async getCaregiverWithSafeLocation(
         caregiverId: string
-    ): Promise<Caregiver & { address: Address }> {
-        const caregiverWithAddress = await this.prisma.caregiver.findUnique({
+    ): Promise<Caregiver & { safeLocation: Address }> {
+        const caregiverWithSafeLocation = await this.prisma.caregiver.findUnique({
             where: {
                 id: caregiverId,
             },
             include: {
-                address: true,
+                safeLocation: true,
             },
         })
 
-        return caregiverWithAddress
+        return caregiverWithSafeLocation
     }
 }

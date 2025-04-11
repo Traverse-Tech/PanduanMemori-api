@@ -6,6 +6,8 @@ import {
     HttpStatus,
     Patch,
     Post,
+    Delete,
+    Param,
 } from '@nestjs/common'
 import { CaregiverService } from './caregiver.service'
 import { ResponseUtil } from 'src/commons/utils/response.util'
@@ -14,6 +16,7 @@ import { UpdateAssignedPatientRequestDTO } from './dto/updateAssignedPatientRequ
 import { GetCurrentUser } from 'src/commons/decorators/getCurrentUser.decorator'
 import { User } from '@prisma/client'
 import { SearchPatientByCredentialRequestDTO } from './dto/searchPatientByCredentialRequest.dto'
+import { AddPatientToCaregiverRequestDTO } from './dto/addPatientToCaregiver.dto'
 
 @Controller('caregiver')
 export class CaregiverController {
@@ -51,5 +54,27 @@ export class CaregiverController {
             await this.caregiverService.searchPatientByCredential(body)
 
         return this.responseUtil.response({}, responseData)
+    }
+
+    @IsCaregiver()
+    @Post('/add-patient')
+    async addPatientToCaregiver(
+        @GetCurrentUser() user: User,
+        @Body() body: AddPatientToCaregiverRequestDTO
+    ): Promise<void> {
+        return this.caregiverService.addPatientToCaregiver(user, body)
+    }
+
+    @Delete('remove-patient/:patientId')
+    async removePatientFromCaregiver(
+        @GetCurrentUser() user: User,
+        @Param('patientId') patientId: string
+    ): Promise<void> {
+        return this.caregiverService.removePatientFromCaregiver(user, patientId)
+    }
+
+    @Get('patients')
+    async getCaregiverPatients(@GetCurrentUser() user: User): Promise<User[]> {
+        return this.caregiverService.getCaregiverPatients(user.id)
     }
 }
