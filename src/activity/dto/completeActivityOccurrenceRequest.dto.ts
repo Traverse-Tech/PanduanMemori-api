@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer'
 import { IsString, IsNotEmpty, IsDate } from 'class-validator'
 
 export class CompleteActivityOccurrenceRequestDTO {
@@ -5,10 +6,12 @@ export class CompleteActivityOccurrenceRequestDTO {
     @IsNotEmpty()
     activityOccurenceId: string
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     actualStartTime: Date
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     endTime: Date
