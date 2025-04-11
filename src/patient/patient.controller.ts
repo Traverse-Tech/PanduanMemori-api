@@ -43,7 +43,8 @@ export class PatientController {
     @IsPatient()
     @Get('caregivers')
     async getPatientCaregivers(@GetCurrentUser() user: User) {
-        const responseData = await this.patientService.getPatientCaregivers(user)
+        const responseData =
+            await this.patientService.getPatientCaregivers(user)
         return this.responseUtil.response({}, responseData)
     }
 
