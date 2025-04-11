@@ -40,6 +40,10 @@ export class RecurrenceDTO {
 export class CreateActivityRequestDTO {
     @IsString()
     @IsNotEmpty()
+    patientId: string
+
+    @IsString()
+    @IsNotEmpty()
     title: string
 
     @IsString()

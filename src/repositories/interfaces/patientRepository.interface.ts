@@ -4,5 +4,4 @@ export interface CreatePatientInterface {
     userId: string
     birthdate: Date
     gender: Gender
-    safeLocationId: string
 }

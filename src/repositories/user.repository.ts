@@ -72,4 +72,13 @@ export class UserRepository {
 
         return user
     }
+
+    async findByIds(ids: string[]): Promise<User[]> {
+        return this.prisma.user.findMany({
+            where: {
+                id: { in: ids },
+                isDeleted: false,
+            },
+        })
+    }
 }

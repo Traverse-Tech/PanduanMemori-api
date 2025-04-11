@@ -1,57 +1,70 @@
 model User {
-    id String @id @default(uuid())
-    name String
-    phoneNumber String @unique @db.VarChar(16) @map("phone_number")
-    email String? @unique
-    password String
-    registrationNumber String? @unique @db.VarChar(16) @map("registration_number")
-    role UserRole
-    createdAt DateTime @db.Timestamptz() @default(now()) @map("created_at")
-    updatedAt DateTime @db.Timestamptz() @updatedAt @map("updated_at")
-    isDeleted Boolean @default(false) @map("is_deleted")
-    deletedAt DateTime? @db.Timestamptz() @map("deleted_at")
+    id                 String    @id @default(uuid())
+    name               String
+    phoneNumber        String    @unique @map("phone_number") @db.VarChar(16)
+    email              String?   @unique
+    password           String
+    registrationNumber String?   @unique @map("registration_number") @db.VarChar(16)
+    role               UserRole
+    createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+    isDeleted          Boolean   @default(false) @map("is_deleted")
+    deletedAt          DateTime? @map("deleted_at") @db.Timestamptz()
 
-    patient Patient?
+    patient   Patient?
     caregiver Caregiver?
-    tokens UserToken[]
+    tokens    UserToken[]
 
     @@index([email, registrationNumber, isDeleted])
 }
 
 model Patient {
-    id String @id
-    user User @relation(fields: [id], references: [id])
+    id   String @id
+    user User   @relation(fields: [id], references: [id])
 
-    birthdate DateTime @db.Date
-    gender Gender
+    birthdate     DateTime       @db.Date
+    gender        Gender
     dementiaStage DementiaStage? @map("dementia_stage")
 
-    safeLocationId String @map("safe_location_id")
-    safeLocation Address @relation(fields: [safeLocationId], references: [id])
-
-    caregivers Caregiver[]
-    importantLocations PatientImportantLocation[]
-    activities Activity[]
-    emergencyLogs EmergencyLog[]
-    weeklySummaries WeeklySummary[]
-    quizProgresses UserQuizProgress[]
+    caregivers         PatientCaregiver[]
+    activities         Activity[]
+    emergencyLogs      EmergencyLog[]
+    weeklySummaries    WeeklySummary[]
+    quizProgresses     UserQuizProgress[]
     buddyConversations BuddyConversation[]
+}
+
+model Caregiver {
+    id   String @id
+    user User   @relation(fields: [id], references: [id])
+
+    safeLocationId String  @map("safe_location_id")
+    safeLocation   Address @relation(fields: [safeLocationId], references: [id])
+
+    patients PatientCaregiver[]
 
     @@index([safeLocationId])
 }
 
-model Caregiver {
-    id String @id
-    user User @relation(fields: [id], references: [id])
+model PatientCaregiver {
+    id String @id @default(uuid())
 
-    patientId String? @map("patient_id")
-    patient Patient? @relation(fields: [patientId], references: [id])
+    patientId String  @map("patient_id")
+    patient   Patient @relation(fields: [patientId], references: [id])
 
-    addressId String @map("address_id")
-    address Address @relation(fields: [addressId], references: [id])
+    caregiverId String    @map("caregiver_id")
+    caregiver   Caregiver @relation(fields: [caregiverId], references: [id])
 
-    @@index([patientId, addressId])
+    createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+    isDeleted Boolean   @default(false) @map("is_deleted")
+    deletedAt DateTime? @map("deleted_at") @db.Timestamptz()
+
+    @@unique([patientId, caregiverId])
+    @@index([patientId, caregiverId, isDeleted])
 }
+
+
 
 model UserToken {
     id String @id @default(uuid())
