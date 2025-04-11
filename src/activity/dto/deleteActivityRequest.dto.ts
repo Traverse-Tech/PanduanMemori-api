@@ -6,4 +6,4 @@ export class DeleteActivityRequestDTO {
 
     @IsString()
     patientId: string
-} 
+}

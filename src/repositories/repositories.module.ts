@@ -26,9 +26,6 @@ import { PatientCaregiverRepository } from './patientCaregiver.repository'
         ActivityCategoryRepository,
         PatientCaregiverRepository,
     ],
-    exports: [
-        RepositoriesService,
-        AddressRepository,
-    ],
+    exports: [RepositoriesService, AddressRepository],
 })
 export class RepositoriesModule {}

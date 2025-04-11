@@ -46,11 +46,11 @@ export class UserTokenRepository {
         const prisma = !!tx ? tx : this.prisma
         await prisma.userToken.update({
             where: {
-                token: token
+                token: token,
             },
             data: {
-                status: "NONACTIVE"
-            }
+                status: 'NONACTIVE',
+            },
         })
     }
 
