@@ -386,7 +386,8 @@ export class ActivityService {
         body: CompleteActivityOccurrenceRequestDTO
     ): Promise<ActivityOccurenceResponseDTO> {
         const { activityOccurenceId, actualStartTime, endTime } = body
-        const occurrence = await this.findAndValidateActivityOccurence(activityOccurenceId)
+        const occurrence =
+            await this.findAndValidateActivityOccurence(activityOccurenceId)
 
         const isOnTime = !isAfter(actualStartTime, occurrence.datetime)
         const updatedOccurence = await this.repository.activityOccurence.update(

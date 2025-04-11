@@ -21,6 +21,7 @@ import { UpdateActivityRequestDTO } from './dto/updateActivityRequest.dto'
 import { UpdateActivityOccurenceRequestDTO } from './dto/updateActivityOccurenceRequest.dto'
 import { DeleteActivityRequestDTO } from './dto/deleteActivityRequest.dto'
 import { CompleteActivityOccurrenceRequestDTO } from './dto/completeActivityOccurrenceRequest.dto'
+
 @Controller('activity')
 export class ActivityController {
     constructor(
@@ -90,9 +91,11 @@ export class ActivityController {
     }
 
     @IsCaregiver()
-    @Patch('complete')
+    @Post('complete')
     @HttpCode(HttpStatus.OK)
-    async completeActivityOccurrence(@Body() body: CompleteActivityOccurrenceRequestDTO) {
+    async completeActivityOccurrence(
+        @Body() body: CompleteActivityOccurrenceRequestDTO
+    ) {
         const responseData =
             await this.ActivityService.completeActivityOccurence(body)
 
