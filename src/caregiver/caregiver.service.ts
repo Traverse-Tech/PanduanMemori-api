@@ -9,7 +9,7 @@ import {
     PATIENT_NOT_FOUND_ERROR_DESCRIPTION,
     PATIENT_NOT_FOUND_ERROR_MESSAGE,
 } from 'src/patient/patient.constant'
-import { User } from '@prisma/client'
+import { User, EmergencyLog } from '@prisma/client'
 import { DateUtil } from 'src/commons/utils/date.util'
 import { SearchPatientByCredentialRequestDTO } from './dto/searchPatientByCredentialRequest.dto'
 import {
@@ -197,5 +197,29 @@ export class CaregiverService {
         return {
             data: data,
         }
+    }
+
+    async getAllPatientEmergencyLocationLogs({
+        id: caregiverId,
+    }: User): Promise<{ data: EmergencyLog[] }> {
+        const relations =
+            await this.repository.patientCaregiver.findByCaregiver(caregiverId)
+
+        if (!relations) {
+            throw new NotFoundException(
+                'No patients found',
+                'No patients found for this caregiver'
+            )
+        }
+
+        const emergencyLocation = await this.repository.emergencyLog.findMany({
+            where: {
+                patientId: {
+                    in: relations.map((relation) => relation.patientId),
+                },
+            },
+        })
+
+        return { data: emergencyLocation }
     }
 }

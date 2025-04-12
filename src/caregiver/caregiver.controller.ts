@@ -83,4 +83,17 @@ export class CaregiverController {
 
         return this.responseUtil.response({}, responseData)
     }
+
+    @IsCaregiver()
+    @Get('patients/emergency-location/logs')
+    async getAllPatientEmergencyLocationLogs(
+        @GetCurrentUser() caregiver: User
+    ) {
+        const responseData =
+            await this.caregiverService.getAllPatientEmergencyLocationLogs(
+                caregiver
+            )
+
+        return this.responseUtil.response({}, responseData)
+    }
 }

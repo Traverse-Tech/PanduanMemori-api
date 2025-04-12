@@ -9,4 +9,10 @@ export class EmergencyLogRepository {
     async create(data: Prisma.EmergencyLogCreateInput): Promise<EmergencyLog> {
         return this.prisma.emergencyLog.create({ data })
     }
+
+    async findMany(params: {
+        where: Prisma.EmergencyLogWhereInput
+    }): Promise<EmergencyLog[]> {
+        return this.prisma.emergencyLog.findMany(params)
+    }
 }
