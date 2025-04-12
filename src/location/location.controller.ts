@@ -36,6 +36,9 @@ export class LocationController {
     @IsCaregiver()
     @Get('check-patient/:patientId')
     async isPatientInSafeLocation(@Param('patientId') patientId: string) {
+        console.log(
+            `[REQUEST] Safe location check triggered for patientId ${patientId}`
+        )
         const responseData =
             await this.locationService.isPatientInSafeLocation(patientId)
         return this.responseUtil.response({}, responseData)

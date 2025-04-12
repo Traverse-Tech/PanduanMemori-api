@@ -66,19 +66,18 @@ export class LocationService {
 
         // if not in safe location, send email to the caregivers
         if (!isInSafeLocation) {
-            for (const pc of patient.caregivers) {
-                const email = pc.caregiver.user.email
-                if (email) {
-                    await this.notificationService.sendSafeLocationAlertEmail(
-                        patient,
-                        {
-                            distance: await distance,
-                            latitude: latestLocation.latitude,
-                            longitude: latestLocation.longitude,
-                        }
-                    )
+            const caregiverEmail = patient.caregivers.map(
+                (pc) => pc.caregiver.user.email
+            )
+            await this.notificationService.sendSafeLocationAlertEmail(
+                patient,
+                caregiverEmail,
+                {
+                    distance: await distance,
+                    latitude: latestLocation.latitude,
+                    longitude: latestLocation.longitude,
                 }
-            }
+            )
         }
 
         return {

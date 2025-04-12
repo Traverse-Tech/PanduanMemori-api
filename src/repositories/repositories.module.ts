@@ -11,6 +11,7 @@ import { ActivityOccurenceRepository } from './activityOccurence.repository'
 import { ActivityCategoryRepository } from './activityCategory.repository'
 import { PatientCaregiverRepository } from './patientCaregiver.repository'
 import { UserLocationRepository } from './userLocation.repository'
+import { EmergencyLogRepository } from './emergencyLog.repository'
 @Global()
 @Module({
     imports: [],
@@ -27,6 +28,7 @@ import { UserLocationRepository } from './userLocation.repository'
         ActivityCategoryRepository,
         PatientCaregiverRepository,
         UserLocationRepository,
+        EmergencyLogRepository,
     ],
     exports: [RepositoriesService, AddressRepository],
 })
