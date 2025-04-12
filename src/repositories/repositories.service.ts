@@ -11,6 +11,8 @@ import { ActivityOccurenceRepository } from './activityOccurence.repository'
 import { ActivityCategoryRepository } from './activityCategory.repository'
 import { PatientCaregiverRepository } from './patientCaregiver.repository'
 import { UserLocationRepository } from './userLocation.repository'
+import { EmergencyLogRepository } from './emergencyLog.repository'
+
 @Injectable()
 export class RepositoriesService {
     constructor(
@@ -25,6 +27,7 @@ export class RepositoriesService {
         readonly activityOccurence: ActivityOccurenceRepository,
         readonly activityCategory: ActivityCategoryRepository,
         readonly patientCaregiver: PatientCaregiverRepository,
-        readonly userLocation: UserLocationRepository
+        readonly userLocation: UserLocationRepository,
+        public readonly emergencyLog: EmergencyLogRepository
     ) {}
 }

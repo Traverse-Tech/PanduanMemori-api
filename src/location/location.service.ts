@@ -44,6 +44,8 @@ export class LocationService {
     async isPatientInSafeLocation(
         patientId: string
     ): Promise<IsPatientInSafeLocationResponse> {
+        const SAFE_DISTANCE_METERS = 200
+
         const patient =
             await this.repository.patient.getPatientWithSafeLocation(patientId)
         const latestLocation =
@@ -60,23 +62,22 @@ export class LocationService {
             Number(latestLocation.longitude)
         )
 
-        const isInSafeLocation = (await distance) <= 100
+        const isInSafeLocation = (await distance) <= SAFE_DISTANCE_METERS
 
         // if not in safe location, send email to the caregivers
         if (!isInSafeLocation) {
-            for (const pc of patient.caregivers) {
-                const email = pc.caregiver.user.email
-                if (email) {
-                    await this.notificationService.sendSafeLocationAlertEmail(
-                        patient,
-                        {
-                            distance: await distance,
-                            latitude: latestLocation.latitude,
-                            longitude: latestLocation.longitude,
-                        }
-                    )
+            const caregiverEmail = patient.caregivers.map(
+                (pc) => pc.caregiver.user.email
+            )
+            await this.notificationService.sendSafeLocationAlertEmail(
+                patient,
+                caregiverEmail,
+                {
+                    distance: await distance,
+                    latitude: latestLocation.latitude,
+                    longitude: latestLocation.longitude,
                 }
-            }
+            )
         }
 
         return {

@@ -17,25 +17,24 @@ export class NotificationService {
 
     async sendSafeLocationAlertEmail(
         patient: Patient & { user: User; safeLocation: Address },
+        caregiverEmails: string[],
         data: {
             distance: number
             latitude: number
             longitude: number
         }
     ): Promise<void> {
-        const caregivers = await this.getCaregiversOfPatient(patient.id)
         const age = this.dateUtil.calculateAge(new Date(patient.birthdate))
         const address = await this.getAddressFromCoordinates(
             data.latitude,
             data.longitude
         )
 
-        const emailPromises = caregivers.map((caregiver) => {
-            return this.resend.emails.send({
-                from: 'PanduanMemori <onboarding@resend.dev>',
-                to: caregiver.user.email,
-                subject: `🚨 ${patient.user.name} terlalu jauh dari lokasi aman!`,
-                html: `
+        const emailPromises = this.resend.emails.send({
+            from: 'PanduanMemori <onboarding@resend.dev>',
+            to: caregiverEmails,
+            subject: `🚨 ${patient.user.name} terlalu jauh dari lokasi aman!`,
+            html: `
               <h2>Peringatan Lokasi Aman</h2>
               <p><strong>${patient.user.name}</strong> saat ini berada <strong>${data.distance.toFixed(2)} meter</strong> dari lokasi amannya.</p>
               <p>Data pasien:</p>
@@ -54,10 +53,17 @@ export class NotificationService {
               <br>
               <p>Mohon segera periksa kondisi ${patient.user.name}.</p>
             `,
-            })
         })
 
-        await Promise.all(emailPromises)
+        await this.repository.emergencyLog.create({
+            patient: {
+                connect: {
+                    id: patient.id,
+                },
+            },
+            type: 'LOCATION_ALERT',
+            description: `Pasien ${patient.user.name} keluar dari lokasi aman sejauh ${data.distance.toFixed(2)} meter, saat ini berada di ${address}, longitude: ${data.longitude}, latitude: ${data.latitude}. Lokasi aman pasien adalah ${patient.safeLocation.address}.`,
+        })
     }
 
     private async getCaregiversOfPatient(
