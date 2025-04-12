@@ -4,7 +4,7 @@ import {
     CreateCaregiverInterface,
     GetPeerCaregiverInterface,
 } from './interfaces/caregiverRepository.interface'
-import { Address, Caregiver, Patient, Prisma } from '@prisma/client'
+import { Address, Caregiver, Patient, Prisma, User } from '@prisma/client'
 
 @Injectable()
 export class CaregiverRepository {
@@ -131,7 +131,7 @@ export class CaregiverRepository {
 
     async findByIds(
         ids: string[]
-    ): Promise<(Caregiver & { address: Address })[]> {
+    ): Promise<(Caregiver & { user: User; address: Address })[]> {
         return this.prisma.caregiver.findMany({
             where: {
                 id: {
@@ -139,6 +139,7 @@ export class CaregiverRepository {
                 },
             },
             include: {
+                user: true,
                 address: true,
             },
         })

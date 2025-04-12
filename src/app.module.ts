@@ -13,6 +13,8 @@ import { AuthGuard } from './auth/auth.guard'
 import { CaregiverModule } from './caregiver/caregiver.module'
 import { PatientModule } from './patient/patient.module'
 import { ActivityModule } from './activity/activity.module'
+import { NotificationModule } from './notification/notification.module'
+import { LocationModule } from './location/location.module'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -27,6 +29,8 @@ dotenv.config()
         CaregiverModule,
         PatientModule,
         ActivityModule,
+        NotificationModule,
+        LocationModule,
     ],
     controllers: [AppController],
     providers: [

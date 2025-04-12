@@ -4,13 +4,13 @@ import { UpsertUserLocationDto } from './dto/upsertUserLocation.dto'
 import { RepositoriesService } from '../repositories/repositories.service'
 import { NotFoundException } from 'src/commons/exceptions/notFound.exception'
 import { IsPatientInSafeLocationResponse } from './dto/isPatientInSafeLocationResponse.dto'
-// import { NotificationService } from '../notifications/notification.service'
+import { NotificationService } from '../notification/notification.service'
 
 @Injectable()
 export class LocationService {
     constructor(
-        private readonly repository: RepositoriesService
-        // private readonly notificationService: NotificationService // make sure this is injected
+        private readonly repository: RepositoriesService,
+        private readonly notificationService: NotificationService
     ) {}
 
     async upsertLocation(
@@ -62,21 +62,22 @@ export class LocationService {
 
         const isInSafeLocation = (await distance) <= 100
 
-        // TODO: implement this
-        // 👉 if not in safe location, send email to all caregivers
-        // if (!isInSafeLocation) {
-        //   for (const pc of patient.caregivers) {
-        //     const email = pc.caregiver.
-        //     if (email) {
-        //       await this.notificationService.sendSafeLocationAlertEmail(email, {
-        //         patientName: patient.user.name,
-        //         distance,
-        //         latitude: latestLocation.latitude,
-        //         longitude: latestLocation.longitude,
-        //       })
-        //     }
-        //   }
-        // }
+        // if not in safe location, send email to the caregivers
+        if (!isInSafeLocation) {
+            for (const pc of patient.caregivers) {
+                const email = pc.caregiver.user.email
+                if (email) {
+                    await this.notificationService.sendSafeLocationAlertEmail(
+                        patient,
+                        {
+                            distance: await distance,
+                            latitude: latestLocation.latitude,
+                            longitude: latestLocation.longitude,
+                        }
+                    )
+                }
+            }
+        }
 
         return {
             longitude: Number(latestLocation.longitude),
