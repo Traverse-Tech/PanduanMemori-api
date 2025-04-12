@@ -179,7 +179,8 @@ export class ActivityService {
             result.push({
                 id: activity.id,
                 title: activity.title,
-                activityCategoryId: activity.activityCategoryId,
+                activityCategoryIcon: activity.activityCategory.icon,
+                activityCategoryName: activity.activityCategory.name,
                 patientId: activity.patientId,
                 occurrences: occurrences.map((occ) => ({
                     id: occ.id,
@@ -632,7 +633,10 @@ export class ActivityService {
                 is_completed: occ.isCompleted,
                 activity: {
                     title: activity.title,
-                    activity_category: { name: activity.activityCategoryId },
+                    activity_category: {
+                        name: activity.activityCategoryName,
+                        icon: activity.activityCategoryIcon,
+                    },
                 },
             }))
         )

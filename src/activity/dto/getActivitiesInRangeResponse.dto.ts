@@ -10,7 +10,8 @@ export class ActivityOccurrenceDTO {
 export class ActivityWithOccurrencesDTO {
     id: string
     title: string
-    activityCategoryId: string
+    activityCategoryIcon: string
+    activityCategoryName: string
     patientId: string
     occurrences: ActivityOccurrenceDTO[]
 }
