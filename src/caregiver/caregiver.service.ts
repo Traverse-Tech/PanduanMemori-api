@@ -183,6 +183,7 @@ export class CaregiverService {
             }
 
             return {
+                id: user.id,
                 name: user.name,
                 phoneNumber: user.phoneNumber,
                 email: user.email ?? undefined,
