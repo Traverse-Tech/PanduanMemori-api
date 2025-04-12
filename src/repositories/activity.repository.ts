@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { Activity, Prisma, Recurrence } from '@prisma/client'
+import { Activity, Prisma, Recurrence, ActivityCategory } from '@prisma/client'
 
 @Injectable()
 export class ActivityRepository {
@@ -20,7 +20,12 @@ export class ActivityRepository {
 
     async getActivitiesByPatientId(
         patientId: string
-    ): Promise<(Activity & { recurrences: Recurrence[] })[]> {
+    ): Promise<
+        (Activity & {
+            recurrences: Recurrence[]
+            activityCategory: ActivityCategory
+        })[]
+    > {
         return this.prisma.activity.findMany({
             where: {
                 patientId,
@@ -32,6 +37,7 @@ export class ActivityRepository {
                         isDeleted: false,
                     },
                 },
+                activityCategory: true,
             },
         })
     }
