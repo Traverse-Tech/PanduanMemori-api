@@ -14,6 +14,7 @@ model User {
     patient   Patient?
     caregiver Caregiver?
     tokens    UserToken[]
+    UserLocation UserLocation[]
 
     @@index([email, registrationNumber, isDeleted])
 }

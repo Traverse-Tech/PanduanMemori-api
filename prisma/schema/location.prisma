@@ -1,0 +1,22 @@
+model UserLocation {
+    id        String   @id @default(uuid())
+
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+
+    latitude  Float
+    longitude Float
+    accuracy  Float? // in meters
+    source    LocationSource?
+
+    createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+    @@index([userId, createdAt(sort: Desc)])
+}
+
+enum LocationSource {
+    GPS
+    NETWORK
+    MANUAL
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { CreatePatientInterface } from './interfaces/patientRepository.interface'
-import { Address, Patient, Prisma } from '@prisma/client'
+import { Address, Patient, Prisma, User } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
@@ -34,15 +34,36 @@ export class PatientRepository {
         return patient
     }
 
-    async getPatientWithSafeLocation(
-        patientId: string
-    ): Promise<Patient & { safeLocation: Address }> {
+    async getPatientWithSafeLocation(patientId: string): Promise<
+        Patient & {
+            user: User
+            safeLocation: Address
+            caregivers: {
+                caregiver: { user: { phoneNumber: string; email: string } }
+            }[]
+        }
+    > {
         const patientWithSafeLocation = await this.prisma.patient.findUnique({
             where: {
                 id: patientId,
             },
             include: {
+                user: true,
                 safeLocation: true,
+                caregivers: {
+                    include: {
+                        caregiver: {
+                            include: {
+                                user: {
+                                    select: {
+                                        phoneNumber: true,
+                                        email: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
             },
         })
 
