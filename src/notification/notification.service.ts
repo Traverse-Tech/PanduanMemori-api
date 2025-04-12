@@ -30,7 +30,7 @@ export class NotificationService {
             data.longitude
         )
 
-        const emailPromises = this.resend.emails.send({
+        await this.resend.emails.send({
             from: 'PanduanMemori <onboarding@resend.dev>',
             to: caregiverEmails,
             subject: `🚨 ${patient.user.name} terlalu jauh dari lokasi aman!`,
